@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_marginBottom="264dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="412.5dp"
+            android:layout_height="550dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="264dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <com.example.mdpandroid.MapDrawer
+                android:id="@+id/canvas_gridmap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="550dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="264dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:id="@+id/label_bluetooth_section"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:background="@color/colorSecondaryTheme"
+                android:text="Bluetooth"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light" />
+            <TextView
+                android:id="@+id/label_bluetooth_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorLabelNotConnected"
+                android:text="Not Connected" />
+            <TextView
+                android:id="@+id/label_bluetooth_connected_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="" />
+            <TextView
+                android:id="@+id/label_time_section"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_marginTop="40dp"
+                android:background="@color/colorSecondaryTheme"
+                android:text="Time"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light" />
+            <TextView
+                android:id="@+id/label_time_elapsed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:text="00 m 00 s" />
+            <TextView
+                android:id="@+id/label_status_section"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@color/colorSecondaryTheme"
+                android:text="Status"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light" />
+            <TextView
+                android:id="@+id/label_status_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Robot is Idle" />
+
+            <TextView
+                android:id="@+id/label_position_section"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_marginTop="40dp"
+                android:background="@color/colorSecondaryTheme"
+                android:text="Position"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light" />
+            <TextView
+                android:id="@+id/label_origin_coordinates_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Robot's Position" />
+            <TextView
+                android:id="@+id/label_origin_coordinates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"
+                android:text="[X, Y] : [1, 1]" />
+            <TextView
+                android:id="@+id/label_waypoint_coordinates_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Way Point" />
+            <TextView
+                android:id="@+id/label_waypoint_coordinates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"
+                android:text="[X, Y] : [13, 18]" />
+
+            <Button
+                android:id="@+id/button_refresh_phase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/colorAppTheme"
+                android:textColor="@color/colorButtonTextTheme"
+                android:text="Refresh" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="584dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/label_configurations_section"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:background="@color/colorSecondaryTheme"
+                android:text="Configurations"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light" />
+
+            <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toggle_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                segmentedgroup:sc_border_width="1dp"
+                segmentedgroup:sc_corner_radius="1dp">
+
+                <RadioButton
+                    android:id="@+id/toggle_mode_exploration"
+                    style="@style/RadioButton"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exploration" />
+
+                <RadioButton
+                    android:id="@+id/toggle_mode_fastest_path"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fastest Path" />
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toggle_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                segmentedgroup:sc_border_width="1dp"
+                segmentedgroup:sc_corner_radius="1dp">
+
+                <RadioButton
+                    android:id="@+id/toggle_update_auto"
+                    style="@style/RadioButton"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auto" />
+
+                <RadioButton
+                    android:id="@+id/toggle_update_manual"
+                    style="@style/RadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manual" />
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+            <Button
+                android:id="@+id/button_set_origin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAppTheme"
+                android:textColor="@color/colorButtonTextTheme"
+                android:text="Set Origin" />
+
+            <Button
+                android:id="@+id/button_set_waypoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorAppTheme"
+                android:textColor="@color/colorButtonTextTheme"
+                android:text="Set Waypoint" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="325dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/button_start_phase"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/colorAppTheme"
+                    android:textColor="@color/colorButtonTextTheme"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/button_reset_map"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="120dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/colorAppTheme"
+                    android:textColor="@color/colorButtonTextTheme"
+                    android:text="Reset Map" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/label_controller_section"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorSecondaryTheme"
+                android:text="Remote Controller"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+                <Switch
+                    android:id="@+id/switch_motion_control"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:switchPadding="10dp"
+                    android:textColor="#616161"
+                    android:text="Motion Control" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/button_direction_up"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="85dp"
+                    android:background="@color/colorAppTheme"
+                    android:src="@drawable/ic_arrow_up" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/button_direction_left"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="@color/colorAppTheme"
+                        android:src="@drawable/ic_arrow_left" />
+
+                    <ImageButton
+                        android:id="@+id/button_direction_right"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/colorAppTheme"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

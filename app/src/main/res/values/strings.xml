@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MDP Android</string>
+    <string name="button_scan_devices">Scan Devices</string>
+    <string name="button_send_data">Send Data</string>
+    <string name="textbox_test_serial">Send a String</string>
+    <string name="button_reset_activity">Reset</string>
+</resources>
