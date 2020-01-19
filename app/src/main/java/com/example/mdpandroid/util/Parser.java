@@ -12,6 +12,8 @@ public class Parser {
     /**
      * denotes the respective data received
      */
+    //Example String:
+            //{"robot":[{"x":10,"y":13,"direction":"Right"}],"status":[{"status":"test"}],"map":[{"explored":"0","obstacle":"0","length":1}]}
     private JSONObject payload;
     private int Robot_X;
     private int Robot_Y;
@@ -33,12 +35,13 @@ public class Parser {
         try {
             tmpPayload = new JSONObject(payload);
             this.payload = tmpPayload;
+            //System.out.println("testtest payload: " + this.payload);
 
             setRobot();
             setStatus();
-            setMDF();
+            //setMDF();
         } catch(JSONException jsonEx){
-            System.out.println("JSON EXCEPTION");
+            System.out.println("JSON EXCEPTION1");
             this.validPayload = false;
         }
     }
@@ -55,6 +58,9 @@ public class Parser {
             this.Robot_X = objRobot.getInt("x");
             this.Robot_Y = objRobot.getInt("y");
             this.Robot_Dir = objRobot.getString("direction").trim().toUpperCase();
+
+            //Debug
+            System.out.println("testtest X: " + this.Robot_X);
         } catch(JSONException jsonEx){
             System.out.println("JSON EXCEPTION");
             this.validPayload = false;
