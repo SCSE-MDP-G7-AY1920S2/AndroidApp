@@ -9,17 +9,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="550dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="264dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:layout_width="230dp"
+            android:layout_width="412.5dp"
             android:layout_height="550dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="264dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
             <com.example.mdpandroid.MapDrawer
                 android:id="@+id/canvas_gridmap"
                 android:layout_width="match_parent"
@@ -30,14 +32,17 @@
             android:layout_width="150dp"
             android:layout_height="550dp"
             android:layout_marginStart="10dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="264dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
             <TextView
                 android:id="@+id/label_bluetooth_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:background="@color/colorSecondaryTheme"
-                android:text="Bluetooth"
+                android:text="@string/label_bluetooth"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
             <TextView
@@ -46,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/colorLabelNotConnected"
-                android:text="Not Connected" />
+                android:text="@string/not_connected" />
             <TextView
                 android:id="@+id/label_bluetooth_connected_device"
                 android:layout_width="match_parent"
@@ -58,9 +63,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:background="@color/colorSecondaryTheme"
-                android:text="Time"
+                android:text="@string/label_time"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
             <TextView
@@ -69,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textAlignment="center"
-                android:textSize="20dp"
-                android:text="00 m 00 s" />
+                android:textSize="20sp"
+                android:text="@string/time_placeholder" />
             <TextView
                 android:id="@+id/label_status_section"
                 android:layout_width="match_parent"
@@ -78,7 +83,7 @@
                 android:gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="@color/colorSecondaryTheme"
-                android:text="Status"
+                android:text="@string/label_status"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
             <TextView
@@ -86,16 +91,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Robot is Idle" />
+                android:text="@string/idle_robot_state" />
 
             <TextView
                 android:id="@+id/label_position_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:background="@color/colorSecondaryTheme"
-                android:text="Position"
+                android:text="@string/label_position"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
             <TextView
@@ -105,14 +110,14 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="Robot's Position" />
+                android:text="@string/label_robot_position" />
             <TextView
                 android:id="@+id/label_origin_coordinates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textAlignment="center"
-                android:text="[X, Y] : [1, 1]" />
+                android:text="@string/robot_pos_placeholder" />
             <TextView
                 android:id="@+id/label_waypoint_coordinates_title"
                 android:layout_width="match_parent"
@@ -120,14 +125,14 @@
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="Way Point" />
+                android:text="@string/label_waypoint" />
             <TextView
                 android:id="@+id/label_waypoint_coordinates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textAlignment="center"
-                android:text="[X, Y] : [13, 18]" />
+                android:text="@string/waypoint_placeholder" />
 
             <Button
                 android:id="@+id/button_refresh_phase"
@@ -136,14 +141,14 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="Refresh" />
+                android:text="@string/button_refresh" />
         </LinearLayout>
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="584dp"
         android:layout_height="250dp"
         android:layout_marginBottom="4dp"
         android:orientation="horizontal"
@@ -152,7 +157,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="180dp"
+            android:layout_width="250dp"
             android:layout_height="250dp"
             android:orientation="vertical">
 
@@ -162,7 +167,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:background="@color/colorSecondaryTheme"
-                android:text="Configurations"
+                android:text="@string/label_configurations"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
 
@@ -181,14 +186,14 @@
                     android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Exploration" />
+                    android:text="@string/option_exploration" />
 
                 <RadioButton
                     android:id="@+id/toggle_mode_fastest_path"
                     style="@style/RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fastest Path" />
+                    android:text="@string/option_fastest_path" />
             </info.hoang8f.android.segmented.SegmentedGroup>
 
             <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
@@ -206,14 +211,14 @@
                     android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Auto" />
+                    android:text="@string/option_auto" />
 
                 <RadioButton
                     android:id="@+id/toggle_update_manual"
                     style="@style/RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Manual" />
+                    android:text="@string/option_manual" />
             </info.hoang8f.android.segmented.SegmentedGroup>
 
             <Button
@@ -223,7 +228,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="Set Origin" />
+                android:text="@string/button_set_origin" />
 
             <Button
                 android:id="@+id/button_set_waypoint"
@@ -232,12 +237,12 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="Set Waypoint" />
+                android:text="@string/button_set_waypoint" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="218dp"
+            android:layout_width="325dp"
             android:layout_height="250dp"
             android:layout_marginStart="10dp"
             android:orientation="vertical">
@@ -250,20 +255,20 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@color/colorAppTheme"
                     android:textColor="@color/colorButtonTextTheme"
-                    android:text="Start" />
+                    android:text="@string/button_start" />
 
                 <Button
                     android:id="@+id/button_reset_map"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="120dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@color/colorAppTheme"
                     android:textColor="@color/colorButtonTextTheme"
-                    android:text="Reset Map" />
+                    android:text="@string/button_reset_map" />
             </RelativeLayout>
 
             <TextView
@@ -273,7 +278,7 @@
                 android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorSecondaryTheme"
-                android:text="Remote Controller"
+                android:text="@string/label_remote_controller"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
 
@@ -286,23 +291,24 @@
                     android:id="@+id/switch_motion_control"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:switchPadding="10dp"
                     android:textColor="#616161"
-                    android:text="Motion Control" />
+                    android:text="@string/switch_motion" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="50dp"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/button_direction_up"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="85dp"
+                    android:layout_marginStart="85dp"
+                    android:contentDescription="@string/label_arrow"
                     android:background="@color/colorAppTheme"
                     android:src="@drawable/ic_arrow_up" />
 
@@ -315,9 +321,10 @@
                         android:id="@+id/button_direction_left"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
                         android:layout_marginTop="50dp"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:contentDescription="@string/label_arrow"
                         android:background="@color/colorAppTheme"
                         android:src="@drawable/ic_arrow_left" />
 
@@ -325,9 +332,10 @@
                         android:id="@+id/button_direction_right"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginRight="25dp"
+                        android:layout_marginEnd="25dp"
                         android:layout_marginTop="50dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="@string/label_arrow"
                         android:background="@color/colorAppTheme"
                         android:src="@drawable/ic_arrow_right" />
                 </RelativeLayout>

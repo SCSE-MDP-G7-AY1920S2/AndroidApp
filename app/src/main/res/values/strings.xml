@@ -1,7 +1,36 @@
 <resources>
     <string name="app_name">MDP Android</string>
+
     <string name="button_scan_devices">Scan Devices</string>
     <string name="button_send_data">Send Data</string>
-    <string name="textbox_test_serial">Send a String</string>
+    <string name="button_set_origin">Set Origin</string>
+    <string name="button_set_waypoint">Set Waypoint</string>
+    <string name="button_start">Start</string>
+    <string name="button_reset_map">Reset Map</string>
     <string name="button_reset_activity">Reset</string>
+    <string name="button_refresh">Refresh</string>
+
+    <string name="label_bluetooth">Bluetooth</string>
+    <string name="label_time">Time</string>
+    <string name="label_status">Status</string>
+    <string name="label_position">Position</string>
+    <string name="label_robot_position">Robot\'s Position</string>
+    <string name="label_waypoint">Way Point</string>
+    <string name="label_configurations">Configurations</string>
+    <string name="label_remote_controller">Remote Controller</string>
+    <string name="label_arrow">Arrow</string>
+
+    <string name="textbox_test_serial">Send a String</string>
+    <string name="not_connected">Not Connected</string>
+    <string name="time_placeholder">00 m 00 s</string>
+    <string name="idle_robot_state">Robot is Idle</string>
+    <string name="robot_pos_placeholder">[X, Y] : [1, 1]</string>
+    <string name="waypoint_placeholder">[X, Y] : [13, 18]</string>
+
+    <string name="option_exploration">Exploration</string>
+    <string name="option_fastest_path">Fastest Path</string>
+    <string name="option_auto">Auto</string>
+    <string name="option_manual">Manual</string>
+
+    <string name="switch_motion">Motion Control</string>
 </resources>
