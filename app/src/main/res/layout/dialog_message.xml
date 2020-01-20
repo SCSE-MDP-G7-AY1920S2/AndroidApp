@@ -46,8 +46,9 @@
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/textbox_send_message"
-                android:layout_width="450dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.9"
                 android:layout_marginRight="5dp"
                 android:paddingLeft="5dp"
                 android:ems="10"
@@ -60,7 +61,7 @@
                 android:id="@+id/button_send_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.1"
                 android:layout_marginLeft="5dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
