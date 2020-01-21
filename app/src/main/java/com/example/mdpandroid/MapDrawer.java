@@ -163,8 +163,10 @@ public class MapDrawer extends View {
         obstacleTextPaint.setColor(Color.parseColor("#f5f5f5"));
         obstacleTextPaint.setTextSize(22);
 
-        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        gridDimensions = (screenSize < Configuration.SCREENLAYOUT_SIZE_LARGE) ? GRID_DIMEN_PHABLET : GRID_DIMEN_TABLET;
+        if (this.getTag() != null) {
+            Log.d("Tag", (this.getTag() != null) ? (String) this.getTag() : "Default");
+            gridDimensions = (((String) this.getTag()).equalsIgnoreCase("phone")) ? GRID_DIMEN_PHABLET : GRID_DIMEN_TABLET;
+        }
     }
 
     @Override
