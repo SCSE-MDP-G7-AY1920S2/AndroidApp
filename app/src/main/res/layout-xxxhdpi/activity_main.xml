@@ -9,19 +9,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="550dp"
-        android:layout_marginBottom="264dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:layout_width="412.5dp"
+            android:layout_width="230dp"
             android:layout_height="550dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="264dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="vertical">
             <com.example.mdpandroid.MapDrawer
                 android:id="@+id/canvas_gridmap"
                 android:layout_width="match_parent"
@@ -32,10 +30,7 @@
             android:layout_width="150dp"
             android:layout_height="550dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="264dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/label_bluetooth_section"
                 android:layout_width="match_parent"
@@ -63,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/colorSecondaryTheme"
                 android:text="@string/label_time"
                 android:textAlignment="center"
@@ -98,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:background="@color/colorSecondaryTheme"
                 android:text="@string/label_position"
                 android:textAlignment="center"
@@ -148,7 +143,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="584dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_marginBottom="4dp"
         android:orientation="horizontal"
@@ -157,7 +152,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="250dp"
             android:orientation="vertical">
 
@@ -242,7 +237,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="325dp"
+            android:layout_width="218dp"
             android:layout_height="250dp"
             android:layout_marginStart="10dp"
             android:orientation="vertical">
@@ -300,7 +295,7 @@
             <RelativeLayout
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="20dp"
                 android:orientation="vertical">
 
                 <ImageButton
@@ -308,8 +303,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="85dp"
-                    android:contentDescription="@string/label_arrow"
                     android:background="@color/colorAppTheme"
+                    android:contentDescription="@string/label_arrow"
                     android:src="@drawable/ic_arrow_up" />
 
                 <RelativeLayout

@@ -1,10 +1,12 @@
 package com.example.mdpandroid;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,10 +21,15 @@ import com.example.mdpandroid.entity.Robot;
 import java.text.DecimalFormat;
 
 public class MapDrawer extends View {
+
+    // Some constants for compatibility reasons
+    public static final int GRID_DIMEN_TABLET = 36; // large (N7/Acer Tablet)
+    public static final int GRID_DIMEN_PHABLET = 50; // regular (Phones with high dpi, P4XL)
+
     /**
      * helper variables
      */
-    public static int gridDimensions = 36;
+    public static int gridDimensions = GRID_DIMEN_TABLET;
     private Paint gridPaint;
     private Paint gridPaintBorder;
     private Paint robotPaint;
@@ -152,6 +159,9 @@ public class MapDrawer extends View {
         obstacleTextPaint.setStyle(Paint.Style.STROKE);
         obstacleTextPaint.setColor(Color.parseColor("#f5f5f5"));
         obstacleTextPaint.setTextSize(22);
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        gridDimensions = (screenSize < Configuration.SCREENLAYOUT_SIZE_LARGE) ? GRID_DIMEN_PHABLET : GRID_DIMEN_TABLET;
     }
 
     @Override
