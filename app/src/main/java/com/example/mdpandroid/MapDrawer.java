@@ -549,83 +549,83 @@ public class MapDrawer extends View {
         updateExplored();
     }
 
-    public static void updateImage(char imgID, int x_axis, int y_axis){
-        System.out.println("Image ID : " + imgID);
-        System.out.println("X Axis : " + x_axis);
-        System.out.println("Y Axis : " + y_axis);
-        int new_y_axis = invertYAxis(y_axis);
-
-        boolean flag = !exploredPath[x_axis][new_y_axis].equals("0") && !exploredPath[x_axis][new_y_axis].equals("1");
-        try {
-            switch (imgID) {
-                case '0':
-                    exploredPath[x_axis][new_y_axis] = "O";
-                    break;
-                case '1':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "A";
-                    break;
-                case '2':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "B";
-                    break;
-                case '3':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "C";
-                    break;
-                case '4':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "D";
-                    break;
-                case '5':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "E";
-                    break;
-                case '6':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "F";
-                    break;
-                case '7':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "G";
-                    break;
-                case '8':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "H";
-                    break;
-                case '9':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "I";
-                    break;
-                case 'A':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "J";
-                    break;
-                case 'B':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "K";
-                    break;
-                case 'C':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "L";
-                    break;
-                case 'D':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "M";
-                    break;
-                case 'E':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "N";
-                    break;
-                case 'F':
-                    if (flag) return;
-                    exploredPath[x_axis][new_y_axis] = "P";
-                    break;
-            }
-        } catch (IndexOutOfBoundsException indexEx){
-            System.out.println("Invalid index for array");
-        }
-    }
+//    public static void updateImage(char imgID, int x_axis, int y_axis){
+//        System.out.println("Image ID : " + imgID);
+//        System.out.println("X Axis : " + x_axis);
+//        System.out.println("Y Axis : " + y_axis);
+//        int new_y_axis = invertYAxis(y_axis);
+//
+//        boolean flag = !exploredPath[x_axis][new_y_axis].equals("0") && !exploredPath[x_axis][new_y_axis].equals("1");
+//        try {
+//            switch (imgID) {
+//                case '0':
+//                    exploredPath[x_axis][new_y_axis] = "O";
+//                    break;
+//                case '1':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "A";
+//                    break;
+//                case '2':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "B";
+//                    break;
+//                case '3':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "C";
+//                    break;
+//                case '4':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "D";
+//                    break;
+//                case '5':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "E";
+//                    break;
+//                case '6':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "F";
+//                    break;
+//                case '7':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "G";
+//                    break;
+//                case '8':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "H";
+//                    break;
+//                case '9':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "I";
+//                    break;
+//                case 'A':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "J";
+//                    break;
+//                case 'B':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "K";
+//                    break;
+//                case 'C':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "L";
+//                    break;
+//                case 'D':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "M";
+//                    break;
+//                case 'E':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "N";
+//                    break;
+//                case 'F':
+//                    if (flag) return;
+//                    exploredPath[x_axis][new_y_axis] = "P";
+//                    break;
+//            }
+//        } catch (IndexOutOfBoundsException indexEx){
+//            System.out.println("Invalid index for array");
+//        }
+//    }
 
     public static void updateSelection(int x_axis, int y_axis){
         if (isSurroundingObstacle(x_axis, y_axis)) {
@@ -720,6 +720,10 @@ public class MapDrawer extends View {
 
     public static int getRobotY(){
         return Robot_Y;
+    }
+
+    public static int getRobotInvertY(){
+        return invertYAxis(Robot_Y);
     }
 
     public static void resetMap(){

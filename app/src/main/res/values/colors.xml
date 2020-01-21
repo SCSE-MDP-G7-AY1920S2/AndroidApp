@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorAppTheme">#3f51b5</color>
+    <color name="colorYellow">#ffbf00</color>
     <color name="colorSecondaryTheme">#3A96C2</color>
     <color name="colorButtonTextTheme">#FFFFFF</color>
     <color name="colorLabelNotConnected">#d32f2f</color>

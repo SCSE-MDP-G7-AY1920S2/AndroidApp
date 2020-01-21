@@ -35,11 +35,10 @@ public class Parser {
         try {
             tmpPayload = new JSONObject(payload);
             this.payload = tmpPayload;
-            //System.out.println("testtest payload: " + this.payload);
 
             setRobot();
             setStatus();
-            //setMDF();
+            setMDF();
         } catch(JSONException jsonEx){
             System.out.println("JSON EXCEPTION1");
             this.validPayload = false;
@@ -95,6 +94,32 @@ public class Parser {
         }
     }
 
+    public void setImage(){
+        if (this.validPayload == false || this.payload == null) return;
+
+        try{
+            JSONArray image = this.payload.getJSONArray("image");
+
+            for (int i = 0 ; i < image.length(); i++) {
+                JSONObject objImage = image.getJSONObject(i);
+                String imgID = objImage.getString("imgID");
+                int img_x = objImage.getInt("x");
+                int img_y = objImage.getInt("y");
+                this.exploredMap[img_x][img_y] = imgID;
+            }
+
+        }catch(JSONException jsonEx){
+            System.out.println("JSON EXCEPTION");
+            this.validPayload = false;
+        } catch(IndexOutOfBoundsException indexEx){
+            System.out.println("INDEX OUT OF BOUNDS EXCEPTION");
+            this.validPayload = false;
+        } catch(ClassCastException castEx){
+            System.out.println("CLASS CAST EXCEPTION");
+            this.validPayload = false;
+        }
+    }
+
     private void setMDF(){
         if (this.validPayload == false || this.payload == null) return;
 
@@ -112,7 +137,7 @@ public class Parser {
 
             String obstacleMDF = objMap.getString("obstacle");
             hexExplored = obstacleMDF;
-            int length =  objMap.getInt("length");
+            int length =  exploredMDF.length() - exploredMDF.replaceAll("1", "").length();
             obstacleMDF = new BigInteger(obstacleMDF, 16).toString(2);
 
 

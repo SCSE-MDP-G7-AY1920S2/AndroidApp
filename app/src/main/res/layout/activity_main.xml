@@ -111,13 +111,49 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:text="@string/label_robot_position" />
-            <TextView
-                android:id="@+id/label_origin_coordinates"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textAlignment="center"
-                android:text="@string/robot_pos_placeholder" />
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textStyle="bold"
+                    android:background="@color/colorYellow">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/label_origin_coordinateX"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:background="@drawable/listview_border"
+                    android:text="1" />
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="Y"
+                    android:textStyle="bold"
+                    android:background="@color/colorYellow">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/label_origin_coordinateY"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:background="@drawable/listview_border"
+                    android:text="1" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/label_waypoint_coordinates_title"
                 android:layout_width="match_parent"
@@ -126,13 +162,49 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:text="@string/label_waypoint" />
-            <TextView
-                android:id="@+id/label_waypoint_coordinates"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textAlignment="center"
-                android:text="@string/waypoint_placeholder" />
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textStyle="bold"
+                    android:background="@color/colorYellow">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/label_waypoint_coordinateX"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:background="@drawable/listview_border"
+                    android:text="13" />
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="Y"
+                    android:textStyle="bold"
+                    android:background="@color/colorYellow">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/label_waypoint_coordinateY"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:background="@drawable/listview_border"
+                    android:text="18" />
+
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/button_refresh_phase"

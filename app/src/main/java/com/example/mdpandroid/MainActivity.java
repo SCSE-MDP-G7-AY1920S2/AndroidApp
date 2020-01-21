@@ -445,10 +445,14 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.button_reset_map).setAlpha(1);
     }
     private void updateRobotPositionLabel(){
-        ((TextView) findViewById(R.id.label_origin_coordinates)).setText("[X, Y] : [" + MapDrawer.getRobotPosition() + "]");
+        //((TextView) findViewById(R.id.label_origin_coordinates)).setText("[X, Y] : [" + MapDrawer.getRobotPosition() + "]");
+        ((TextView) findViewById(R.id.label_origin_coordinateX)).setText(Integer.toString(MapDrawer.getRobotX()));
+        ((TextView) findViewById(R.id.label_origin_coordinateY)).setText(Integer.toString(MapDrawer.getRobotInvertY()));
     }
     private void updateWaypointLabel(){
-        ((TextView) findViewById(R.id.label_waypoint_coordinates)).setText("[X, Y] : [" + MapDrawer.getWayPoint() + "]");
+        //((TextView) findViewById(R.id.label_waypoint_coordinates)).setText("[X, Y] : [" + MapDrawer.getWayPoint() + "]");
+        ((TextView) findViewById(R.id.label_waypoint_coordinateX)).setText(Integer.toString(MapDrawer.getWay_Point_X()));
+        ((TextView) findViewById(R.id.label_waypoint_coordinateY)).setText(Integer.toString(MapDrawer.getWay_Point_Y()));
     }
 
     /**
@@ -1053,6 +1057,7 @@ public class MainActivity extends AppCompatActivity{
         handleUpdateStatus(parse.getStatus());
 
         // Leave this as temporary
+        parse.setImage();
         MapDrawer.setGrid(parse.getExploredMap());
 
         // Further update this when image data is passed
@@ -1060,9 +1065,9 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private void handleUpdateMDF(String data){
-        updateRobotPositionLabel();
-    }
+//    private void handleUpdateMDF(String data){
+//        updateRobotPositionLabel();
+//    }
 
     private void handleUpdatePosition(int x_axis, int y_axis, String dir){
         try{
@@ -1083,22 +1088,22 @@ public class MainActivity extends AppCompatActivity{
         label_status_details.setText(data);
     }
 
-    private void handleUpdateImage(String[][] data){
-        try {
-            for (int i = 0; i < Map.COLUMN; i++) {
-                for (int j = 0; j < Map.ROW; j++) {
-                    char imgID = data[i][j].charAt(0);
-                    int x_axis = i;
-                    int y_axis = j;
-
-                    MapDrawer.updateImage(imgID, x_axis, y_axis);
-                    if (autoModeState) {
-                        findViewById(R.id.canvas_gridmap).invalidate();
-                    }
-                }
-            }
-        } catch(StringIndexOutOfBoundsException indexEx){
-            System.out.println("Unable to retrieve character (imgID)");
-        }
-    }
+//    private void handleUpdateImage(String[][] data){
+//        try {
+//            for (int i = 0; i < Map.COLUMN; i++) {
+//                for (int j = 0; j < Map.ROW; j++) {
+//                    char imgID = data[i][j].charAt(0);
+//                    int x_axis = i;
+//                    int y_axis = j;
+//
+//                    MapDrawer.updateImage(imgID, x_axis, y_axis);
+//                    if (autoModeState) {
+//                        findViewById(R.id.canvas_gridmap).invalidate();
+//                    }
+//                }
+//            }
+//        } catch(StringIndexOutOfBoundsException indexEx){
+//            System.out.println("Unable to retrieve character (imgID)");
+//        }
+//    }
 }
