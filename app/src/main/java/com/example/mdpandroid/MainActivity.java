@@ -71,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
+import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -176,6 +177,19 @@ public class MainActivity extends AppCompatActivity{
                 handleRotation(i);
             }
         };
+
+        /**
+         * Listener for Joystick
+         */
+        JoystickView joystick = (JoystickView) findViewById(R.id.joystickView);
+
+        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
+                // do whatever you want
+            }
+        });
+
     }
 
     private void configureToggle(){
@@ -193,6 +207,7 @@ public class MainActivity extends AppCompatActivity{
         toggle_update_auto.setPadding(15, 5, 15, 5);
         toggle_update_manual.setPadding(15, 5, 15, 5);
     }
+
 
     /**
      * listener for devices

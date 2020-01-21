@@ -299,8 +299,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_set_origin" />
+                android:text="@string/button_set_origin"
+                android:textColor="@color/colorButtonTextTheme" />
 
             <Button
                 android:id="@+id/button_set_waypoint"
@@ -343,75 +343,100 @@
                     android:text="@string/button_reset_map" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/label_controller_section"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorSecondaryTheme"
-                android:text="@string/label_remote_controller"
-                android:textAlignment="center"
-                android:textColor="@android:color/background_light" />
+                android:orientation="vertical"
+                android:background="@drawable/customborder"
+                android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <Switch
-                    android:id="@+id/switch_motion_control"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:switchPadding="10dp"
-                    android:textColor="#616161"
-                    android:text="@string/switch_motion" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="220dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/button_direction_up"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="85dp"
-                    android:contentDescription="@string/label_arrow"
-                    android:background="@color/colorAppTheme"
-                    android:src="@drawable/ic_arrow_up" />
+                <TextView
+                    android:id="@+id/label_controller_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorSecondaryTheme"
+                    android:text="@string/label_remote_controller"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/button_direction_left"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="50dp"
-                        android:layout_alignParentStart="true"
-                        android:contentDescription="@string/label_arrow"
-                        android:background="@color/colorAppTheme"
-                        android:src="@drawable/ic_arrow_left" />
-
-                    <ImageButton
-                        android:id="@+id/button_direction_right"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="25dp"
-                        android:layout_marginTop="50dp"
+                    <Switch
+                        android:id="@+id/switch_motion_control"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:switchPadding="10dp"
+                        android:textColor="#616161"
+                        android:text="@string/switch_motion" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/button_direction_up"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="85dp"
                         android:contentDescription="@string/label_arrow"
                         android:background="@color/colorAppTheme"
-                        android:src="@drawable/ic_arrow_right" />
+                        android:src="@drawable/ic_arrow_up" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/button_direction_left"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_alignParentStart="true"
+                            android:contentDescription="@string/label_arrow"
+                            android:background="@color/colorAppTheme"
+                            android:src="@drawable/ic_arrow_left" />
+
+                        <io.github.controlwear.virtual.joystick.android.JoystickView
+                            android:id="@+id/joystickView"
+                            xmlns:custom="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            custom:JV_buttonColor="#FF6E40"
+                            custom:JV_buttonSizeRatio="15%"
+                            custom:JV_borderColor="#00796B"
+                            custom:JV_backgroundColor="#009688"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerInParent="true"
+                            custom:JV_borderWidth="4dp"
+                            custom:JV_fixedCenter="false"/>
+
+                        <ImageButton
+                            android:id="@+id/button_direction_right"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:contentDescription="@string/label_arrow"
+                            android:background="@color/colorAppTheme"
+                            android:src="@drawable/ic_arrow_right" />
+                    </RelativeLayout>
                 </RelativeLayout>
-            </RelativeLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

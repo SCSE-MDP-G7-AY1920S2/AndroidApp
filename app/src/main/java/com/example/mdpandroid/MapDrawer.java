@@ -1,6 +1,8 @@
 package com.example.mdpandroid;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.shapes.OvalShape;
@@ -112,12 +114,13 @@ public class MapDrawer extends View {
         obstacleTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         gridPaint.setStyle(Paint.Style.FILL);
-        gridPaint.setColor(Color.parseColor("#3A96C2"));
+        gridPaint.setColor(Color.parseColor("#87cefa"));
+        //gridPaint.setColor(Color.parseColor("#3A96C2"));
         gridPaintBorder.setStyle(Paint.Style.STROKE);
         gridPaintBorder.setColor(Color.parseColor("#eeeeee"));
 
         robotPaint.setStyle(Paint.Style.FILL);
-        robotPaint.setColor(Color.parseColor("#ffeb3b"));
+        robotPaint.setColor(Color.parseColor("#FF7F50"));
 
         directionPaint.setStyle(Paint.Style.STROKE);
         directionPaint.setColor(Color.parseColor("#424242"));
@@ -394,77 +397,77 @@ public class MapDrawer extends View {
         left = left + 6;
 
         switch (obstacle) {
-            case "A":
+            case "1":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("01", left, top, obstacleTextPaint);
                 break;
-            case "B":
+            case "2":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("02", left, top, obstacleTextPaint);
                 break;
-            case "C":
+            case "3":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("03", left, top, obstacleTextPaint);
                 break;
-            case "D":
+            case "4":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("04", left, top, obstacleTextPaint);
                 break;
-            case "E":
+            case "5":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("05", left, top, obstacleTextPaint);
                 break;
-            case "F":
+            case "6":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("06", left, top, obstacleTextPaint);
                 break;
-            case "G":
+            case "7":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("07", left, top, obstacleTextPaint);
                 break;
-            case "H":
+            case "8":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("08", left, top, obstacleTextPaint);
                 break;
-            case "I":
+            case "9":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("09", left, top, obstacleTextPaint);
                 break;
-            case "J":
+            case "10":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("10", left, top, obstacleTextPaint);
                 break;
-            case "K":
+            case "11":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("11", left, top, obstacleTextPaint);
                 break;
-            case "L":
+            case "12":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("12", left, top, obstacleTextPaint);
                 break;
-            case "M":
+            case "13":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("13", left, top, obstacleTextPaint);
                 break;
-            case "N":
+            case "14":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("14", left, top, obstacleTextPaint);
                 break;
-            case "P":
+            case "15":
                 canvas.drawRect(rectangle, obstaclePaint);
                 canvas.drawRect(rectangle, obstaclePaintBorder);
                 canvas.drawText("15", left, top, obstacleTextPaint);
