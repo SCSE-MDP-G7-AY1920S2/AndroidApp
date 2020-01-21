@@ -186,7 +186,28 @@ public class MainActivity extends AppCompatActivity{
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                // do whatever you want
+
+                if (angle>45 && angle<135){
+                    int x_axis = MapDrawer.getRobotX();
+                    int y_axis = MapDrawer.getRobotY();
+
+                    MapDrawer.moveUp();
+                    if (!(x_axis == MapDrawer.getRobotX() && y_axis == MapDrawer.getRobotY())){
+                        sendString(Cmd.DIRECTION_UP);
+                    }
+                    findViewById(R.id.canvas_gridmap).invalidate();
+                    updateRobotPositionLabel();
+                } else if ((angle>0 && angle<=45) ||(angle>315 && angle<360)){
+                    sendString(Cmd.DIRECTION_RIGHT);
+                    MapDrawer.moveRight();
+                    findViewById(R.id.canvas_gridmap).invalidate();
+                    updateRobotPositionLabel();
+                } else if (angle>=135 && angle<255){
+                    sendString(Cmd.DIRECTION_LEFT);
+                    MapDrawer.moveLeft();
+                    findViewById(R.id.canvas_gridmap).invalidate();
+                    updateRobotPositionLabel();
+                }
             }
         });
 
@@ -781,6 +802,8 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_direction_right).setAlpha(0.7f);
                 findViewById(R.id.button_direction_up).setEnabled(false);
                 findViewById(R.id.button_direction_up).setAlpha(0.7f);
+                findViewById(R.id.joystickView).setEnabled(false);
+                findViewById(R.id.joystickView).setAlpha(0.7f);
             } else{
                 sensor_orientation.disable();
                 findViewById(R.id.button_direction_left).setEnabled(true);
@@ -789,6 +812,8 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_direction_right).setAlpha(1);
                 findViewById(R.id.button_direction_up).setEnabled(true);
                 findViewById(R.id.button_direction_up).setAlpha(1);
+                findViewById(R.id.joystickView).setEnabled(true);
+                findViewById(R.id.joystickView).setAlpha(1);
             }
         }
     };
