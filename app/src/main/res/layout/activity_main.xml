@@ -24,6 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent">
             <com.example.mdpandroid.MapDrawer
                 android:id="@+id/canvas_gridmap"
+                android:tag="tablet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
