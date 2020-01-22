@@ -349,10 +349,36 @@
             android:layout_width="325dp"
             android:layout_height="250dp"
             android:layout_marginStart="10dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="115dp"
+                android:orientation="vertical"
+                android:background="@drawable/customborder"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:background="@color/colorSecondaryTheme"
+                    android:text="@string/label_image"
+                    android:layout_marginBottom="@dimen/default_gap"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:src="@drawable/img_1"
+                    android:layout_height="100dp">
+
+                </ImageView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="205dp"
+                android:layout_marginLeft="5dp"
                 android:orientation="vertical"
                 android:background="@drawable/customborder"
                 android:layout_height="wrap_content">
@@ -361,7 +387,7 @@
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:background="@color/colorYellow"
-                    android:layout_marginBottom="25dp"
+                    android:layout_marginBottom="40dp"
                     android:layout_height="30dp">
 
                     <LinearLayout
@@ -384,16 +410,15 @@
 
 
                 <RelativeLayout
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
                     android:orientation="vertical">
 
                     <ImageButton
                         android:id="@+id/button_direction_up"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="85dp"
+                        android:layout_marginStart="70dp"
                         android:contentDescription="@string/label_arrow"
                         android:background="@color/colorAppTheme"
                         android:src="@drawable/ic_arrow_up" />
@@ -408,7 +433,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_alignParentStart="true"
-                            android:layout_marginStart="25dp"
+                            android:layout_marginStart="20dp"
                             android:layout_marginTop="50dp"
                             android:background="@color/colorAppTheme"
                             android:contentDescription="@string/label_arrow"
@@ -418,7 +443,7 @@
                             android:id="@+id/joystickView"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginStart="85dp"
+                            android:layout_marginStart="70dp"
                             android:layout_marginTop="50dp"
                             android:layout_alignParentStart="true"
                             custom:JV_backgroundColor="@color/colorYellow"
@@ -434,7 +459,7 @@
                             android:layout_height="50dp"
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="50dp"
-                            android:layout_marginEnd="25dp"
+                            android:layout_marginEnd="20dp"
                             android:background="@color/colorAppTheme"
                             android:contentDescription="@string/label_arrow"
                             android:src="@drawable/ic_arrow_right" />

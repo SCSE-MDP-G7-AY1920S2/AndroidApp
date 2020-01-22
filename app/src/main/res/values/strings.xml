@@ -19,6 +19,7 @@
     <string name="label_configurations">Configurations</string>
     <string name="label_remote_controller">Remote Controller</string>
     <string name="label_arrow">Arrow</string>
+    <string name="label_image">Image</string>
 
     <string name="textbox_test_serial">Send a String</string>
     <string name="not_connected">Not Connected</string>
