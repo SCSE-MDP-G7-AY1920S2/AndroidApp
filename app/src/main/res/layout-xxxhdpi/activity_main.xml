@@ -24,7 +24,16 @@
                 android:id="@+id/canvas_gridmap"
                 android:tag="phone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="428dp" />
+
+            <Button
+                android:id="@+id/button_refresh_phase"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/default_gap"
+                android:background="@color/colorAppTheme"
+                android:textColor="@color/colorButtonTextTheme"
+                android:text="@string/button_refresh" />
         </LinearLayout>
 
         <LinearLayout
@@ -200,13 +209,23 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button_refresh_phase"
+                android:id="@+id/button_reset_map"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/default_gap"
+                android:layout_marginBottom="@dimen/default_gap"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_refresh" />
+                android:text="@string/button_reset_map" />
+
+            <Button
+                android:id="@+id/button_start_phase"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/colorAppTheme"
+                android:textColor="@color/colorButtonTextTheme"
+                android:text="@string/button_start" />
         </LinearLayout>
 
 
@@ -236,14 +255,15 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
 
-            <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            <info.hoang8f.android.segmented.SegmentedGroup
                 android:id="@+id/toggle_mode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                segmentedgroup:sc_border_width="1dp"
-                segmentedgroup:sc_corner_radius="1dp">
+                app:sc_tint_color="@color/colorAppTheme"
+                app:sc_border_width="1dp"
+                app:sc_corner_radius="1dp">
 
                 <RadioButton
                     android:id="@+id/toggle_mode_exploration"
@@ -261,14 +281,15 @@
                     android:text="@string/option_fastest_path" />
             </info.hoang8f.android.segmented.SegmentedGroup>
 
-            <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            <info.hoang8f.android.segmented.SegmentedGroup
                 android:id="@+id/toggle_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                segmentedgroup:sc_border_width="1dp"
-                segmentedgroup:sc_corner_radius="1dp">
+                app:sc_tint_color="@color/colorAppTheme"
+                app:sc_border_width="1dp"
+                app:sc_corner_radius="1dp">
 
                 <RadioButton
                     android:id="@+id/toggle_update_auto"
@@ -311,64 +332,41 @@
             android:layout_height="250dp"
             android:layout_marginStart="10dp"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/button_start_phase"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorAppTheme"
-                    android:textColor="@color/colorButtonTextTheme"
-                    android:text="@string/button_start" />
-
-                <Button
-                    android:id="@+id/button_reset_map"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="120dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorAppTheme"
-                    android:textColor="@color/colorButtonTextTheme"
-                    android:text="@string/button_reset_map" />
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/customborder"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/label_controller_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center"
-                    android:background="@color/colorSecondaryTheme"
-                    android:text="@string/label_remote_controller"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-                    <Switch
-                        android:id="@+id/switch_motion_control"
+                    android:orientation="horizontal"
+                    android:background="@color/colorYellow"
+                    android:layout_marginBottom="25dp"
+                    android:layout_height="30dp">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:switchPadding="10dp"
-                        android:textColor="#616161"
-                        android:text="@string/switch_motion" />
+                        android:orientation="horizontal"
+                        android:layout_centerInParent="true"
+                        android:layout_height="match_parent">
+
+                        <Switch
+                            android:id="@+id/switch_motion_control"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:switchPadding="10dp"
+                            android:textColor="#616161"
+                            android:text="@string/switch_motion" />
+
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
                     android:layout_marginStart="5dp"
                     android:orientation="vertical">
 
@@ -404,12 +402,11 @@
                             xmlns:custom="http://schemas.android.com/apk/res-auto"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            custom:JV_buttonColor="#FF6E40"
-                            custom:JV_buttonSizeRatio="15%"
-                            custom:JV_borderColor="#00796B"
-                            custom:JV_backgroundColor="#009688"
-                            android:layout_alignParentStart="true"
+                            custom:JV_backgroundColor="@color/colorYellow"
+                            custom:JV_borderColor="@color/colorAccent"
                             custom:JV_borderWidth="4dp"
+                            custom:JV_buttonColor="@color/colorAppTheme"
+                            custom:JV_buttonSizeRatio="50%"
                             custom:JV_fixedCenter="false"/>
 
                         <ImageButton
