@@ -217,14 +217,12 @@ public class MainActivity extends AppCompatActivity{
         SegmentedGroup toggle_mode = findViewById(R.id.toggle_mode);
         RadioButton toggle_mode_exploration = findViewById(R.id.toggle_mode_exploration);
         RadioButton toggle_mode_fastest_path = findViewById(R.id.toggle_mode_fastest_path);
-        toggle_mode.setTintColor(Color.parseColor("#3f51b5"));
         toggle_mode_exploration.setPadding(15, 10, 15, 10);
         toggle_mode_fastest_path.setPadding(15, 10, 15, 10);
 
         SegmentedGroup toggle_update = findViewById(R.id.toggle_update);
         RadioButton toggle_update_auto = findViewById(R.id.toggle_update_auto);
         RadioButton toggle_update_manual = findViewById(R.id.toggle_update_manual);
-        toggle_update.setTintColor(Color.parseColor("#3f51b5"));
         toggle_update_auto.setPadding(15, 5, 15, 5);
         toggle_update_manual.setPadding(15, 5, 15, 5);
     }
