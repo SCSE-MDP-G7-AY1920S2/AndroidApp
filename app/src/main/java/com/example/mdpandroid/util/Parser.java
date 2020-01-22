@@ -19,6 +19,7 @@ public class Parser {
     private int Robot_Y;
     private String Robot_Dir;
     private String Robot_Status;
+    private String lastImgID;
 
     public static String hexMDF = "0x0000000000000000";
     public static String hexExplored = "0x0000000000000000";
@@ -94,19 +95,21 @@ public class Parser {
         }
     }
 
-    public void setImage(){
+    public void processImage(){
         if (this.validPayload == false || this.payload == null) return;
 
         try{
             JSONArray image = this.payload.getJSONArray("image");
+            String imgID = "0";
 
             for (int i = 0 ; i < image.length(); i++) {
                 JSONObject objImage = image.getJSONObject(i);
-                String imgID = objImage.getString("imgID");
+                imgID = objImage.getString("imgID");
                 int img_x = objImage.getInt("x");
                 int img_y = objImage.getInt("y");
                 this.exploredMap[img_x][img_y] = imgID;
             }
+            this.lastImgID = imgID;
 
         }catch(JSONException jsonEx){
             System.out.println("JSON EXCEPTION");
@@ -201,4 +204,9 @@ public class Parser {
     public String getRobotDir(){
         return this.Robot_Dir;
     }
+
+    public String getlastImgID(){
+        return this.lastImgID;
+    }
+
 }

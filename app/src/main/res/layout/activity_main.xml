@@ -224,6 +224,7 @@
                 android:layout_gravity="center"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
+                android:textStyle="bold"
                 android:text="@string/button_start" />
 
 
@@ -357,7 +358,7 @@
                 android:layout_width="115dp"
                 android:orientation="vertical"
                 android:background="@drawable/customborder"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -365,13 +366,22 @@
                     android:gravity="center"
                     android:background="@color/colorSecondaryTheme"
                     android:text="@string/label_image"
-                    android:layout_marginBottom="@dimen/default_gap"
+                    android:layout_marginBottom="20dp"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="@string/label_imageDes" />
+
                 <ImageView
+                    android:id="@+id/image_content"
                     android:layout_width="100dp"
-                    android:src="@drawable/img_1"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img_0"
                     android:layout_height="100dp">
 
                 </ImageView>
@@ -379,7 +389,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="205dp"
+                android:layout_width="200dp"
                 android:layout_marginLeft="5dp"
                 android:orientation="vertical"
                 android:background="@drawable/customborder"
@@ -461,7 +471,7 @@
                             android:layout_height="50dp"
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="50dp"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="10dp"
                             android:background="@color/colorAppTheme"
                             android:contentDescription="@string/label_arrow"
                             android:src="@drawable/ic_arrow_right" />

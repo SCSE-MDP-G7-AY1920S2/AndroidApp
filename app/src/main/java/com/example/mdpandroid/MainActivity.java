@@ -40,6 +40,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import androidx.gridlayout.widget.GridLayout;
 
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -117,6 +118,11 @@ public class MainActivity extends AppCompatActivity{
     long currentTime = System.currentTimeMillis();
 
     /**
+     * Controls for Image
+     */
+    ImageView image_content;
+
+    /**
      * Handles the orientation
      */
     OrientationEventListener sensor_orientation;
@@ -177,6 +183,11 @@ public class MainActivity extends AppCompatActivity{
                 handleRotation(i);
             }
         };
+
+        /**
+         * Image
+         */
+        image_content = (ImageView) findViewById(R.id.image_content);
 
         /**
          * Listener for Joystick
@@ -457,6 +468,8 @@ public class MainActivity extends AppCompatActivity{
         ((Switch) findViewById(R.id.switch_motion_control)).setChecked(false);
         findViewById(R.id.button_reset_map).setEnabled(false);
         findViewById(R.id.button_reset_map).setAlpha(0.7f);
+        findViewById(R.id.joystickView).setEnabled(false);
+        findViewById(R.id.joystickView).setAlpha(0.7f);
     }
     private void endModeUI(){
         findViewById(R.id.toggle_mode_exploration).setEnabled(true);
@@ -477,6 +490,8 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.switch_motion_control).setAlpha(1);
         findViewById(R.id.button_reset_map).setEnabled(true);
         findViewById(R.id.button_reset_map).setAlpha(1);
+        findViewById(R.id.joystickView).setEnabled(true);
+        findViewById(R.id.joystickView).setAlpha(1);
     }
     private void updateRobotPositionLabel(){
         //((TextView) findViewById(R.id.label_origin_coordinates)).setText("[X, Y] : [" + MapDrawer.getRobotPosition() + "]");
@@ -600,78 +615,116 @@ public class MainActivity extends AppCompatActivity{
             final Button button_start_mode = findViewById(R.id.button_start_phase);
 
             if (startModeState){
-                final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-                dialog.setTitle("Phase Stop");
-                dialog.setMessage("Do you want to stop the phase (exploration/fastest path)?");
-                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startModeState = false;
-                        button_start_mode.setText("Start");
+                startModeState = false;
+                button_start_mode.setText("Start");
 
-                        if (fastestPathModeState){
-                            sendString(Cmd.FASTEST_PATH_STOP);
-                        } else{
-                            sendString(Cmd.EXPLORATION_STOP);
-                        }
-
-                        timer.cancel();
-                        endModeUI();
-                        dialogInterface.dismiss();
-                    }
-                });
-                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                dialog.show();
+                if (fastestPathModeState){
+                    sendString(Cmd.FASTEST_PATH_STOP);
+                } else{
+                    sendString(Cmd.EXPLORATION_STOP);
+                }
+                timer.cancel();
+                endModeUI();
+//                final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+//                dialog.setTitle("Phase Stop");
+//                dialog.setMessage("Do you want to stop the phase (exploration/fastest path)?");
+//                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "YES", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        startModeState = false;
+//                        button_start_mode.setText("Start");
+//
+//                        if (fastestPathModeState){
+//                            sendString(Cmd.FASTEST_PATH_STOP);
+//                        } else{
+//                            sendString(Cmd.EXPLORATION_STOP);
+//                        }
+//
+//                        timer.cancel();
+//                        endModeUI();
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "NO", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                dialog.show();
             } else{
-                final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-                dialog.setTitle("Phase Start");
-                dialog.setMessage("Do you want to start the phase (exploration/fastest path)?");
-                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "YES", new DialogInterface.OnClickListener() {
+                startModeState = true;
+                button_start_mode.setText("Stop");
+
+                if (fastestPathModeState){
+                    sendString(Cmd.FASTEST_PATH_START  + "\n");
+                } else{
+                    sendString(Cmd.EXPLORATION_START);
+                }
+
+                timer = new CountDownTimer(30000000, 1000) {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startModeState = true;
-                        button_start_mode.setText("Stop");
+                    public void onTick(long l) {
+                        long timePassed = 30000000 - l;
+                        long seconds = timePassed / 1000;
 
-                        if (fastestPathModeState){
-                            sendString(Cmd.FASTEST_PATH_START  + "\n");
-                        } else{
-                            sendString(Cmd.EXPLORATION_START);
-                        }
-
-                        timer = new CountDownTimer(30000000, 1000) {
-                            @Override
-                            public void onTick(long l) {
-                                long timePassed = 30000000 - l;
-                                long seconds = timePassed / 1000;
-
-                                long minutes = seconds / 60;
-                                seconds = seconds % 60;
-                                DecimalFormat timeFormatter = new DecimalFormat("00");
-                                String time = timeFormatter.format(minutes) + " m " + timeFormatter.format(seconds) + " s";
-                                ((TextView) findViewById(R.id.label_time_elapsed)).setText(time);
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-                        }.start();
-                        startModeUI();
-                        dialogInterface.dismiss();
+                        long minutes = seconds / 60;
+                        seconds = seconds % 60;
+                        DecimalFormat timeFormatter = new DecimalFormat("00");
+                        String time = timeFormatter.format(minutes) + " m " + timeFormatter.format(seconds) + " s";
+                        ((TextView) findViewById(R.id.label_time_elapsed)).setText(time);
                     }
-                });
-                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "NO", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onFinish() {
+
                     }
-                });
-                dialog.show();
+                }.start();
+                startModeUI();
+//                final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+//                dialog.setTitle("Phase Start");
+//                dialog.setMessage("Do you want to start the phase (exploration/fastest path)?");
+//                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "YES", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        startModeState = true;
+//                        button_start_mode.setText("Stop");
+//
+//                        if (fastestPathModeState){
+//                            sendString(Cmd.FASTEST_PATH_START  + "\n");
+//                        } else{
+//                            sendString(Cmd.EXPLORATION_START);
+//                        }
+//
+//                        timer = new CountDownTimer(30000000, 1000) {
+//                            @Override
+//                            public void onTick(long l) {
+//                                long timePassed = 30000000 - l;
+//                                long seconds = timePassed / 1000;
+//
+//                                long minutes = seconds / 60;
+//                                seconds = seconds % 60;
+//                                DecimalFormat timeFormatter = new DecimalFormat("00");
+//                                String time = timeFormatter.format(minutes) + " m " + timeFormatter.format(seconds) + " s";
+//                                ((TextView) findViewById(R.id.label_time_elapsed)).setText(time);
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//
+//                            }
+//                        }.start();
+//                        startModeUI();
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "NO", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                dialog.show();
             }
         }
     };
@@ -869,6 +922,7 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     MapDrawer.resetMap();
+                    image_content.setImageResource(R.drawable.img_0);
                     findViewById(R.id.canvas_gridmap).invalidate();
                     dialogInterface.dismiss();
                 }
@@ -1095,17 +1149,73 @@ public class MainActivity extends AppCompatActivity{
         handleUpdateStatus(parse.getStatus());
 
         // Leave this as temporary
-        parse.setImage();
+        parse.processImage();
+        handleUpdateImage(parse.getlastImgID());
         MapDrawer.setGrid(parse.getExploredMap());
 
-        // Further update this when image data is passed
-        //handleUpdateImage(parse.getExploredMap());
 
     }
 
 //    private void handleUpdateMDF(String data){
 //        updateRobotPositionLabel();
 //    }
+
+    private void handleUpdateImage(String imgID){
+
+        switch (imgID) {
+            case "0":
+                image_content.setImageResource(R.drawable.img_0);
+                break;
+            case "1":
+                image_content.setImageResource(R.drawable.img_1);
+                break;
+            case "2":
+                image_content.setImageResource(R.drawable.img_2);
+                break;
+            case "3":
+                image_content.setImageResource(R.drawable.img_3);
+                break;
+            case "4":
+                image_content.setImageResource(R.drawable.img_4);
+                break;
+            case "5":
+                image_content.setImageResource(R.drawable.img_5);
+                break;
+            case "6":
+                image_content.setImageResource(R.drawable.img_6);
+                break;
+            case "7":
+                image_content.setImageResource(R.drawable.img_7);
+                break;
+            case "8":
+                image_content.setImageResource(R.drawable.img_8);
+                break;
+            case "9":
+                image_content.setImageResource(R.drawable.img_9);
+                break;
+            case "10":
+                image_content.setImageResource(R.drawable.img_10);
+                break;
+            case "11":
+                image_content.setImageResource(R.drawable.img_11);
+                break;
+            case "12":
+                image_content.setImageResource(R.drawable.img_12);
+                break;
+            case "13":
+                image_content.setImageResource(R.drawable.img_13);
+                break;
+            case "14":
+                image_content.setImageResource(R.drawable.img_14);
+                break;
+            case "15":
+                image_content.setImageResource(R.drawable.img_15);
+                break;
+            default:
+                image_content.setImageResource(R.drawable.img_0);
+        }
+
+    }
 
     private void handleUpdatePosition(int x_axis, int y_axis, String dir){
         try{
