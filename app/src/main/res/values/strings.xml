@@ -20,6 +20,7 @@
     <string name="label_remote_controller">Remote Controller</string>
     <string name="label_arrow">Arrow</string>
     <string name="label_image">Image</string>
+    <string name="label_image_vert">I\nM\nA\nG\nE</string>
     <string name="label_imageDes">Latest Recognition</string>
 
     <string name="textbox_test_serial">Send a String</string>

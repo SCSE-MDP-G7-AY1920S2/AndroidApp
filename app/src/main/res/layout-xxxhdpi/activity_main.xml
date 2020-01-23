@@ -24,7 +24,7 @@
                 android:id="@+id/canvas_gridmap"
                 android:tag="phone"
                 android:layout_width="match_parent"
-                android:layout_height="428dp" />
+                android:layout_height="308dp" />
 
             <Button
                 android:id="@+id/button_refresh_phase"
@@ -34,6 +34,35 @@
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
                 android:text="@string/button_refresh" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:background="@drawable/customborder"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:background="@color/colorSecondaryTheme"
+                    android:text="@string/label_image_vert"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light" />
+
+                <ImageView
+                    android:id="@+id/image_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_height="100dp">
+
+                </ImageView>
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
