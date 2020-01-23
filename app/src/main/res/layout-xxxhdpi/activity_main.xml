@@ -57,7 +57,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_width="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/img_0"
                     android:layout_height="100dp">
 
                 </ImageView>
