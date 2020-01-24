@@ -1,10 +1,10 @@
 package com.example.mdpandroid.util;
 
 import com.example.mdpandroid.entity.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import java.math.BigInteger;
 
@@ -12,8 +12,7 @@ public class Parser {
     /**
      * denotes the respective data received
      */
-    //Example String:
-            //{"robot":[{"x":10,"y":13,"direction":"Right"}],"status":[{"status":"test"}],"map":[{"explored":"0","obstacle":"0","length":1}]}
+
     private JSONObject payload;
     private int Robot_X;
     private int Robot_Y;
@@ -50,17 +49,22 @@ public class Parser {
         if (this.validPayload == false || this.payload == null) return;
 
         try{
-            JSONArray robot = this.payload.getJSONArray("robot");
-            JSONObject objRobot = (JSONObject) robot.get(0);
+            JSONArray robot = this.payload.getJSONArray("pos");
 
-            System.out.println(objRobot.toString());
+            this.Robot_X = robot.getInt(0);
+            this.Robot_Y = robot.getInt(1);
+            int angle = robot.getInt(2);
 
-            this.Robot_X = objRobot.getInt("x");
-            this.Robot_Y = objRobot.getInt("y");
-            this.Robot_Dir = objRobot.getString("direction").trim().toUpperCase();
+            if (angle==0)
+                this.Robot_Dir = "UP";
+            else if (angle==90)
+                this.Robot_Dir = "RIGHT";
+            else if (angle==180)
+                this.Robot_Dir = "DOWN";
+            else if (angle==270)
+                this.Robot_Dir = "LEFT";
 
-            //Debug
-            System.out.println("testtest X: " + this.Robot_X);
+
         } catch(JSONException jsonEx){
             System.out.println("JSON EXCEPTION");
             this.validPayload = false;
@@ -99,14 +103,17 @@ public class Parser {
         if (this.validPayload == false || this.payload == null) return;
 
         try{
-            JSONArray image = this.payload.getJSONArray("image");
+            JSONArray images = this.payload.getJSONArray("imgs");
             String imgID = "0";
+            JSONArray image = null;
+            int img_x = 0;
+            int img_y = 0;
 
-            for (int i = 0 ; i < image.length(); i++) {
-                JSONObject objImage = image.getJSONObject(i);
-                imgID = objImage.getString("imgID");
-                int img_x = objImage.getInt("x");
-                int img_y = objImage.getInt("y");
+            for (int i = 0 ; i < images.length(); i++) {
+                image = images.getJSONArray(i);
+                img_x = Integer.parseInt(image.getString(0));
+                img_y = Integer.parseInt(image.getString(1));
+                imgID = image.getString(2);
                 this.exploredMap[img_x][img_y] = imgID;
             }
             this.lastImgID = imgID;
@@ -127,18 +134,16 @@ public class Parser {
         if (this.validPayload == false || this.payload == null) return;
 
         try{
-            JSONArray map = this.payload.getJSONArray("map");
-            JSONObject objMap = (JSONObject) map.get(0);
+            String exploredMDF = this.payload.getString("expMDF");
+            String obstacleMDF = this.payload.getString("objMDF");
 
             /**
              * explored portion
              */
-            String exploredMDF = objMap.getString("explored");
             exploredMDF = new BigInteger(exploredMDF, 16).toString(2);
             exploredMDF = exploredMDF.substring(2, 302);
             hexMDF = new BigInteger(exploredMDF, 2).toString(16);
 
-            String obstacleMDF = objMap.getString("obstacle");
             hexExplored = obstacleMDF;
             int length =  exploredMDF.length() - exploredMDF.replaceAll("1", "").length();
             obstacleMDF = new BigInteger(obstacleMDF, 16).toString(2);
