@@ -77,6 +77,8 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class MainActivity extends AppCompatActivity{
 
+    private final String FROMANDROID = "\"from\":\"Android\",";
+
     /**
      * Activity variables
      */
@@ -204,17 +206,17 @@ public class MainActivity extends AppCompatActivity{
 
                     MapDrawer.moveUp();
                     if (!(x_axis == MapDrawer.getRobotX() && y_axis == MapDrawer.getRobotY())){
-                        sendString(Cmd.DIRECTION_UP);
+                        sendString(commandWrap(Cmd.DIRECTION_UP));
                     }
                     findViewById(R.id.canvas_gridmap).invalidate();
                     updateRobotPositionLabel();
                 } else if ((angle>0 && angle<=45) ||(angle>315 && angle<360)){
-                    sendString(Cmd.DIRECTION_RIGHT);
+                    sendString(commandWrap(Cmd.DIRECTION_RIGHT));
                     MapDrawer.moveRight();
                     findViewById(R.id.canvas_gridmap).invalidate();
                     updateRobotPositionLabel();
                 } else if (angle>=135 && angle<255){
-                    sendString(Cmd.DIRECTION_LEFT);
+                    sendString(commandWrap(Cmd.DIRECTION_LEFT));
                     MapDrawer.moveLeft();
                     findViewById(R.id.canvas_gridmap).invalidate();
                     updateRobotPositionLabel();
@@ -349,7 +351,15 @@ public class MainActivity extends AppCompatActivity{
                     String data = new String(buffer, 0, message.arg1);
                     System.out.println("Received data : " + data);
                     messageLog.addMessage(com.example.mdpandroid.entity.Message.MESSAGE_RECEIVER, data.trim());
-                    handleAction(data.trim());
+                    //Split data by ;
+                    String[] textArr = data.split(";");
+                    for (String s : textArr) {
+                        if (s == null || s.equals("")) {
+                            continue;
+                        }
+                        //Handle Action
+                        handleAction(s.trim());
+                    }
 
                     if (label_message_log != null){
                         label_message_log.setText(messageLog.getLog());
@@ -580,7 +590,7 @@ public class MainActivity extends AppCompatActivity{
     private final Button.OnClickListener direction_left = new Button.OnClickListener(){
         @Override
         public void onClick(View view) {
-            sendString(Cmd.DIRECTION_LEFT);
+            sendString(commandWrap(Cmd.DIRECTION_LEFT));
             MapDrawer.moveLeft();
             findViewById(R.id.canvas_gridmap).invalidate();
             updateRobotPositionLabel();
@@ -589,7 +599,7 @@ public class MainActivity extends AppCompatActivity{
     private final Button.OnClickListener direction_right = new Button.OnClickListener(){
         @Override
         public void onClick(View view) {
-            sendString(Cmd.DIRECTION_RIGHT);
+            sendString(commandWrap(Cmd.DIRECTION_RIGHT));
             MapDrawer.moveRight();
             findViewById(R.id.canvas_gridmap).invalidate();
             updateRobotPositionLabel();
@@ -603,7 +613,7 @@ public class MainActivity extends AppCompatActivity{
 
             MapDrawer.moveUp();
             if (!(x_axis == MapDrawer.getRobotX() && y_axis == MapDrawer.getRobotY())){
-                sendString(Cmd.DIRECTION_UP);
+                sendString(commandWrap(Cmd.DIRECTION_UP));
             }
             findViewById(R.id.canvas_gridmap).invalidate();
             updateRobotPositionLabel();
@@ -619,47 +629,20 @@ public class MainActivity extends AppCompatActivity{
                 button_start_mode.setText("Start");
 
                 if (fastestPathModeState){
-                    sendString(Cmd.FASTEST_PATH_STOP);
+                    sendString(commandWrap(Cmd.FASTEST_PATH_STOP));
                 } else{
-                    sendString(Cmd.EXPLORATION_STOP);
+                    sendString(commandWrap(Cmd.EXPLORATION_STOP));
                 }
                 timer.cancel();
                 endModeUI();
-//                final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-//                dialog.setTitle("Phase Stop");
-//                dialog.setMessage("Do you want to stop the phase (exploration/fastest path)?");
-//                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "YES", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        startModeState = false;
-//                        button_start_mode.setText("Start");
-//
-//                        if (fastestPathModeState){
-//                            sendString(Cmd.FASTEST_PATH_STOP);
-//                        } else{
-//                            sendString(Cmd.EXPLORATION_STOP);
-//                        }
-//
-//                        timer.cancel();
-//                        endModeUI();
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "NO", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                dialog.show();
             } else{
                 startModeState = true;
                 button_start_mode.setText("Stop");
 
                 if (fastestPathModeState){
-                    sendString(Cmd.FASTEST_PATH_START  + "\n");
+                    sendString(commandWrap(Cmd.EXPLORATION_STOP));
                 } else{
-                    sendString(Cmd.EXPLORATION_START);
+                    sendString(commandWrap(Cmd.EXPLORATION_START));
                 }
 
                 timer = new CountDownTimer(30000000, 1000) {
@@ -681,50 +664,6 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }.start();
                 startModeUI();
-//                final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-//                dialog.setTitle("Phase Start");
-//                dialog.setMessage("Do you want to start the phase (exploration/fastest path)?");
-//                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "YES", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        startModeState = true;
-//                        button_start_mode.setText("Stop");
-//
-//                        if (fastestPathModeState){
-//                            sendString(Cmd.FASTEST_PATH_START  + "\n");
-//                        } else{
-//                            sendString(Cmd.EXPLORATION_START);
-//                        }
-//
-//                        timer = new CountDownTimer(30000000, 1000) {
-//                            @Override
-//                            public void onTick(long l) {
-//                                long timePassed = 30000000 - l;
-//                                long seconds = timePassed / 1000;
-//
-//                                long minutes = seconds / 60;
-//                                seconds = seconds % 60;
-//                                DecimalFormat timeFormatter = new DecimalFormat("00");
-//                                String time = timeFormatter.format(minutes) + " m " + timeFormatter.format(seconds) + " s";
-//                                ((TextView) findViewById(R.id.label_time_elapsed)).setText(time);
-//                            }
-//
-//                            @Override
-//                            public void onFinish() {
-//
-//                            }
-//                        }.start();
-//                        startModeUI();
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                dialog.setButton(AlertDialog.BUTTON_POSITIVE, "NO", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                dialog.show();
             }
         }
     };
@@ -775,6 +714,7 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
                 sendString(MapDrawer.getStartPoint());
+
                 MapDrawer.setSelectStartPoint();
                 MapDrawer.updateStartPoint();
                 findViewById(R.id.canvas_gridmap).invalidate();
@@ -827,15 +767,17 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setEnabled(true);
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
-                try {
-                    JSONObject wayPoint = new JSONObject();
-                    wayPoint.put("x", MapDrawer.getWay_Point_X());
-                    wayPoint.put("y", MapDrawer.getWay_Point_Y());
-                    wayPoint.put("waypoint", true);
-                    sendString("X" + wayPoint.toString() + "\n");
-                } catch (JSONException ex){
-                    System.out.println("Error constructing JSON object");
-                }
+                String msg = ";{" + FROMANDROID + "\"com\":\"wayPoint\",\"wayPoint\":[" + MapDrawer.getWay_Point_X() + "," + MapDrawer.getWay_Point_Y() + "]}";
+                sendString(msg);
+//                try {
+//                    JSONObject wayPoint = new JSONObject();
+//                    wayPoint.put("x", MapDrawer.getWay_Point_X());
+//                    wayPoint.put("y", MapDrawer.getWay_Point_Y());
+//                    wayPoint.put("waypoint", true);
+//                    sendString("X" + wayPoint.toString() + "\n");
+//                } catch (JSONException ex){
+//                    System.out.println("Error constructing JSON object");
+//                }
 
                 MapDrawer.setSelectWayPoint();
                 findViewById(R.id.canvas_gridmap).invalidate();
@@ -1122,13 +1064,13 @@ public class MainActivity extends AppCompatActivity{
 
         if (degree >= 80 && degree <= 100 && (time - currentTime) >= 250){
             MapDrawer.moveRight();
-            sendString(Cmd.DIRECTION_RIGHT);
+            sendString(commandWrap(Cmd.DIRECTION_RIGHT));
         } else if (degree >= 260 && degree <= 280 && (time - currentTime) >= 100){
             MapDrawer.moveLeft();
-            sendString(Cmd.DIRECTION_LEFT);
+            sendString(commandWrap(Cmd.DIRECTION_LEFT));
         } else if (degree >= 170 && degree <= 190 && (time - currentTime) >= 100){
             MapDrawer.moveUp();
-            sendString(Cmd.DIRECTION_UP);
+            sendString(commandWrap(Cmd.DIRECTION_UP));
         } else{
             return;
         }
@@ -1141,14 +1083,20 @@ public class MainActivity extends AppCompatActivity{
      * Helper functions to handle received message
      */
     private void handleAction(String payload){
+
         Parser parse = new Parser(payload);
+
+        //Set Status
+        boolean isStatus = parse.setStatus();
+        if (isStatus){
+            handleUpdateStatus(parse.getStatus());
+            return;
+        }
 
         if (!parse.getValidPayload()) return;
 
         handleUpdatePosition(parse.getRobotX(), parse.getRobotY(), parse.getRobotDir());
-        handleUpdateStatus(parse.getStatus());
 
-        // Leave this as temporary
         parse.processImage();
         handleUpdateImage(parse.getlastImgID());
         MapDrawer.setGrid(parse.getExploredMap());
@@ -1234,6 +1182,11 @@ public class MainActivity extends AppCompatActivity{
         System.out.println("Status Update : " + data);
         TextView label_status_details = findViewById(R.id.label_status_details);
         label_status_details.setText(data);
+    }
+
+    public String commandWrap(String cmd) {
+        String msg = ";{" + FROMANDROID + "\"com\":\"" + cmd + "\"}";
+        return msg;
     }
 
 //    private void handleUpdateImage(String[][] data){

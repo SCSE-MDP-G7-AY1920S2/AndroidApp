@@ -37,7 +37,6 @@ public class Parser {
             this.payload = tmpPayload;
 
             setRobot();
-            setStatus();
             setMDF();
         } catch(JSONException jsonEx){
             System.out.println("JSON EXCEPTION1");
@@ -77,25 +76,22 @@ public class Parser {
         }
     }
 
-    private void setStatus(){
-        if (this.validPayload == false || this.payload == null) return;
+    public boolean setStatus(){
+        //if (this.validPayload == false || this.payload == null) return;
 
         try{
-            JSONArray status = this.payload.getJSONArray("status");
-            JSONObject objStatus = (JSONObject) status.get(0);
+            this.Robot_Status = this.payload.getString("status");
+            return true;
 
-            System.out.println(objStatus.toString());
-
-            this.Robot_Status = objStatus.getString("status");
-        } catch(JSONException jsonEx){
-            System.out.println("JSON EXCEPTION");
-            this.validPayload = false;
-        } catch(IndexOutOfBoundsException indexEx){
-            System.out.println("INDEX OUT OF BOUNDS EXCEPTION");
-            this.validPayload = false;
-        } catch(ClassCastException castEx){
-            System.out.println("CLASS CAST EXCEPTION");
-            this.validPayload = false;
+//            JSONArray status = this.payload.getJSONArray("status");
+//            JSONObject objStatus = (JSONObject) status.get(0);
+//
+//            System.out.println(objStatus.toString());
+//
+//            this.Robot_Status = objStatus.getString("status");
+        } catch(Exception e){
+            System.out.println("EXCEPTION");
+            return false;
         }
     }
 
