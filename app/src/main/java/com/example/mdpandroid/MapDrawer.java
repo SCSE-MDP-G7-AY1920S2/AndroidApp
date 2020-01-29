@@ -731,8 +731,29 @@ public class MapDrawer extends View {
         return invertYAxis(Robot_Y);
     }
 
+    public static String getDirection(){return direction;}
+
     public static void resetMap(){
         initMap();
+    }
+
+    public static int getRotationDir(){
+        int rotation = 90;
+        switch(direction){
+            case "Up":
+                rotation = 0;
+                break;
+            case "Down":
+                rotation = 180;
+                break;
+            case "Left":
+                rotation = 270;
+                break;
+            case "Right":
+                rotation = 90;
+                break;
+        }
+        return rotation;
     }
 
     public static boolean isSurroundingObstacle(int x_axis, int y_axis){

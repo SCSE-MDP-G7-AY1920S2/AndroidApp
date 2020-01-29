@@ -628,11 +628,13 @@ public class MainActivity extends AppCompatActivity{
                 startModeState = false;
                 button_start_mode.setText("Start");
 
-                if (fastestPathModeState){
-                    sendString(commandWrap(Cmd.FASTEST_PATH_STOP));
-                } else{
-                    sendString(commandWrap(Cmd.EXPLORATION_STOP));
-                }
+
+                sendString(commandWrap(Cmd.STOP));
+//                if (fastestPathModeState){
+//                    sendString(commandWrap(Cmd.FASTEST_PATH_STOP));
+//                } else{
+//                    sendString(commandWrap(Cmd.EXPLORATION_STOP));
+//                }
                 timer.cancel();
                 endModeUI();
             } else{
@@ -640,7 +642,7 @@ public class MainActivity extends AppCompatActivity{
                 button_start_mode.setText("Stop");
 
                 if (fastestPathModeState){
-                    sendString(commandWrap(Cmd.EXPLORATION_STOP));
+                    sendString(commandWrap(Cmd.FASTEST_PATH_START)); //TODO
                 } else{
                     sendString(commandWrap(Cmd.EXPLORATION_START));
                 }
@@ -713,7 +715,9 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setEnabled(true);
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
-                sendString(MapDrawer.getStartPoint());
+                String msg = ";{" + FROMANDROID + "\"com\":\"startingPoint\",\"startingPoint\":[" + MapDrawer.getStart_Point_X() + "," + MapDrawer.getStart_Point_Y() + "," + MapDrawer.getRotationDir() + "]}";
+                sendString(msg);
+                //sendString(MapDrawer.getStartPoint());
 
                 MapDrawer.setSelectStartPoint();
                 MapDrawer.updateStartPoint();
@@ -867,6 +871,9 @@ public class MainActivity extends AppCompatActivity{
                     image_content.setImageResource(R.drawable.img_0);
                     findViewById(R.id.canvas_gridmap).invalidate();
                     dialogInterface.dismiss();
+
+                    //Send Clear
+                    sendString(commandWrap(Cmd.CLEAR));
                 }
             });
 
