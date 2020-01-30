@@ -1,5 +1,7 @@
 package com.example.mdpandroid.util;
 
+import android.util.Log;
+
 import com.example.mdpandroid.entity.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 import java.math.BigInteger;
 
 public class Parser {
+    
+    private static final String TAG = "Parser";
     /**
      * denotes the respective data received
      */
@@ -39,7 +43,7 @@ public class Parser {
             setRobot();
             setMDF();
         } catch(JSONException jsonEx){
-            System.out.println("JSON EXCEPTION1");
+            Log.d(TAG, "JSON EXCEPTION1");
             this.validPayload = false;
         }
     }
@@ -65,13 +69,13 @@ public class Parser {
 
 
         } catch(JSONException jsonEx){
-            System.out.println("JSON EXCEPTION");
+            Log.d(TAG, "JSON EXCEPTION");
             this.validPayload = false;
         } catch(IndexOutOfBoundsException indexEx){
-            System.out.println("INDEX OUT OF BOUNDS EXCEPTION");
+            Log.d(TAG, "INDEX OUT OF BOUNDS EXCEPTION");
             this.validPayload = false;
         } catch(ClassCastException castEx){
-            System.out.println("CLASS CAST EXCEPTION");
+            Log.d(TAG, "CLASS CAST EXCEPTION");
             this.validPayload = false;
         }
     }
@@ -86,11 +90,11 @@ public class Parser {
 //            JSONArray status = this.payload.getJSONArray("status");
 //            JSONObject objStatus = (JSONObject) status.get(0);
 //
-//            System.out.println(objStatus.toString());
+//            Log.d(TAG, objStatus.toString());
 //
 //            this.Robot_Status = objStatus.getString("status");
         } catch(Exception e){
-            System.out.println("EXCEPTION");
+            Log.d(TAG, "EXCEPTION");
             return false;
         }
     }
@@ -115,13 +119,13 @@ public class Parser {
             this.lastImgID = imgID;
 
         }catch(JSONException jsonEx){
-            System.out.println("JSON EXCEPTION");
+            Log.d(TAG, "JSON EXCEPTION");
             this.validPayload = false;
         } catch(IndexOutOfBoundsException indexEx){
-            System.out.println("INDEX OUT OF BOUNDS EXCEPTION");
+            Log.d(TAG, "INDEX OUT OF BOUNDS EXCEPTION");
             this.validPayload = false;
         } catch(ClassCastException castEx){
-            System.out.println("CLASS CAST EXCEPTION");
+            Log.d(TAG, "CLASS CAST EXCEPTION");
             this.validPayload = false;
         }
     }
@@ -171,13 +175,13 @@ public class Parser {
             }
 
         } catch(JSONException jsonEx){
-            System.out.println("JSON EXCEPTION");
+            Log.d(TAG, "JSON EXCEPTION");
             this.validPayload = false;
         } catch(IndexOutOfBoundsException indexEx){
-            System.out.println("INDEX OUT OF BOUNDS EXCEPTION");
+            Log.d(TAG, "INDEX OUT OF BOUNDS EXCEPTION");
             this.validPayload = false;
         } catch(ClassCastException castEx){
-            System.out.println("CLASS CAST EXCEPTION");
+            Log.d(TAG, "CLASS CAST EXCEPTION");
             this.validPayload = false;
         }
     }

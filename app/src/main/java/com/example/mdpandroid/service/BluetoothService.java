@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,8 @@ import com.example.mdpandroid.entity.Protocol;
 
 
 public class BluetoothService{
+    
+    private static final String TAG = "BluetoothSvc";
     /**
      * variables for bluetooth connection
      */
@@ -56,7 +59,7 @@ public class BluetoothService{
     }
 
     public synchronized void write(String data){
-        System.out.println("Sends : " + data);
+        Log.d(TAG, "Sends : " + data);
         if (stream != null)
             stream.write(data.getBytes());
     }
@@ -79,7 +82,7 @@ public class BluetoothService{
             try {
                 tmpSocket = device.createInsecureRfcommSocketToServiceRecord(device_uuid);
             } catch(IOException e){
-                System.out.println("Failed to create socket");
+                Log.d(TAG, "Failed to create socket");
                 BTHandler.obtainMessage(Protocol.CONNECTION_ERROR);
             }
             objSocket = tmpSocket;
@@ -89,11 +92,11 @@ public class BluetoothService{
             try{
                 objSocket.connect();
             } catch (IOException connectEx){
-                System.out.println("Failed to establish connection");
+                Log.d(TAG, "Failed to establish connection");
                 try{
                     objSocket.close();
                 } catch(IOException closeEx){
-                    System.out.println("Failed to close socket");
+                    Log.d(TAG, "Failed to close socket");
                     BTHandler.obtainMessage(Protocol.CONNECTION_ERROR);
                 }
                 return;
@@ -105,7 +108,7 @@ public class BluetoothService{
             try{
                 objSocket.close();
             } catch(IOException closeEx){
-                System.out.println("Failed to close socket");
+                Log.d(TAG, "Failed to close socket");
             }
         }
     }
@@ -126,7 +129,7 @@ public class BluetoothService{
             try{
                 tmpSocket = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(device_name,device_uuid);
             } catch(IOException socketEx){
-                System.out.println("Failed to listen to socket");
+                Log.d(TAG, "Failed to listen to socket");
             }
             objServerSocket = tmpSocket;
         }
@@ -145,7 +148,7 @@ public class BluetoothService{
                         break;
                     }
                 } catch(IOException acceptEx){
-                    System.out.println("Failed to accept socket");
+                    Log.d(TAG, "Failed to accept socket");
                 }
             }
         }
@@ -154,7 +157,7 @@ public class BluetoothService{
             try{
                 this.objSocket.close();
             } catch(IOException closeEx){
-                System.out.println("Failed to close socket");
+                Log.d(TAG, "Failed to close socket");
             }
         }
     }
@@ -181,14 +184,14 @@ public class BluetoothService{
             try {
                 tmpInput = socket.getInputStream();
             } catch (IOException streamEx) {
-                System.out.println("Failed to get input stream");
+                Log.d(TAG, "Failed to get input stream");
                 BTHandler.obtainMessage(Protocol.CONNECTION_ERROR);
             }
 
             try {
                 tmpOutput = socket.getOutputStream();
             } catch (IOException streamEx) {
-                System.out.println("Failed to get output stream");
+                Log.d(TAG, "Failed to get output stream");
                 BTHandler.obtainMessage(Protocol.CONNECTION_ERROR);
             }
 
@@ -206,7 +209,7 @@ public class BluetoothService{
                     Message message = BTHandler.obtainMessage(Protocol.MESSAGE_RECEIVE, byteSize, -1, bufferStream);
                     message.sendToTarget();
                 } catch (IOException readEx) {
-                    System.out.println("Failed to read from stream");
+                    Log.d(TAG, "Failed to read from stream");
                     BTHandler.obtainMessage(Protocol.CONNECTION_ERROR);
 
                     break;
@@ -216,11 +219,11 @@ public class BluetoothService{
 
         public void write(byte[] bytes) {
             try {
-                System.out.println("Writing here");
+                Log.d(TAG, "Writing here");
                 this.socketOutput.write(bytes);
                 this.socketOutput.flush();
             } catch (IOException writeEx) {
-                System.out.println("Failed to write to receiver");
+                Log.d(TAG, "Failed to write to receiver");
 
                 Message reportError = BTHandler.obtainMessage(Protocol.MESSAGE_ERROR);
 
@@ -235,7 +238,7 @@ public class BluetoothService{
             try {
                 this.objSocket.close();
             } catch (IOException closeEx) {
-                System.out.println("Failed to close stream");
+                Log.d(TAG, "Failed to close stream");
             }
         }
     }

@@ -78,6 +78,8 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class MainActivity extends AppCompatActivity{
 
     private final String FROMANDROID = "\"from\":\"Android\",";
+    
+    private static final String TAG = "Main";
 
     /**
      * Activity variables
@@ -254,13 +256,13 @@ public class MainActivity extends AppCompatActivity{
             switch(action){
                 case BluetoothDevice.ACTION_FOUND:
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    System.out.println(device.getName());
+                    Log.d(TAG, device.getName());
                     addDevice(device, device.getName(), device.getAddress());
                     break;
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
                     getCurrentConnection = ((TextView)findViewById(R.id.label_bluetooth_status)).getText().toString();
                     if (connectionThread != null || !disconnectState && getCurrentConnection.equals("Not Connected")) {
-                        System.out.println("Connected with a device");
+                        Log.d(TAG, "Connected with a device");
                         device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                         connectedState(device);
                         disconnectState = false;
@@ -280,7 +282,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:
-                    System.out.println("Disconnected with a device");
+                    Log.d(TAG, "Disconnected with a device");
                     getCurrentConnection = ((TextView)findViewById(R.id.label_bluetooth_status)).getText().toString();
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
@@ -291,11 +293,11 @@ public class MainActivity extends AppCompatActivity{
 
                         if (!disconnectState) {
                             if (isServer) {
-                                System.out.println("Starting Server");
+                                Log.d(TAG, "Starting Server");
                                 connectionThread = new BluetoothService(streamHandler);
                                 connectionThread.startServer(bluetoothAdapter);
                             } else {
-                                System.out.println("Starting Client");
+                                Log.d(TAG, "Starting Client");
                                 connectionThread = new BluetoothService(streamHandler);
                                 connectionThread.connectDevice(connectedDevice);
                             }
@@ -305,7 +307,7 @@ public class MainActivity extends AppCompatActivity{
                         disconnectedState();
                     }
                     break;
-                default: System.out.println("default case for receiver");
+                default: Log.d(TAG, "default case for receiver");
             }
         }
     };
@@ -349,7 +351,7 @@ public class MainActivity extends AppCompatActivity{
                     // factor into various scenarios
                     byte[] buffer = (byte[]) message.obj;
                     String data = new String(buffer, 0, message.arg1);
-                    System.out.println("Received data : " + data);
+                    Log.d(TAG, "Received data : " + data);
                     messageLog.addMessage(com.example.mdpandroid.entity.Message.MESSAGE_RECEIVER, data.trim());
                     //Split data by ;
                     String[] textArr = data.split(";");
@@ -366,17 +368,17 @@ public class MainActivity extends AppCompatActivity{
                     }
                     break;
                     case Protocol.CONNECTION_ERROR:
-                        System.out.println("Connection error with a device");
+                        Log.d(TAG, "Connection error with a device");
                         if (connectionThread != null){
                             connectionThread.cancel();
                         }
                         connect_bluetooth_device();
                         break;
                 case Protocol.MESSAGE_ERROR:
-                    System.out.println("Error sending message to device");
+                    Log.d(TAG, "Error sending message to device");
                     transmissionFail();
                     break;
-                    default: System.out.println("Just a default case");
+                    default: Log.d(TAG, "Just a default case");
             }
         }
     };
@@ -405,27 +407,27 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.app_menu_inspector:
-                System.out.println("Clicked on Menu Inspector");
+                Log.d(TAG, "Clicked on Menu Inspector");
                 dialog_data_inspector();
                 break;
             case R.id.app_menu_chat:
-                System.out.println("Clicked on Message Log");
+                Log.d(TAG, "Clicked on Message Log");
                 dialog_message_log();
                 break;
             case R.id.app_menu_search_device:
-                System.out.println("Clicked on Search Device");
+                Log.d(TAG, "Clicked on Search Device");
                 dialog_devices();
                 break;
             case R.id.app_menu_disconnect_device:
-                System.out.println("Clicked on Disconnect Device");
+                Log.d(TAG, "Clicked on Disconnect Device");
                 disconnect_bluetooth_device();
                 break;
             case R.id.app_menu_string_config:
-                System.out.println("Clicked on String Configurations");
+                Log.d(TAG, "Clicked on String Configurations");
                 dialog_config_string();
                 break;
             default:
-                System.out.println("Clicked on default case");
+                Log.d(TAG, "Clicked on default case");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -780,7 +782,7 @@ public class MainActivity extends AppCompatActivity{
 //                    wayPoint.put("waypoint", true);
 //                    sendString("X" + wayPoint.toString() + "\n");
 //                } catch (JSONException ex){
-//                    System.out.println("Error constructing JSON object");
+//                    Log.d(TAG, "Error constructing JSON object");
 //                }
 
                 MapDrawer.setSelectWayPoint();
@@ -847,14 +849,14 @@ public class MainActivity extends AppCompatActivity{
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             fastestPathModeState = b;
             ((TextView) findViewById(R.id.label_time_elapsed)).setText("00 m 00 s");
-            System.out.println("Fastest Path Mode : " + fastestPathModeState);
+            Log.d(TAG, "Fastest Path Mode : " + fastestPathModeState);
         }
     };
     private final RadioButton.OnCheckedChangeListener changeAutoMode = new RadioButton.OnCheckedChangeListener(){
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             autoModeState = b;
-            System.out.println("Auto Mode : " + autoModeState);
+            Log.d(TAG, "Auto Mode : " + autoModeState);
         }
     };
     private final Button.OnClickListener resetMap = new Button.OnClickListener(){
@@ -894,7 +896,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onClick(View view) {
             String data = textbox_string1.getText().toString();
-            System.out.println("Data Sent (String 1) : " + data);
+            Log.d(TAG, "Data Sent (String 1) : " + data);
             sendString(data);
         }
     };
@@ -902,7 +904,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onClick(View view) {
             String data = textbox_string2.getText().toString();
-            System.out.println("Data Sent (String 2) : " + data);
+            Log.d(TAG, "Data Sent (String 2) : " + data);
             sendString(data);
         }
     };
@@ -916,7 +918,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onClick(View view) {
             String data = textbox_send_message.getText().toString();
-            System.out.println("Message Sent : " + data);
+            Log.d(TAG, "Message Sent : " + data);
             messageLog.addMessage(com.example.mdpandroid.entity.Message.MESSAGE_SENDER, data);
             label_message_log.setText(messageLog.getLog());
             sendString(data);
@@ -946,7 +948,7 @@ public class MainActivity extends AppCompatActivity{
             Device item = deviceList.get(i);
             BluetoothDevice device = item.getDevice();
 
-            System.out.println("Connect");
+            Log.d(TAG, "Connect");
             bluetoothAdapter.cancelDiscovery();
 
             connectedDevice = device;
@@ -1016,8 +1018,8 @@ public class MainActivity extends AppCompatActivity{
             String string_2 = sharedPref.getString(Store.STRING_2, "");
 
             if (!(string_1.equals("") && string_2.equals(""))){
-                System.out.println("Store : " + string_1);
-                System.out.println("Store : " + string_2);
+                Log.d(TAG, "Store : " + string_1);
+                Log.d(TAG, "Store : " + string_2);
                 field_1.setText(string_1);
                 field_2.setText(string_2);
             }
@@ -1066,7 +1068,7 @@ public class MainActivity extends AppCompatActivity{
      * Helper functions for rotation
      */
     private void handleRotation(int degree){
-        System.out.println(degree);
+        Log.d(TAG, degree + "");
         long time = System.currentTimeMillis();
 
         if (degree >= 80 && degree <= 100 && (time - currentTime) >= 250){
@@ -1180,13 +1182,13 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.canvas_gridmap).invalidate();
             }
         } catch(ClassCastException typeEx){
-            System.out.println("Unable to cast data into int");
+            Log.d(TAG, "Unable to cast data into int");
         }
         updateRobotPositionLabel();
     }
 
     private void handleUpdateStatus(String data){
-        System.out.println("Status Update : " + data);
+        Log.d(TAG, "Status Update : " + data);
         TextView label_status_details = findViewById(R.id.label_status_details);
         label_status_details.setText(data);
     }
@@ -1211,7 +1213,7 @@ public class MainActivity extends AppCompatActivity{
 //                }
 //            }
 //        } catch(StringIndexOutOfBoundsException indexEx){
-//            System.out.println("Unable to retrieve character (imgID)");
+//            Log.d(TAG, "Unable to retrieve character (imgID)");
 //        }
 //    }
 }

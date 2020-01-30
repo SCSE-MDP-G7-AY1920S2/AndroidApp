@@ -27,6 +27,8 @@ public class MapDrawer extends View {
     // Some constants for compatibility reasons
     public static final int GRID_DIMEN_TABLET = 36; // large (N7/Acer Tablet)
     public static final int GRID_DIMEN_PHABLET = 50; // regular (Phones with high dpi, P4XL)
+    
+    private static final String TAG = "Grid";
 
     /**
      * helper variables
@@ -178,7 +180,7 @@ public class MapDrawer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        System.out.println("DRAWING GRID MAP");
+        Log.d(TAG,"DRAWING GRID MAP");
 
         if (!selectWayPoint && !selectStartPoint) {
             drawMap(canvas);
@@ -225,7 +227,7 @@ public class MapDrawer extends View {
                     canvas.drawRect(rectangle, exploredPaint);
                     canvas.drawRect(rectangle, exploredPaintBorder);
                 } else if (!exploredPath[i][j].equals("0")){
-                    System.out.println(exploredPath[i][j]);
+                    Log.d(TAG, exploredPath[i][j]);
                     drawObstacles(canvas, left, top, exploredPath[i][j]);
                 }
             }
@@ -528,13 +530,12 @@ public class MapDrawer extends View {
 
     public static void updateCoordinates(int x_axis, int y_axis, String dir){
         if (!validMidpoint(x_axis, y_axis)) return;
-        System.out.print("X Axis : " + x_axis);
-        System.out.print("Y Axis : " + y_axis);
+        Log.d(TAG, "X Axis : " + x_axis + " Y Axis : " + y_axis);
         int new_y_axis = invertYAxis(y_axis);
 
         Robot_X = x_axis;
         Robot_Y = new_y_axis;
-        System.out.println(Robot_X + ", " + Robot_Y);
+        Log.d(TAG, Robot_X + ", " + Robot_Y);
 
         switch(dir){
             case "UP":
@@ -555,9 +556,9 @@ public class MapDrawer extends View {
     }
 
 //    public static void updateImage(char imgID, int x_axis, int y_axis){
-//        System.out.println("Image ID : " + imgID);
-//        System.out.println("X Axis : " + x_axis);
-//        System.out.println("Y Axis : " + y_axis);
+//        Log.d(TAG, "Image ID : " + imgID);
+//        Log.d(TAG, "X Axis : " + x_axis);
+//        Log.d(TAG, "Y Axis : " + y_axis);
 //        int new_y_axis = invertYAxis(y_axis);
 //
 //        boolean flag = !exploredPath[x_axis][new_y_axis].equals("0") && !exploredPath[x_axis][new_y_axis].equals("1");
@@ -628,7 +629,7 @@ public class MapDrawer extends View {
 //                    break;
 //            }
 //        } catch (IndexOutOfBoundsException indexEx){
-//            System.out.println("Invalid index for array");
+//            Log.d(TAG, "Invalid index for array");
 //        }
 //    }
 
