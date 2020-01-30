@@ -27,6 +27,9 @@
             <item
                 android:id="@+id/app_menu_disconnect_device"
                 android:title="Disconnect Device" />
+            <item
+                android:id="@+id/app_menu_reconnect_device"
+                android:title="Reconnect Device" />
         </menu>
     </item>
 

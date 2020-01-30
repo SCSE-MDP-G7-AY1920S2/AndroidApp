@@ -70,6 +70,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -422,6 +423,10 @@ public class MainActivity extends AppCompatActivity{
                 Log.d(TAG, "Clicked on Disconnect Device");
                 disconnect_bluetooth_device();
                 break;
+            case R.id.app_menu_reconnect_device:
+                Log.d("BT-Main", "Clicked on Reconnect Device");
+                dialog_paired_devices();
+                break;
             case R.id.app_menu_string_config:
                 Log.d(TAG, "Clicked on String Configurations");
                 dialog_config_string();
@@ -583,6 +588,39 @@ public class MainActivity extends AppCompatActivity{
         dialog.findViewById(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer);
         listView_devices.setOnItemClickListener(connectDevice);
 
+        isPairedDevicesOnly = false;
+        dialog_builder.show();
+    }
+
+    private boolean isPairedDevicesOnly = false;
+    public void dialog_paired_devices(){
+        // view configs
+        View dialog = inflater.inflate(R.layout.dialog_devices, null);
+        AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this).setView(dialog);
+        listView_devices = dialog.findViewById(R.id.listView_devices);
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+        for (BluetoothDevice bt : pairedDevices) addDevice(bt, bt.getName(), bt.getAddress());
+
+        DeviceAdapter adapter = new DeviceAdapter(getApplicationContext(), deviceList);
+        listView_devices.setAdapter(adapter);
+        button_bluetooth_server_listen = dialog.findViewById(R.id.button_bluetooth_server_listen);
+        TextView hi = dialog.findViewById(R.id.btconn_instructions);
+        hi.setText("Make sure device is nearby before using this feature. Also disconnect. current connections");
+        ((TextView) dialog.findViewById(R.id.label_dialog_bluetooth_title)).setText("Reconnect Bluetooth Connection");
+        dialog.findViewById(R.id.button_scan).setVisibility(View.GONE);
+
+        if (connectionThread != null){
+            listView_devices.setEnabled(false);
+            listView_devices.setAlpha(0.7f);
+            button_bluetooth_server_listen.setEnabled(false);
+            button_bluetooth_server_listen.setAlpha(0.7f);
+        }
+
+        // configure event listeners
+        dialog.findViewById(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer);
+        listView_devices.setOnItemClickListener(connectDevice);
+
+        isPairedDevicesOnly = true;
         dialog_builder.show();
     }
 
@@ -949,7 +987,11 @@ public class MainActivity extends AppCompatActivity{
             BluetoothDevice device = item.getDevice();
 
             Log.d(TAG, "Connect");
-            bluetoothAdapter.cancelDiscovery();
+            if (bluetoothAdapter.isDiscovering()) bluetoothAdapter.cancelDiscovery();
+            if (isPairedDevicesOnly) {
+                clearDeviceList();
+                isPairedDevicesOnly = false;
+            }
 
             connectedDevice = device;
             connect_bluetooth_device();
