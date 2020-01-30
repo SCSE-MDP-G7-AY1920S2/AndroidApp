@@ -36,6 +36,7 @@ public class MapDrawer extends View {
     public static int gridDimensions = GRID_DIMEN_TABLET;
     private Paint gridPaint;
     private Paint gridPaintBorder;
+    private Paint gridPaintCoords;
     private Paint robotPaint;
     private Paint directionPaint;
     private Paint exploredPaint;
@@ -98,6 +99,7 @@ public class MapDrawer extends View {
     private void init(){
         gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         gridPaintBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
+        gridPaintCoords = new Paint(Paint.ANTI_ALIAS_FLAG);
         robotPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         directionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         exploredPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -120,6 +122,10 @@ public class MapDrawer extends View {
         //gridPaint.setColor(Color.parseColor("#3A96C2"));
         gridPaintBorder.setStyle(Paint.Style.STROKE);
         gridPaintBorder.setColor(Color.parseColor("#eeeeee"));
+
+        gridPaintCoords.setStyle(Paint.Style.STROKE);
+        gridPaintCoords.setColor(Color.parseColor("#000000"));
+        gridPaintCoords.setTextSize(15);
 
         robotPaint.setStyle(Paint.Style.FILL);
         robotPaint.setColor(Color.parseColor("#FF7F50"));
@@ -182,15 +188,14 @@ public class MapDrawer extends View {
         super.onDraw(canvas);
         Log.d(TAG,"DRAWING GRID MAP");
 
+        drawMap(canvas);
         if (!selectWayPoint && !selectStartPoint) {
-            drawMap(canvas);
             drawExploredMap(canvas);
             drawStartPoint(canvas);
             drawEndPoint(canvas);
             drawWayPoint(canvas);
             drawRobot(canvas);
         } else {
-            drawMap(canvas);
             drawStartPoint(canvas);
             drawEndPoint(canvas);
             drawSelectionMap(canvas);
@@ -379,6 +384,7 @@ public class MapDrawer extends View {
                     Rect rectangle = new Rect(left, top, left + gridDimensions, top + gridDimensions);
                     canvas.drawRect(rectangle, selectionPaint);
                     canvas.drawRect(rectangle, selectionPaintBorder);
+                    canvas.drawText("(" + i + "," + (Map.VIRTUAL_ROW - j) + ")", left, top + gridDimensions - 10, gridPaintCoords);
                 }
             }
         }
