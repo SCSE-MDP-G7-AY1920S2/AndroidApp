@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity{
             switch(action){
                 case BluetoothDevice.ACTION_FOUND:
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    Log.d(TAG, device.getName());
+                    Log.d(TAG, (device != null && device.getName() != null) ? device.getName() : "No device name");
                     addDevice(device, device.getName(), device.getAddress());
                     break;
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
@@ -279,6 +279,10 @@ public class MainActivity extends AppCompatActivity{
                         if (listView_devices != null) {
                             listView_devices.setEnabled(false);
                             listView_devices.setAlpha(0.7f);
+                        }
+                        if (isPairedDevicesOnly) {
+                            clearDeviceList();
+                            isPairedDevicesOnly = false;
                         }
                     }
                     break;
@@ -755,7 +759,7 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setEnabled(true);
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
-                String msg = ";{" + FROMANDROID + "\"com\":\"startingPoint\",\"startingPoint\":[" + MapDrawer.getStart_Point_X() + "," + MapDrawer.getStart_Point_Y() + "," + MapDrawer.getRotationDir() + "]}";
+                String msg = "{" + FROMANDROID + "\"com\":\"startingPoint\",\"startingPoint\":[" + MapDrawer.getStart_Point_X() + "," + MapDrawer.getStart_Point_Y() + "," + MapDrawer.getRotationDir() + "]}";
                 sendString(msg);
                 //sendString(MapDrawer.getStartPoint());
 
@@ -811,7 +815,7 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setEnabled(true);
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
-                String msg = ";{" + FROMANDROID + "\"com\":\"wayPoint\",\"wayPoint\":[" + MapDrawer.getWay_Point_X() + "," + MapDrawer.getWay_Point_Y() + "]}";
+                String msg = "{" + FROMANDROID + "\"com\":\"wayPoint\",\"wayPoint\":[" + MapDrawer.getWay_Point_X() + "," + MapDrawer.getWay_Point_Y() + "]}";
                 sendString(msg);
 //                try {
 //                    JSONObject wayPoint = new JSONObject();
@@ -988,10 +992,6 @@ public class MainActivity extends AppCompatActivity{
 
             Log.d(TAG, "Connect");
             if (bluetoothAdapter.isDiscovering()) bluetoothAdapter.cancelDiscovery();
-            if (isPairedDevicesOnly) {
-                clearDeviceList();
-                isPairedDevicesOnly = false;
-            }
 
             connectedDevice = device;
             connect_bluetooth_device();
@@ -1236,7 +1236,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public String commandWrap(String cmd) {
-        String msg = ";{" + FROMANDROID + "\"com\":\"" + cmd + "\"}";
+        String msg = "{" + FROMANDROID + "\"com\":\"" + cmd + "\"}";
         return msg;
     }
 
