@@ -12,17 +12,15 @@ public class Cmd {
      * Exploration/Fastest Path
      */
     public static final String EXPLORATION_START = "ex";
-    public static final String EXPLORATION_STOP = "XStopEx"; // settle this
     public static final String FASTEST_PATH_START = "fp";
-    public static final String FASTEST_PATH_STOP = "XStopFast"; // settle this
     public static final String STOP = "T";
 
     /**
      * Robot movements
      */
-    public static final String DIRECTION_LEFT = "a";
-    public static final String DIRECTION_RIGHT = "d";
-    public static final String DIRECTION_UP = "w";
+    public static final String DIRECTION_LEFT = "A";
+    public static final String DIRECTION_RIGHT = "D";
+    public static final String DIRECTION_UP = "W";
 
     /*
     * MAP Status

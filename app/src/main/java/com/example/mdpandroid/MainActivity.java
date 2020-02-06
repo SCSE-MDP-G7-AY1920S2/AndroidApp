@@ -759,7 +759,7 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setEnabled(true);
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
-                String msg = "{" + FROMANDROID + "\"com\":\"startingPoint\",\"startingPoint\":[" + MapDrawer.getStart_Point_X() + "," + MapDrawer.getStart_Point_Y() + "," + MapDrawer.getRotationDir() + "]}";
+                String msg = ";{" + FROMANDROID + "\"com\":\"startingPoint\",\"startingPoint\":[" + MapDrawer.getStart_Point_X() + "," + MapDrawer.getStart_Point_Y() + "," + MapDrawer.getRotationDir() + "]}";
                 sendString(msg);
                 //sendString(MapDrawer.getStartPoint());
 
@@ -815,8 +815,9 @@ public class MainActivity extends AppCompatActivity{
                 findViewById(R.id.button_reset_map).setEnabled(true);
                 findViewById(R.id.button_reset_map).setAlpha(1);
 
-                String msg = "{" + FROMANDROID + "\"com\":\"wayPoint\",\"wayPoint\":[" + MapDrawer.getWay_Point_X() + "," + MapDrawer.getWay_Point_Y() + "]}";
+                String msg = ";{" + FROMANDROID + "\"com\":\"wayPoint\",\"wayPoint\":[" + MapDrawer.getWay_Point_X() + "," + MapDrawer.getWay_Point_Y() + "]}";
                 sendString(msg);
+//                try {
 //                try {
 //                    JSONObject wayPoint = new JSONObject();
 //                    wayPoint.put("x", MapDrawer.getWay_Point_X());
@@ -1236,7 +1237,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public String commandWrap(String cmd) {
-        String msg = "{" + FROMANDROID + "\"com\":\"" + cmd + "\"}";
+        String msg = ";{" + FROMANDROID + "\"com\":\"" + cmd + "\"}";
         return msg;
     }
 
