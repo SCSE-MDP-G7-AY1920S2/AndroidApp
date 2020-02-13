@@ -1136,6 +1136,7 @@ public class MainActivity extends AppCompatActivity{
      */
     private void handleAction(String payload){
 
+        Log.d("Action", "Parsing " + payload);
         Parser parse = new Parser(payload);
 
         //Set Status

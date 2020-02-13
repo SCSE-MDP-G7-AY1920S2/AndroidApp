@@ -131,7 +131,10 @@ public class Parser {
     }
 
     private void setMDF(){
-        if (this.validPayload == false || this.payload == null) return;
+        if (this.validPayload == false || this.payload == null) {
+            Log.d("MDF", "Invalid Payload");
+            return;
+        }
 
         try{
             String exploredMDF = this.payload.getString("expMDF");
@@ -143,25 +146,36 @@ public class Parser {
             exploredMDF = new BigInteger(exploredMDF, 16).toString(2);
             exploredMDF = exploredMDF.substring(2, 302);
             hexMDF = new BigInteger(exploredMDF, 2).toString(16);
+            Log.d("MDF", "Explored MDF: " + exploredMDF);
+
+            int exploredLength = exploredMDF.replaceAll("0", "").length();
+            int obstaclePad = exploredLength % 4;
+            Log.d("MDF", "Obstacle Padding: " + obstaclePad);
 
             hexExplored = obstacleMDF;
-            int length =  exploredMDF.length() - exploredMDF.replaceAll("1", "").length();
+            int unexploredLength =  exploredMDF.length() - exploredMDF.replaceAll("1", "").length();
             obstacleMDF = new BigInteger(obstacleMDF, 16).toString(2);
+            Log.d("MDF", "Obstacle MDF: " + obstacleMDF);
 
-
-            int padLength = length - obstacleMDF.length();
+            int padLength = unexploredLength - obstacleMDF.length();
+            padLength += obstaclePad;
+            Log.d("MDF", "Pad Length: " + padLength);
             while (padLength != 0){
                 obstacleMDF = "0" + obstacleMDF;
+                //obstacleMDF = obstacleMDF + "0";
                 padLength--;
             }
 
+            Log.d("MDF", "Parsing Explored String on map");
             for (int i = 0; i < Map.ROW; i++){
                 for (int j = 0; j < Map.COLUMN; j++){
                     int characterIndex = (i * Map.COLUMN) + j;
                     exploredMap[j][i] = String.valueOf(exploredMDF.charAt(characterIndex));
                 }
             }
+            printMapDbg();
 
+            Log.d("MDF", "Parsing Obstacle String on map");
             int counter = 0;
             for (int i = 0; i < Map.ROW; i++){
                 for (int j = 0; j < Map.COLUMN; j++){
@@ -173,6 +187,7 @@ public class Parser {
                     }
                 }
             }
+            printMapDbg();
 
         } catch(JSONException jsonEx){
             Log.d(TAG, "JSON EXCEPTION");
@@ -184,6 +199,18 @@ public class Parser {
             Log.d(TAG, "CLASS CAST EXCEPTION");
             this.validPayload = false;
         }
+    }
+
+    private void printMapDbg() {
+        Log.d("MDF-Map", "=========================================");
+        for (int i = 0; i < Map.ROW; i++){
+            String s = "";
+            for (int j = 0; j < Map.COLUMN; j++){
+                s += exploredMap[j][i];
+            }
+            Log.d("MDF-Map", s);
+        }
+        Log.d("MDF-Map", "=========================================");
     }
 
     public boolean getValidPayload(){
