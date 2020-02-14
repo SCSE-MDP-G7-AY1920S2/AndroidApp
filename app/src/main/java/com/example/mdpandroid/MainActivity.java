@@ -555,6 +555,7 @@ public class MainActivity extends AppCompatActivity{
         label_message_log = dialog.findViewById(R.id.label_message_log);
         label_message_log.setMovementMethod(new ScrollingMovementMethod());
         label_message_log.setText(messageLog.getLog());
+        label_message_log.setTextIsSelectable(true);
 
         dialog_builder.show();
     }
