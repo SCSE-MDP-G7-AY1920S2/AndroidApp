@@ -13,6 +13,7 @@ import java.math.BigInteger;
 public class Parser {
     
     private static final String TAG = "Parser";
+    private static final boolean DEBUG = false;
     /**
      * denotes the respective data received
      */
@@ -143,20 +144,20 @@ public class Parser {
             /**
              * explored portion
              */
+            hexMDF = exploredMDF;
             exploredMDF = new BigInteger(exploredMDF, 16).toString(2);
             exploredMDF = exploredMDF.substring(2, 302);
-            hexMDF = new BigInteger(exploredMDF, 2).toString(16);
-            Log.d("MDF", "Explored MDF: " + exploredMDF);
+            if (DEBUG) Log.d("MDF", "Explored MDF: " + exploredMDF);
 
             int exploredLength = exploredMDF.replaceAll("0", "").length();
             int obstaclePad = exploredLength % 4;
-            Log.d("MDF", "Obstacle Padding: " + obstaclePad);
+            if (DEBUG) Log.d("MDF", "Obstacle Padding: " + obstaclePad);
 
             hexExplored = obstacleMDF;
             obstacleMDF = new BigInteger(obstacleMDF, 16).toString(2);
             int obstacleMdfHexToBinLen = hexExplored.length() * 4;
             obstacleMDF = String.format("%" + obstacleMdfHexToBinLen + "s", obstacleMDF).replace(" ", "0");
-            Log.d("MDF", "Obstacle MDF: " + obstacleMDF);
+            if (DEBUG) Log.d("MDF", "Obstacle MDF: " + obstacleMDF);
 
             Log.d("MDF", "Parsing Explored String on map");
             for (int i = 0; i < Map.ROW; i++){
@@ -165,7 +166,7 @@ public class Parser {
                     exploredMap[j][i] = String.valueOf(exploredMDF.charAt(characterIndex));
                 }
             }
-            printMapDbg();
+            if (DEBUG) printMapDbg();
 
             Log.d("MDF", "Parsing Obstacle String on map");
             int counter = 0;
@@ -179,7 +180,7 @@ public class Parser {
                     }
                 }
             }
-            printMapDbg();
+            if (DEBUG) printMapDbg();
 
         } catch(JSONException jsonEx){
             Log.d(TAG, "JSON EXCEPTION");
