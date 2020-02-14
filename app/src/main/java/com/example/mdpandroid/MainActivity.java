@@ -565,7 +565,9 @@ public class MainActivity extends AppCompatActivity{
         AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this).setView(dialog);
 
         ((TextView) dialog.findViewById(R.id.label_mdf1_content)).setText("0x" + Parser.hexMDF);
+        ((TextView) dialog.findViewById(R.id.label_mdf1_content)).setTextIsSelectable(true);
         ((TextView) dialog.findViewById(R.id.label_mdf2_content)).setText("0x" + Parser.hexExplored);
+        ((TextView) dialog.findViewById(R.id.label_mdf2_content)).setTextIsSelectable(true);
 
         dialog_builder.show();
     }
