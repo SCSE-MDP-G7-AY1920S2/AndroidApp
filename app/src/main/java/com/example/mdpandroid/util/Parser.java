@@ -153,18 +153,10 @@ public class Parser {
             Log.d("MDF", "Obstacle Padding: " + obstaclePad);
 
             hexExplored = obstacleMDF;
-            int unexploredLength =  exploredMDF.length() - exploredMDF.replaceAll("1", "").length();
             obstacleMDF = new BigInteger(obstacleMDF, 16).toString(2);
+            int obstacleMdfHexToBinLen = hexExplored.length() * 4;
+            obstacleMDF = String.format("%" + obstacleMdfHexToBinLen + "s", obstacleMDF).replace(" ", "0");
             Log.d("MDF", "Obstacle MDF: " + obstacleMDF);
-
-            int padLength = unexploredLength - obstacleMDF.length();
-            padLength += obstaclePad;
-            Log.d("MDF", "Pad Length: " + padLength);
-            while (padLength != 0){
-                obstacleMDF = "0" + obstacleMDF;
-                //obstacleMDF = obstacleMDF + "0";
-                padLength--;
-            }
 
             Log.d("MDF", "Parsing Explored String on map");
             for (int i = 0; i < Map.ROW; i++){
