@@ -200,12 +200,15 @@ public class BluetoothService{
         }
 
         public void run() {
-            bufferStream = new byte[1024];
+            //bufferStream = new byte[1024];
+            bufferStream = new byte[10248576];
             int byteSize;
 
             while (true) {
                 try {
+                    Log.d(TAG, "Reading buffer of size " + bufferStream.length);
                     byteSize = this.socketInput.read(bufferStream);
+                    Log.d(TAG, "Total bytes read: " + byteSize);
                     Message message = BTHandler.obtainMessage(Protocol.MESSAGE_RECEIVE, byteSize, -1, bufferStream);
                     message.sendToTarget();
                 } catch (IOException readEx) {

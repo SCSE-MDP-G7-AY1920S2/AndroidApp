@@ -63,6 +63,7 @@ import com.example.mdpandroid.service.BluetoothService;
 import com.example.mdpandroid.entity.Protocol;
 import com.example.mdpandroid.util.Cmd;
 import com.example.mdpandroid.util.Parser;
+import com.example.mdpandroid.util.RawImageParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -358,6 +359,10 @@ public class MainActivity extends AppCompatActivity{
                     String data = new String(buffer, 0, message.arg1);
                     Log.d(TAG, "Received data : " + data);
                     messageLog.addMessage(com.example.mdpandroid.entity.Message.MESSAGE_RECEIVER, data.trim());
+                    if (!data.trim().startsWith(";") && data.contains("Raw Image String")) {
+                        handleRawImageStream(data);
+                        return;
+                    }
                     //Split data by ;
                     String[] textArr = data.split(";");
                     for (String s : textArr) {
@@ -434,6 +439,10 @@ public class MainActivity extends AppCompatActivity{
             case R.id.app_menu_string_config:
                 Log.d(TAG, "Clicked on String Configurations");
                 dialog_config_string();
+                break;
+            case R.id.req_img:
+                Log.d(TAG, "Requesting Image");
+                sendString(commandWrap(Cmd.REQIMG));
                 break;
             default:
                 Log.d(TAG, "Clicked on default case");
@@ -1140,6 +1149,44 @@ public class MainActivity extends AppCompatActivity{
     private void handleAction(String payload){
 
         Log.d("Action", "Parsing " + payload);
+        handleMDFString(payload);
+
+        // Checking if raw image passing
+        /*if (payload.contains("Raw Image String")) handleRawImageStream(payload);
+        else handleMDFString(payload);*/
+    }
+
+    private static String rawImageBuf = "";
+    private static String rawImgTag = "RID";
+    private static boolean readingRawImages = false;
+    private void handleRawImageStream(String payload) {
+        Log.d(rawImgTag, "Received Img Payload: " + payload);
+        if (payload.startsWith("{")){
+            Log.d(rawImgTag, "Start receiving");
+            rawImageBuf = payload;
+            readingRawImages = true;
+        }
+        if (rawImageBuf.isEmpty() && !readingRawImages) {
+            Log.e(rawImgTag, "START JSON NOT FOUND");
+            return;
+        }
+        if (payload.equals(rawImageBuf)) return;
+        rawImageBuf += payload;
+        if (payload.endsWith("}")) {
+            Log.d(rawImgTag, "Stop receiving");
+            readingRawImages = false;
+        }
+
+        if (readingRawImages) {
+            Log.d(rawImgTag, "Still receiving");
+            return; // Wait for everything
+        }
+
+        Log.d(rawImgTag, "Processing image json");
+        RawImageParser parse = new RawImageParser(rawImageBuf, this);
+    }
+
+    private void handleMDFString(String payload) {
         Parser parse = new Parser(payload);
 
         //Set Status
@@ -1156,8 +1203,6 @@ public class MainActivity extends AppCompatActivity{
         parse.processImage();
         handleUpdateImage(parse.getlastImgID());
         MapDrawer.setGrid(parse.getExploredMap());
-
-
     }
 
 //    private void handleUpdateMDF(String data){

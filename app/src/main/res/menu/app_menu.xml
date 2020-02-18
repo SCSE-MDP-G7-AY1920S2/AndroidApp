@@ -38,4 +38,9 @@
         android:icon="@drawable/ic_settings"
         android:title="String Config"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/req_img"
+        android:title="Request Image"
+        app:showAsAction="never" />
 </menu>

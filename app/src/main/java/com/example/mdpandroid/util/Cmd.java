@@ -27,6 +27,8 @@ public class Cmd {
      */
     public static final String CLEAR = "clr";
 
+    public static final String REQIMG = "imgRaw";
+
     public static String getWayPoint(int x, int y){
         return "XWP" + coordinatesFormatter.format(x) + coordinatesFormatter.format(y);
     }
