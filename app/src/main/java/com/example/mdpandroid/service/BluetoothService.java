@@ -4,17 +4,17 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
 import android.util.Log;
+
+import com.example.mdpandroid.entity.Protocol;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-
-import com.example.mdpandroid.entity.Protocol;
 
 
 public class BluetoothService{
@@ -200,8 +200,7 @@ public class BluetoothService{
         }
 
         public void run() {
-            //bufferStream = new byte[1024];
-            bufferStream = new byte[10248576];
+            bufferStream = new byte[1024];
             int byteSize;
 
             while (true) {
