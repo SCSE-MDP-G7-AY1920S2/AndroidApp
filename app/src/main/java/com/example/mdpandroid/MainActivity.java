@@ -442,6 +442,12 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.req_img:
                 Log.d(TAG, "Requesting Image");
+                imageParser = new RawImageParser(this, new RawImageParser.CallbackHandler() {
+                    @Override
+                    public void sendCommand(String msg) {
+                        sendString(commandWrap(msg));
+                    }
+                });
                 sendString(commandWrap(Cmd.REQIMG));
                 break;
             default:
@@ -1150,40 +1156,13 @@ public class MainActivity extends AppCompatActivity{
 
         Log.d("Action", "Parsing " + payload);
         handleMDFString(payload);
-
-        // Checking if raw image passing
-        /*if (payload.contains("Raw Image String")) handleRawImageStream(payload);
-        else handleMDFString(payload);*/
     }
 
-    private static String rawImageBuf = "";
     private static String rawImgTag = "RID";
-    private static boolean readingRawImages = false;
+    private RawImageParser imageParser = null;
     private void handleRawImageStream(String payload) {
         Log.d(rawImgTag, "Received Img Payload: " + payload);
-        if (payload.startsWith("{")){
-            Log.d(rawImgTag, "Start receiving");
-            rawImageBuf = payload;
-            readingRawImages = true;
-        }
-        if (rawImageBuf.isEmpty() && !readingRawImages) {
-            Log.e(rawImgTag, "START JSON NOT FOUND");
-            return;
-        }
-        if (payload.equals(rawImageBuf)) return;
-        rawImageBuf += payload;
-        if (payload.endsWith("}")) {
-            Log.d(rawImgTag, "Stop receiving");
-            readingRawImages = false;
-        }
-
-        if (readingRawImages) {
-            Log.d(rawImgTag, "Still receiving");
-            return; // Wait for everything
-        }
-
-        Log.d(rawImgTag, "Processing image json");
-        RawImageParser parse = new RawImageParser(rawImageBuf, this);
+        imageParser.parseString(payload);
     }
 
     private void handleMDFString(String payload) {
