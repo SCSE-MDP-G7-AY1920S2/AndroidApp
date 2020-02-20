@@ -27,6 +27,7 @@ public class Parser {
 
     public static String hexMDF = "0x0000000000000000";
     public static String hexExplored = "0x0000000000000000";
+    public static String hexImage = "";
 
     private String exploredMap[][] = new String[Map.COLUMN][Map.ROW];
     private int MDFLength;
@@ -115,8 +116,11 @@ public class Parser {
                 img_x = Integer.parseInt(image.getString(0));
                 img_y = Integer.parseInt(image.getString(1));
                 imgID = image.getString(2);
+                hexImage += " (" + imgID + "," + img_x + "," + img_y + "),";
                 this.exploredMap[img_x][img_y] = imgID;
             }
+
+            if (!hexImage.isEmpty()) hexImage = hexImage.substring(0, hexImage.length() - 1);
             this.lastImgID = imgID;
 
         }catch(JSONException jsonEx){

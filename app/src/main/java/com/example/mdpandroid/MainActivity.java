@@ -1,16 +1,9 @@
 package com.example.mdpandroid;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.Manifest.permission;
-
-import android.app.LauncherActivity;
-import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,15 +11,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,38 +30,29 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import androidx.gridlayout.widget.GridLayout;
-
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothAdapter;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.mdpandroid.entity.Device;
-import com.example.mdpandroid.entity.Map;
 import com.example.mdpandroid.entity.MessageLog;
+import com.example.mdpandroid.entity.Protocol;
 import com.example.mdpandroid.entity.Store;
 import com.example.mdpandroid.service.BluetoothService;
-import com.example.mdpandroid.entity.Protocol;
 import com.example.mdpandroid.util.Cmd;
 import com.example.mdpandroid.util.Parser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Set;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
@@ -568,6 +551,8 @@ public class MainActivity extends AppCompatActivity{
         ((TextView) dialog.findViewById(R.id.label_mdf1_content)).setTextIsSelectable(true);
         ((TextView) dialog.findViewById(R.id.label_mdf2_content)).setText("0x" + Parser.hexExplored);
         ((TextView) dialog.findViewById(R.id.label_mdf2_content)).setTextIsSelectable(true);
+        ((TextView) dialog.findViewById(R.id.label_image_content)).setText("{" + Parser.hexImage + "}");
+        ((TextView) dialog.findViewById(R.id.label_image_content)).setTextIsSelectable(true);
 
         dialog_builder.show();
     }
