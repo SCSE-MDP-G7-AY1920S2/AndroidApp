@@ -17,7 +17,7 @@ class Parser(payload: String) {
     var lastImageID = ""
     private var currentPayload = ""
 
-    val exploredMap: Array<Array<String>> = Array(Map.COLUMN) { i -> Array(Map.ROW) { j -> ""} }
+    val exploredMap: Array<Array<String?>> = Array(Map.COLUMN) { arrayOfNulls<String>(Map.ROW) }
     private var MDFLength = 0
 
     var validPayload = true
