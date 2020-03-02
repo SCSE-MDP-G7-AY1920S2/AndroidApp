@@ -7,6 +7,6 @@ class Device(var device: BluetoothDevice, deviceName: String = "Unknown Device",
     /**
      * Class Variables
      */
-    private var deviceName: String = deviceName
+    var deviceName: String = deviceName
         set(value) {field = if (value.isEmpty()) "Unknown Device" else value}
 }
