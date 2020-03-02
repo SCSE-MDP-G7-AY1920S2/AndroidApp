@@ -20,7 +20,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="264dp"
             android:orientation="vertical">
-            <com.example.mdpandroid.MapDrawer
+            <sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.MapDrawer
                 android:id="@+id/canvas_gridmap"
                 android:tag="phone"
                 android:layout_width="match_parent"

@@ -17,20 +17,12 @@ import android.os.Message
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_data_inspector.*
-import kotlinx.android.synthetic.main.dialog_devices.*
-import kotlinx.android.synthetic.main.dialog_mdf_manager.*
-import kotlinx.android.synthetic.main.dialog_message.*
-import kotlinx.android.synthetic.main.dialog_string_configs.*
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Device
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.MessageLog
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Protocol
@@ -40,7 +32,6 @@ import sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.Cmd
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.MapDrawer
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.Parser
 import java.io.*
-import java.lang.ClassCastException
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
@@ -51,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private var connectionThread: BluetoothService? = null
     private lateinit var connectedDevice: BluetoothDevice
+    private lateinit var listView_devices: ListView
     private val messageLog = MessageLog()
     private var isServer = false
     private var disconnectState = true
@@ -63,7 +55,19 @@ class MainActivity : AppCompatActivity() {
     // Additional GUI Components
     private lateinit var inflater: LayoutInflater
 
+    /**
+     * Controls for Devices configs
+     */
+    private lateinit var button_bluetooth_server_listen: Button
+    private lateinit var button_scan: Button
+
+    // Controls for String configs
+    private lateinit var textbox_string1: EditText
+    private lateinit var textbox_string2: EditText
+
     // Controls for Messaging Sending
+    private lateinit var textbox_send_message: EditText
+    private lateinit var label_message_log: TextView
     private var currentTime = System.currentTimeMillis()
 
     private lateinit var sensor_orientation: OrientationEventListener
@@ -142,7 +146,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && data != null && data.data != null && requestCode == INTENT_EXPORT && mdfFileToExport != null) {
-            TODO("CODE STUB")
+            Log.i(TAG, "Writing to file")
+            try {
+                val bos = contentResolver.openOutputStream(data.data!!)!!
+                val bis = mdfFileToExport!!.inputStream().buffered()
+                bis.copyTo(bos)
+                bos.flush()
+                bos.close()
+                bis.close()
+                Log.i(TAG, "File written")
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -382,9 +397,12 @@ class MainActivity : AppCompatActivity() {
         val dialog = inflater.inflate(R.layout.dialog_string_configs, null)
         val dialog_builder = AlertDialog.Builder(this).setView(dialog)
 
-        button_send_string1.setOnClickListener(sendString1)
-        button_send_string2.setOnClickListener(sendString2)
-        button_save_string_config.setOnClickListener(saveStringConfig)
+        // configure event listeners
+        textbox_string1 = dialog.findViewById(R.id.textbox_string1)
+        textbox_string2 = dialog.findViewById(R.id.textbox_string2)
+        dialog.findViewById<Button>(R.id.button_send_string1).setOnClickListener(sendString1)
+        dialog.findViewById<Button>(R.id.button_send_string2).setOnClickListener(sendString2)
+        dialog.findViewById<Button>(R.id.button_save_string_config).setOnClickListener(saveStringConfig)
 
         dialog_builder.create()
         dialog_builder.show()
@@ -395,7 +413,9 @@ class MainActivity : AppCompatActivity() {
         val dialog = inflater.inflate(R.layout.dialog_message, null)
         val dialog_builder = AlertDialog.Builder(this).setView(dialog)
 
-        button_send_message.setOnClickListener(sendMessage)
+        dialog.findViewById<Button>(R.id.button_send_message).setOnClickListener(sendMessage)
+        textbox_send_message = dialog.findViewById(R.id.textbox_send_message)
+        label_message_log = dialog.findViewById(R.id.label_message_log)
         label_message_log.movementMethod = ScrollingMovementMethod()
         label_message_log.text = messageLog.getLog()
         label_message_log.setTextIsSelectable(true)
@@ -426,9 +446,10 @@ class MainActivity : AppCompatActivity() {
         val dialog = inflater.inflate(R.layout.dialog_mdf_manager, null)
         val dialog_builder = AlertDialog.Builder(this).setView(dialog)
 
+        val lv = dialog.findViewById<ListView>(R.id.mdf_list)
         mdfStringFolderAdapter = StringAdapter(applicationContext, fileList)
-        mdf_list.adapter = mdfStringFolderAdapter
-        mdf_list.setOnItemClickListener { parent, view, position, id ->
+        lv.adapter = mdfStringFolderAdapter
+        lv.setOnItemClickListener { parent, view, position, id ->
             val fileName = mdfStringFolderAdapter.getItem(position)
             mdfFileToExport = File(getMdfFolder(), fileName)
             val exportIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -448,19 +469,27 @@ class MainActivity : AppCompatActivity() {
         val dialog = inflater.inflate(R.layout.dialog_data_inspector, null)
         val dialog_builder = AlertDialog.Builder(this).setView(dialog)
 
+        val label_mdf1_content = dialog.findViewById<TextView>(R.id.label_mdf1_content)
+        val label_mdf2_content = dialog.findViewById<TextView>(R.id.label_mdf2_content)
+        val label_image_content = dialog.findViewById<TextView>(R.id.label_image_content)
         label_mdf1_content.text = "0x${Parser.hexMDF}"
         label_mdf1_content.setTextIsSelectable(true)
         label_mdf2_content.text = "0x${Parser.hexExplored}"
         label_mdf2_content.setTextIsSelectable(true)
         label_image_content.text = "{${Parser.hexImage}}"
         label_image_content.setTextIsSelectable(true)
+
+        dialog_builder.show()
     }
     fun dialog_devices() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_devices, null)
         val dialog_builder = AlertDialog.Builder(this).setView(dialog)
+        listView_devices = dialog.findViewById<View>(R.id.listView_devices) as ListView
         val adapter = DeviceAdapter(applicationContext, deviceList)
         listView_devices.adapter = adapter
+        button_bluetooth_server_listen = dialog.findViewById(R.id.button_bluetooth_server_listen)
+        button_scan = dialog.findViewById(R.id.button_scan)
 
         if (connectionThread != null) {
             disableElement(listView_devices)
@@ -469,8 +498,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Configure event listener
-        button_scan.setOnClickListener(scanDevice)
-        button_bluetooth_server_listen.setOnClickListener(startBluetoothServer)
+        dialog.findViewById<Button>(R.id.button_scan).setOnClickListener(scanDevice)
+        dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
         listView_devices.onItemClickListener = connectDevice
 
         isPairedDevicesOnly = false
@@ -481,14 +510,16 @@ class MainActivity : AppCompatActivity() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_devices, null)
         val dialog_builder = AlertDialog.Builder(this).setView(dialog)
+        listView_devices = dialog.findViewById(R.id.listView_devices)
         val pairedDevices = bluetoothAdapter.bondedDevices
         pairedDevices.forEach { addDevice(it, it.name, it.address) }
 
         val adapter = DeviceAdapter(applicationContext, deviceList)
         listView_devices.adapter = adapter
-        btconn_instructions.text = "Make sure device is nearby before using this feature. Also disconnect current connections"
-        label_dialog_bluetooth_title.text = "Reconnect Bluetooth Connection"
-        button_scan.visibility = View.GONE
+        button_bluetooth_server_listen = dialog.findViewById(R.id.button_bluetooth_server_listen)
+        dialog.findViewById<TextView>(R.id.btconn_instructions).text = "Make sure device is nearby before using this feature. Also disconnect current connections"
+        dialog.findViewById<TextView>(R.id.label_dialog_bluetooth_title).text = "Reconnect Bluetooth Connection"
+        dialog.findViewById<Button>(R.id.button_scan).visibility = View.GONE
 
         if (connectionThread != null) {
             disableElement(listView_devices)
@@ -496,7 +527,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Configure event listeners
-        button_bluetooth_server_listen.setOnClickListener(startBluetoothServer)
+        dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
         listView_devices.onItemClickListener = connectDevice
 
         isPairedDevicesOnly = true

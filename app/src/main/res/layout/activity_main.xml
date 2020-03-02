@@ -22,7 +22,7 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
-            <com.example.mdpandroid.MapDrawer
+            <sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.MapDrawer
                 android:id="@+id/canvas_gridmap"
                 android:tag="tablet"
                 android:layout_width="match_parent"
