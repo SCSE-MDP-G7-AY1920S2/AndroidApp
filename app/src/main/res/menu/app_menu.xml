@@ -38,4 +38,9 @@
         android:icon="@drawable/ic_settings"
         android:title="String Config"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/app_menu_export_mdf"
+        android:title="Export MDF String"
+        app:showAsAction="never" />
 </menu>

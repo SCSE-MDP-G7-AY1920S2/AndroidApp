@@ -28,6 +28,8 @@ public class Parser {
     public static String hexMDF = "0x0000000000000000";
     public static String hexExplored = "0x0000000000000000";
     public static String hexImage = "";
+    public static String mdfPayload = "";
+    private String currentPayload = "";
 
     private String exploredMap[][] = new String[Map.COLUMN][Map.ROW];
     private int MDFLength;
@@ -37,6 +39,7 @@ public class Parser {
 
     public Parser(String payload){
         JSONObject tmpPayload = null;
+        this.currentPayload = payload;
 
         try {
             tmpPayload = new JSONObject(payload);
@@ -140,6 +143,8 @@ public class Parser {
             Log.d("MDF", "Invalid Payload");
             return;
         }
+
+        mdfPayload = this.currentPayload;
 
         try{
             String exploredMDF = this.payload.getString("expMDF");

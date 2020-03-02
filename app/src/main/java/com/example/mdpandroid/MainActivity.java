@@ -2,6 +2,7 @@ package com.example.mdpandroid;
 
 import android.Manifest;
 import android.Manifest.permission;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -38,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -51,6 +53,14 @@ import com.example.mdpandroid.service.BluetoothService;
 import com.example.mdpandroid.util.Cmd;
 import com.example.mdpandroid.util.Parser;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
@@ -226,6 +236,26 @@ public class MainActivity extends AppCompatActivity{
         toggle_update_manual.setPadding(15, 5, 15, 5);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null && requestCode == INTENT_EXPORT && mdfFileToExport != null) {
+            Log.i(TAG, "Writing to file");
+            try {
+                BufferedOutputStream bos = new BufferedOutputStream(this.getContentResolver().openOutputStream(data.getData()));
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(mdfFileToExport));
+
+                int numBytes;
+                byte[] buffer = new byte[1000];
+                while ((numBytes = bis.read(buffer))!= -1) { bos.write(buffer, 0, numBytes); }
+                bos.flush();
+                bos.close();
+                bis.close();
+                Log.i(TAG, "File written");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else super.onActivityResult(requestCode, resultCode, data);
+    }
 
     /**
      * listener for devices
@@ -418,6 +448,10 @@ public class MainActivity extends AppCompatActivity{
                 Log.d(TAG, "Clicked on String Configurations");
                 dialog_config_string();
                 break;
+            case R.id.app_menu_export_mdf:
+                Log.d(TAG, "Clicked on Export MDF");
+                dialog_file_manager();
+                break;
             default:
                 Log.d(TAG, "Clicked on default case");
         }
@@ -542,7 +576,56 @@ public class MainActivity extends AppCompatActivity{
 
         dialog_builder.show();
     }
+    private StringAdapter mdfStringFolderAdapter;
+    private static File mdfFileToExport;
+    private static final int INTENT_EXPORT = 7;
+    private File getMdfFolder() {
+        File dir = new File(this.getFilesDir(), "mdf");
+        if (!dir.exists()) dir.mkdirs();
+        return dir;
+    }
+    private void saveMdfToFile() throws FileNotFoundException {
+        File dir = getMdfFolder();
+        File f = new File(dir, "mdf-" + System.currentTimeMillis() + ".txt");
+        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(f)));
+        pw.println(Parser.mdfPayload);
+        pw.println(Parser.hexMDF);
+        pw.println(Parser.hexExplored);
+        pw.println("{ " + Parser.hexImage + "}");
+        pw.flush();
+        pw.close();
+    }
+    public void dialog_file_manager() {
+        File dir = getMdfFolder();
+        String[] fileList = dir.list();
+        View dialog = inflater.inflate(R.layout.dialog_mdf_manager, null);
+        AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this).setView(dialog);
+
+        ListView lv = dialog.findViewById(R.id.mdf_list);
+        mdfStringFolderAdapter = new StringAdapter(getApplicationContext(), fileList);
+        lv.setAdapter(mdfStringFolderAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String fileName = mdfStringFolderAdapter.getItem(position);
+                mdfFileToExport = new File(getMdfFolder(), fileName);
+                Intent exportIntent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                exportIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                exportIntent.setType("text/plain");
+                exportIntent.putExtra(Intent.EXTRA_TITLE, fileName);
+                startActivityForResult(exportIntent, INTENT_EXPORT);
+            }
+        });
+        dialog_builder.show();
+    }
     public void dialog_data_inspector(){
+        // Save to file
+        try {
+            saveMdfToFile();
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "Cannot save file, Lets just move on :shifty_looking_eyes:");
+        }
+
         // view configs
         View dialog = inflater.inflate(R.layout.dialog_data_inspector, null);
         AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this).setView(dialog);
