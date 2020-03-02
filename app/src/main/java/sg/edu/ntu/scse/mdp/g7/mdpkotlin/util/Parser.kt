@@ -136,7 +136,7 @@ class Parser(payload: String) {
 
                 Log.d("MDF", "Parsing Explored String on map")
                 for (i in 0 until Map.ROW) {
-                    for (j in 0 until Map.ROW) {
+                    for (j in 0 until Map.COLUMN) {
                         val characterIndex = (i * Map.COLUMN) + j
                         exploredMap[j][i] = exploredMDF[characterIndex].toString()
                     }

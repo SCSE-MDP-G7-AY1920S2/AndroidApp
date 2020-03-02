@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     // Controls for Messaging Sending
     private lateinit var textbox_send_message: EditText
-    private lateinit var label_message_log: TextView
+    private var label_message_log: TextView? = null
     private var currentTime = System.currentTimeMillis()
 
     private lateinit var sensor_orientation: OrientationEventListener
@@ -416,9 +416,9 @@ class MainActivity : AppCompatActivity() {
         dialog.findViewById<Button>(R.id.button_send_message).setOnClickListener(sendMessage)
         textbox_send_message = dialog.findViewById(R.id.textbox_send_message)
         label_message_log = dialog.findViewById(R.id.label_message_log)
-        label_message_log.movementMethod = ScrollingMovementMethod()
-        label_message_log.text = messageLog.getLog()
-        label_message_log.setTextIsSelectable(true)
+        label_message_log?.movementMethod = ScrollingMovementMethod()
+        label_message_log?.text = messageLog.getLog()
+        label_message_log?.setTextIsSelectable(true)
 
         dialog_builder.show()
     }
@@ -722,7 +722,7 @@ class MainActivity : AppCompatActivity() {
         val data = textbox_send_message.text.toString()
         Log.d(TAG, "Message Sent : $data")
         messageLog.addMessage(sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Message.MESSAGE_SENDER, data)
-        label_message_log.text = messageLog.getLog()
+        label_message_log?.text = messageLog.getLog()
         sendString(data)
         textbox_send_message.setText("")
     }
