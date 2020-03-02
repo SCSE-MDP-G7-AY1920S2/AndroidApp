@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
         // Joystick Listener
         joystickView.setOnMoveListener{ angle, strength ->
-            if (angle > 45 && angle< 135) {
+            if (angle in 46..134) {
                 val x_axis = MapDrawer.Robot_X
                 val y_axis = MapDrawer.Robot_Y
 
@@ -122,12 +122,12 @@ class MainActivity : AppCompatActivity() {
                 if (!(x_axis == MapDrawer.Robot_X && y_axis == MapDrawer.Robot_Y)) sendString(commandWrap(Cmd.DIRECTION_UP))
                 canvas_gridmap.invalidate()
                 updateRobotPositionLabel()
-            } else if ((angle > 0 && angle <= 45) || (angle > 315 && angle < 360)) {
+            } else if ((angle in 1..45) || (angle in 316..359)) {
                 sendString(commandWrap(Cmd.DIRECTION_RIGHT))
                 MapDrawer.moveRight()
                 canvas_gridmap.invalidate()
                 updateRobotPositionLabel()
-            } else if (angle >= 135 && angle < 255) {
+            } else if (angle in 135..254) {
                 sendString(commandWrap(Cmd.DIRECTION_LEFT))
                 MapDrawer.moveLeft()
                 canvas_gridmap.invalidate()
@@ -388,7 +388,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateWaypointLabel() {
         label_waypoint_coordinateX.text = MapDrawer.Way_Point_X.toString()
-        label_waypoint_coordinateY.text = MapDrawer.Way_Point_Y.toString()
+        label_waypoint_coordinateY.text = MapDrawer.getWay_Point_Y_Invert().toString()
     }
 
     // Dialog Builders
@@ -607,7 +607,7 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = ";{$FROMANDROID\"com\":\"startingPoint\",\"startingPoint\":[${MapDrawer.Start_Point_X},${MapDrawer.Start_Point_Y},${MapDrawer.getRotationDir()}]}"
+            val msg = ";{$FROMANDROID\"com\":\"startingPoint\",\"startingPoint\":[${MapDrawer.Start_Point_X},${MapDrawer.getStart_Point_Y_Invert()},${MapDrawer.getRotationDir()}]}"
             sendString(msg)
 
             MapDrawer.setSelectStartPoint()
@@ -638,7 +638,7 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = ";{$FROMANDROID\"com\":\"wayPoint\",\"wayPoint\":[${MapDrawer.Way_Point_X},${MapDrawer.Way_Point_Y}]}"
+            val msg = ";{$FROMANDROID\"com\":\"wayPoint\",\"wayPoint\":[${MapDrawer.Way_Point_X},${MapDrawer.getWay_Point_Y_Invert()}]}"
             sendString(msg)
 
             MapDrawer.setSelectWayPoint()

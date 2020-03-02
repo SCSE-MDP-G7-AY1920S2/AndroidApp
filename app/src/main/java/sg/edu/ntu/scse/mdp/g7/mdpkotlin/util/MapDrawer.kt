@@ -41,6 +41,10 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
     private lateinit var obstacleTextPaint: Paint
     
     init {
+        Robot_X = Robot.START_POS_X
+        Robot_Y = Robot.START_POS_Y
+        direction = Robot.START_DIRECTION
+        exploredPath = Array(Map.COLUMN) { Array(Map.ROW) { "0" } }
         init()
         initMap()
     }
@@ -68,7 +72,6 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
 
         gridPaint.style = Paint.Style.FILL
         gridPaint.color = Color.parseColor("#87cefa")
-        //gridPaint.setColor(Color.parseColor("#3A96C2"));
         //gridPaint.setColor(Color.parseColor("#3A96C2"));
         gridPaintBorder.style = Paint.Style.STROKE
         gridPaintBorder.color = Color.parseColor("#eeeeee")
@@ -157,9 +160,9 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         for (i in 0 until Map.COLUMN) {
             for (j in 0 until Map.ROW) {
                 val left = i * gridDimensions
-                val top = i * gridDimensions
+                val top = j * gridDimensions
 
-                val rectangle = Rect(left, top, left+ gridDimensions, right+ gridDimensions)
+                val rectangle = Rect(left, top, left + gridDimensions, top + gridDimensions)
                 canvas.drawRect(rectangle, gridPaint)
                 canvas.drawRect(rectangle, gridPaintBorder)
             }
@@ -170,7 +173,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         for (i in 0 until Map.COLUMN) {
             for (j in 0 until Map.ROW) {
                 val left = i * gridDimensions
-                val top = i * gridDimensions
+                val top = j * gridDimensions
 
                 if (exploredPath[i][j] == "1") {
                     val rectangle = Rect(left, top, left + gridDimensions, top + gridDimensions)
@@ -342,27 +345,27 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
 
     private fun drawObstacles(canvas: Canvas, left: Int, top: Int, obstacle: String) {
         val rectangle = Rect(left, top, left + gridDimensions, top + gridDimensions)
-        var ttop = top + 25
-        var tleft = left + 6
+        val ttop = top + 25
+        val tleft = left + 6
 
         canvas.drawRect(rectangle, obstaclePaint)
         canvas.drawRect(rectangle, obstaclePaintBorder)
         when (obstacle) {
-            "1" -> canvas.drawText("01", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "2" -> canvas.drawText("02", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "3" -> canvas.drawText("03", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "4" -> canvas.drawText("04", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "5" -> canvas.drawText("05", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "6" -> canvas.drawText("06", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "7" -> canvas.drawText("07", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "8" -> canvas.drawText("08", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "9" -> canvas.drawText("09", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "10" -> canvas.drawText("10", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "11" -> canvas.drawText("11", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "12" -> canvas.drawText("12", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "13" -> canvas.drawText("13", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "14" -> canvas.drawText("14", left.toFloat(), top.toFloat(), obstacleTextPaint)
-            "15" -> canvas.drawText("15", left.toFloat(), top.toFloat(), obstacleTextPaint)
+            "1" -> canvas.drawText("01", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "2" -> canvas.drawText("02", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "3" -> canvas.drawText("03", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "4" -> canvas.drawText("04", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "5" -> canvas.drawText("05", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "6" -> canvas.drawText("06", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "7" -> canvas.drawText("07", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "8" -> canvas.drawText("08", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "9" -> canvas.drawText("09", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "10" -> canvas.drawText("10", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "11" -> canvas.drawText("11", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "12" -> canvas.drawText("12", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "13" -> canvas.drawText("13", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "14" -> canvas.drawText("14", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "15" -> canvas.drawText("15", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
         }
     }
 
@@ -389,7 +392,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         var selectStartPoint = false
         var selectWayPoint = false
 
-        private val exploredPath = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
+        private var exploredPath = Array(Map.COLUMN) { Array(Map.ROW) { "0" } }
 
         @JvmStatic
         private fun initMap() {
@@ -425,11 +428,11 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
 
         @JvmStatic
         fun moveUp() {
-            if (direction == "Right") if (Robot_X + 1 != Map.VIRTUAL_COLUMN && isSurroundingObstacle(Robot_X + 1, Robot_Y)) Robot_X++
-            else if (direction == "Left" && isSurroundingObstacle(Robot_X - 1, Robot_Y)) if (Robot_X - 1 != 0) Robot_X--
-            else if (direction == "Up" && isSurroundingObstacle(Robot_X, Robot_Y - 1)) if (Robot_Y - 1 != 0) Robot_Y--
-            else if (direction == "Down" && isSurroundingObstacle(Robot_X, Robot_Y + 1)) if (Robot_Y + 1 != Map.VIRTUAL_ROW) Robot_Y++
-            MapDrawer.updateExplored()
+            if (direction == "Right") { if (Robot_X + 1 != Map.VIRTUAL_COLUMN && isSurroundingObstacle(Robot_X + 1, Robot_Y)) Robot_X++ }
+            else if (direction == "Left" && isSurroundingObstacle(Robot_X - 1, Robot_Y)) { Log.d(TAG, "L: ${Robot_X - 1}"); if (Robot_X - 1 != 0) Robot_X-- }
+            else if (direction == "Up" && isSurroundingObstacle(Robot_X, Robot_Y - 1)) { Log.d(TAG, "U: ${Robot_X - 1}"); if (Robot_Y - 1 != 0) Robot_Y-- }
+            else if (direction == "Down" && isSurroundingObstacle(Robot_X, Robot_Y + 1)) { Log.d(TAG, "D: ${Robot_X - 1}"); if (Robot_Y + 1 != Map.VIRTUAL_ROW) Robot_Y++ }
+            updateExplored()
         }
 
         @JvmStatic
@@ -498,7 +501,9 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         @JvmStatic fun updateStartPoint() { updateExplored() }
         @JvmStatic fun getRobotPosition(): String { return "$Robot_X,${invertYAxis(Robot_Y)}" }
         @JvmStatic fun getWayPoint(): String { return "$Way_Point_X,${invertYAxis(Way_Point_Y)}" }
+        @JvmStatic fun getWay_Point_Y_Invert(): Int { return invertYAxis(Way_Point_Y) }
         @JvmStatic fun getStartPoint(): String { return "$Start_Point_X,${invertYAxis(Start_Point_Y)}" }
+        @JvmStatic fun getStart_Point_Y_Invert(): Int { return invertYAxis(Start_Point_Y) }
         @JvmStatic fun getRobotInvertY(): Int { return invertYAxis(Robot_Y) }
         @JvmStatic fun resetMap() { initMap() }
 
