@@ -388,7 +388,8 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         private var direction: String = Robot.START_DIRECTION
         private var selectStartPoint = false
         private var selectWayPoint = false
-        private val exploredPath = Array(Map.COLUMN) { arrayOfNulls<String>(Map.ROW) }
+
+        private val exploredPath = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
 
         @JvmStatic
         private fun initMap() {
@@ -483,7 +484,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         @JvmStatic fun validMidpoint(x_axis: Int, y_axis: Int): Boolean { return (x_axis >= 1 && x_axis < Map.VIRTUAL_COLUMN) && (y_axis >= 1 && y_axis < Map.VIRTUAL_ROW) }
 
         @JvmStatic
-        fun setGrid(exploredMap: Array<Array<String?>>) {
+        fun setGrid(exploredMap: Array<Array<String>>) {
             for (i in 0 until Map.ROW) {
                 for (j in 0 until Map.COLUMN) {
                     exploredPath[j][i] = exploredMap[j][invertYAxis(i)]
