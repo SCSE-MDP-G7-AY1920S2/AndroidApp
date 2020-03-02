@@ -333,8 +333,8 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
 
         val left = 3f * gridDimensions
         var top = 9f * gridDimensions
-        if (getSelectWayPoint()) canvas.drawText("WAY", left, top, selectionTextPaint)
-        else if (getSelectStartPoint()) canvas.drawText("START", left, top, selectionTextPaint)
+        if (selectWayPoint) canvas.drawText("WAY", left, top, selectionTextPaint)
+        else if (selectStartPoint) canvas.drawText("START", left, top, selectionTextPaint)
 
         top = 12f * gridDimensions
         canvas.drawText("POINT", left, top, selectionTextPaint)
@@ -377,17 +377,17 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         /**
          * state variables
          */
-        private var Robot_X: Int = Robot.START_POS_X
-        private var Robot_Y: Int = Robot.START_POS_Y
-        private var Start_Point_X: Int = Map.START_POINT_X
-        private var Start_Point_Y: Int = Map.START_POINT_Y
-        private var Way_Point_X: Int = Map.WAY_POINT_X
-        private var Way_Point_Y: Int = Map.WAY_POINT_Y
-        private val End_Point_X: Int = Map.END_POINT_X
-        private val End_Point_Y: Int = Map.END_POINT_Y
-        private var direction: String = Robot.START_DIRECTION
-        private var selectStartPoint = false
-        private var selectWayPoint = false
+        var Robot_X: Int = Robot.START_POS_X
+        var Robot_Y: Int = Robot.START_POS_Y
+        var Start_Point_X: Int = Map.START_POINT_X
+        var Start_Point_Y: Int = Map.START_POINT_Y
+        var Way_Point_X: Int = Map.WAY_POINT_X
+        var Way_Point_Y: Int = Map.WAY_POINT_Y
+        val End_Point_X: Int = Map.END_POINT_X
+        val End_Point_Y: Int = Map.END_POINT_Y
+        var direction: String = Robot.START_DIRECTION
+        var selectStartPoint = false
+        var selectWayPoint = false
 
         private val exploredPath = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
 
@@ -402,7 +402,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         }
 
         @JvmStatic
-        private fun moveRight() {
+        fun moveRight() {
             direction = when (direction) {
                 "Right" -> "Down"
                 "Left" -> "Up"
@@ -413,7 +413,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         }
 
         @JvmStatic
-        private fun moveLeft() {
+        fun moveLeft() {
             direction = when (direction) {
                 "Right" -> "Up"
                 "Left" -> "Down"
@@ -424,7 +424,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         }
 
         @JvmStatic
-        private fun moveUp() {
+        fun moveUp() {
             if (direction == "Right") if (Robot_X + 1 != Map.VIRTUAL_COLUMN && isSurroundingObstacle(Robot_X + 1, Robot_Y)) Robot_X++
             else if (direction == "Left" && isSurroundingObstacle(Robot_X - 1, Robot_Y)) if (Robot_X - 1 != 0) Robot_X--
             else if (direction == "Up" && isSurroundingObstacle(Robot_X, Robot_Y - 1)) if (Robot_Y - 1 != 0) Robot_Y--
@@ -493,22 +493,13 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         }
 
         @JvmStatic fun invertYAxis(y_axis: Int): Int { return Map.VIRTUAL_ROW - y_axis }
-        @JvmStatic fun getSelectWayPoint(): Boolean { return selectWayPoint }
-        @JvmStatic fun getSelectStartPoint(): Boolean { return selectStartPoint }
         @JvmStatic fun setSelectWayPoint() { selectWayPoint = !selectWayPoint }
         @JvmStatic fun setSelectStartPoint() { selectStartPoint = !selectStartPoint }
         @JvmStatic fun updateStartPoint() { updateExplored() }
         @JvmStatic fun getRobotPosition(): String { return "$Robot_X,${invertYAxis(Robot_Y)}" }
         @JvmStatic fun getWayPoint(): String { return "$Way_Point_X,${invertYAxis(Way_Point_Y)}" }
-        @JvmStatic fun getWay_Point_X(): Int { return Way_Point_X }
-        @JvmStatic fun getWay_Point_Y(): Int { return Way_Point_Y }
         @JvmStatic fun getStartPoint(): String { return "$Start_Point_X,${invertYAxis(Start_Point_Y)}" }
-        @JvmStatic fun getStart_Point_X(): Int { return Start_Point_X }
-        @JvmStatic fun getStart_Point_Y(): Int { return Start_Point_Y }
-        @JvmStatic fun getRobotX(): Int { return Robot_X }
-        @JvmStatic fun getRobotY(): Int { return Robot_Y }
         @JvmStatic fun getRobotInvertY(): Int { return invertYAxis(Robot_Y) }
-        @JvmStatic fun getDirection(): String { return direction }
         @JvmStatic fun resetMap() { initMap() }
 
         @JvmStatic

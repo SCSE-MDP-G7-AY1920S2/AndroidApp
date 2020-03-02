@@ -12,7 +12,7 @@ class StringAdapter(private val context: Context, private val stringList: Array<
     init { stringList.reverse() }
 
     override fun getCount(): Int { return stringList.size }
-    override fun getItem(i: Int): Any { return stringList[i] }
+    override fun getItem(i: Int): String { return stringList[i] }
     override fun getItemId(i: Int): Long { return 0 }
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View {
         val viewObj = inflater.inflate(android.R.layout.simple_list_item_1, null)
