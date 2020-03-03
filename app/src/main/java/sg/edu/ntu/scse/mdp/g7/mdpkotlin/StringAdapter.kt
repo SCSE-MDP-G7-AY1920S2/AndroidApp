@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class StringAdapter(private val context: Context, private val stringList: Array<String>) : BaseAdapter() {
+class StringAdapter(context: Context, private val stringList: Array<String>) : BaseAdapter() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     init { stringList.reverse() }
 

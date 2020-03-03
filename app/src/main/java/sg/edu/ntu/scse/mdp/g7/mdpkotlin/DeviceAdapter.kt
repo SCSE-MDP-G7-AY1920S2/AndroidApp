@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Device
 
-class DeviceAdapter(private val context: Context, private val deviceList: ArrayList<Device>) : BaseAdapter() {
+class DeviceAdapter(context: Context, private val deviceList: ArrayList<Device>) : BaseAdapter() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount(): Int { return deviceList.size }
