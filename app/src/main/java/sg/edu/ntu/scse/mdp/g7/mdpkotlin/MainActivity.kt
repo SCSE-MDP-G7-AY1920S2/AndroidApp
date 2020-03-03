@@ -847,13 +847,13 @@ class MainActivity : AppCompatActivity() {
 
         val isStatus = parse.setStatus()
         if (isStatus) {
-            handleUpdateStatus(parse.Robot_Status)
+            handleUpdateStatus(parse.robotStatus)
             return
         }
 
         if (!parse.validPayload) return
 
-        handleUpdatePosition(parse.Robot_X, parse.Robot_Y, parse.Robot_Dir)
+        handleUpdatePosition(parse.robotX, parse.robotY, parse.robotDir)
 
         parse.processImage()
         handleUpdateImage(parse.lastImageID)

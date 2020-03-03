@@ -4,26 +4,26 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import sg.edu.ntu.scse.mdp.g7.mdpkotlin.BuildConfig
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Map
 import java.math.BigInteger
 
 class Parser(payload: String) {
 
     private var payload: JSONObject? = null
-    var Robot_X = 0
-    var Robot_Y = 0
-    var Robot_Dir = ""
-    var Robot_Status = ""
+    var robotX = 0
+    var robotY = 0
+    var robotDir = ""
+    var robotStatus = ""
     var lastImageID = ""
     private var currentPayload = ""
 
     val exploredMap = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
-    private var MDFLength = 0
 
     var validPayload = true
 
     init {
-        var tmpPayload: JSONObject? = null
+        val tmpPayload: JSONObject?
         this.currentPayload = payload
 
         try {
@@ -45,11 +45,11 @@ class Parser(payload: String) {
             try {
                 val robot = it.getJSONArray("pos")
 
-                this.Robot_X = robot.getInt(0)
-                this.Robot_Y = robot.getInt(1)
+                this.robotX = robot.getInt(0)
+                this.robotY = robot.getInt(1)
                 val angle = robot.getInt(2)
 
-                this.Robot_Dir = when (angle) {
+                this.robotDir = when (angle) {
                     0 -> "UP"
                     90 -> "RIGHT"
                     180 -> "DOWN"
@@ -69,26 +69,26 @@ class Parser(payload: String) {
         }
     }
 
-    fun setStatus(): Boolean { return try { this.Robot_Status = this.payload?.getString("status") ?: "Unknown"; true } catch (e: Exception) { Log.d(TAG, "EXCEPTION"); false } }
+    fun setStatus(): Boolean { return try { this.robotStatus = this.payload?.getString("status") ?: "Unknown"; true } catch (e: Exception) { Log.d(TAG, "EXCEPTION"); false } }
 
     fun processImage() {
         if (!this.validPayload) return
 
         this.payload?.let {
             try {
-                var images = it.getJSONArray("imgs")
+                val images = it.getJSONArray("imgs")
                 var imgID = "0"
-                var image: JSONArray? = null
-                var img_x = 0
-                var img_y = 0
+                var image: JSONArray?
+                var imgX: Int
+                var imgY: Int
 
                 for (i in 0 until images.length()) {
                     image = images.getJSONArray(i)
-                    img_x = image.getString(0).toInt()
-                    img_y = image.getString(1).toInt()
+                    imgX = image.getString(0).toInt()
+                    imgY = image.getString(1).toInt()
                     imgID = image.getString(2)
-                    hexImage += " ($imgID,$img_x,$img_y),"
-                    this.exploredMap[img_x][img_y] = imgID
+                    hexImage += " ($imgID,$imgX,$imgY),"
+                    this.exploredMap[imgX][imgY] = imgID
                 }
 
                 if (hexImage.isNotEmpty()) hexImage = hexImage.trimEnd(',') // Previously substring remove length-1
@@ -182,7 +182,7 @@ class Parser(payload: String) {
 
     companion object {
         const val TAG = "Parser"
-        const val DEBUG = false
+        val DEBUG = BuildConfig.DEBUG
 
         var hexMDF = "0x0000000000000000"
         var hexExplored = "0x0000000000000000"
