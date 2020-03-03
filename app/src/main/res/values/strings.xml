@@ -36,4 +36,10 @@
     <string name="option_manual">Manual</string>
 
     <string name="switch_motion">Motion Control</string>
+    <string name="recognized_image">Recognized Image</string>
+    <string name="y_coords">Y</string>
+    <string name="x_coords">X</string>
+    <string name="wp_x_placeholder">13</string>
+    <string name="wp_y_placeholder">18</string>
+    <string name="rp_placeholder">1</string>
 </resources>
