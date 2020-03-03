@@ -54,7 +54,7 @@ class BluetoothService(private val BTHandler: Handler) {
      * Class used for establishing connection between 2 devices
      * Device will act as the Bluetooth Client
      */
-    private inner class BluetoothConnection(private val objDevice: BluetoothDevice) : Thread() {
+    private inner class BluetoothConnection(objDevice: BluetoothDevice) : Thread() {
         private var objSocket: BluetoothSocket? = null
 
         init {

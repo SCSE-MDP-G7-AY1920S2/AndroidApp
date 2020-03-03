@@ -12,6 +12,7 @@ import android.view.View
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Map
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Robot
 
+@Suppress("unused")
 class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     /**
@@ -188,14 +189,14 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
     }
 
     private fun drawRobot(canvas: Canvas) {
-        val grid_x: Float = ((Robot_X * gridDimensions) + ((Robot_X + 1) * gridDimensions)) / 2f
-        val grid_y: Float = ((Robot_Y * gridDimensions) + ((Robot_Y + 1) * gridDimensions)) / 2f
-        canvas.drawCircle(grid_x, grid_y, (gridDimensions * 3 / 2f), robotPaint)
+        val gridX: Float = ((Robot_X * gridDimensions) + ((Robot_X + 1) * gridDimensions)) / 2f
+        val gridY: Float = ((Robot_Y * gridDimensions) + ((Robot_Y + 1) * gridDimensions)) / 2f
+        canvas.drawCircle(gridX, gridY, (gridDimensions * 3 / 2f), robotPaint)
         when (direction) {
-            "Right" -> canvas.drawLine(grid_x, grid_y, ((Robot_X + 2f) * gridDimensions), grid_y, directionPaint)
-            "Left" -> canvas.drawLine(grid_x, grid_y, ((Robot_X - 1f) * gridDimensions), grid_y, directionPaint)
-            "Up" -> canvas.drawLine(grid_x, grid_y, grid_x, ((Robot_Y - 1f) * gridDimensions), directionPaint)
-            "Down" -> canvas.drawLine(grid_x, grid_y, grid_x, ((Robot_Y + 2f) * gridDimensions), directionPaint)
+            "Right" -> canvas.drawLine(gridX, gridY, ((Robot_X + 2f) * gridDimensions), gridY, directionPaint)
+            "Left" -> canvas.drawLine(gridX, gridY, ((Robot_X - 1f) * gridDimensions), gridY, directionPaint)
+            "Up" -> canvas.drawLine(gridX, gridY, gridX, ((Robot_Y - 1f) * gridDimensions), directionPaint)
+            "Down" -> canvas.drawLine(gridX, gridY, gridX, ((Robot_Y + 2f) * gridDimensions), directionPaint)
         }
     }
 
@@ -375,7 +376,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         const val GRID_DIMEN_PHABLET = 50 // regular (Phones with high dpi, P4XL)
         
         private const val TAG = "Grid"
-        var gridDimensions: Int = MapDrawer.GRID_DIMEN_TABLET
+        var gridDimensions: Int = GRID_DIMEN_TABLET
 
         /**
          * state variables
@@ -386,8 +387,8 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         var Start_Point_Y: Int = Map.START_POINT_Y
         var Way_Point_X: Int = Map.WAY_POINT_X
         var Way_Point_Y: Int = Map.WAY_POINT_Y
-        val End_Point_X: Int = Map.END_POINT_X
-        val End_Point_Y: Int = Map.END_POINT_Y
+        const val End_Point_X: Int = Map.END_POINT_X
+        const val End_Point_Y: Int = Map.END_POINT_Y
         var direction: String = Robot.START_DIRECTION
         var selectStartPoint = false
         var selectWayPoint = false
@@ -439,10 +440,10 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         fun updateCoordinates(x_axis: Int, y_axis: Int, dir: String) {
             if (!validMidpoint(x_axis, y_axis)) return
             Log.d(TAG, "X Axis : $x_axis Y Axis: $y_axis")
-            val new_y_axis = invertYAxis(y_axis)
+            val newYAxis = invertYAxis(y_axis)
 
             Robot_X = x_axis
-            Robot_Y = new_y_axis
+            Robot_Y = newYAxis
             Log.d(TAG, "$Robot_X, $Robot_Y")
 
             direction = when (dir) {
@@ -501,9 +502,9 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         @JvmStatic fun updateStartPoint() { updateExplored() }
         @JvmStatic fun getRobotPosition(): String { return "$Robot_X,${invertYAxis(Robot_Y)}" }
         @JvmStatic fun getWayPoint(): String { return "$Way_Point_X,${invertYAxis(Way_Point_Y)}" }
-        @JvmStatic fun getWay_Point_Y_Invert(): Int { return invertYAxis(Way_Point_Y) }
+        @JvmStatic fun getWayPointYInvert(): Int { return invertYAxis(Way_Point_Y) }
         @JvmStatic fun getStartPoint(): String { return "$Start_Point_X,${invertYAxis(Start_Point_Y)}" }
-        @JvmStatic fun getStart_Point_Y_Invert(): Int { return invertYAxis(Start_Point_Y) }
+        @JvmStatic fun getStartPointYInvert(): Int { return invertYAxis(Start_Point_Y) }
         @JvmStatic fun getRobotInvertY(): Int { return invertYAxis(Robot_Y) }
         @JvmStatic fun resetMap() { initMap() }
 

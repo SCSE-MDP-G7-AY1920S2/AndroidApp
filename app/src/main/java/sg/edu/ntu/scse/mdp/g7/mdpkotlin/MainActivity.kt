@@ -394,7 +394,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateWaypointLabel() {
         label_waypoint_coordinateX.text = MapDrawer.Way_Point_X.toString()
-        label_waypoint_coordinateY.text = MapDrawer.getWay_Point_Y_Invert().toString()
+        label_waypoint_coordinateY.text = MapDrawer.getWayPointYInvert().toString()
     }
 
     // Dialog Builders
@@ -613,7 +613,7 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = ";{$FROMANDROID\"com\":\"startingPoint\",\"startingPoint\":[${MapDrawer.Start_Point_X},${MapDrawer.getStart_Point_Y_Invert()},${MapDrawer.getRotationDir()}]}"
+            val msg = ";{$FROMANDROID\"com\":\"startingPoint\",\"startingPoint\":[${MapDrawer.Start_Point_X},${MapDrawer.getStartPointYInvert()},${MapDrawer.getRotationDir()}]}"
             sendString(msg)
 
             MapDrawer.setSelectStartPoint()
@@ -644,7 +644,7 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = ";{$FROMANDROID\"com\":\"wayPoint\",\"wayPoint\":[${MapDrawer.Way_Point_X},${MapDrawer.getWay_Point_Y_Invert()}]}"
+            val msg = ";{$FROMANDROID\"com\":\"wayPoint\",\"wayPoint\":[${MapDrawer.Way_Point_X},${MapDrawer.getWayPointYInvert()}]}"
             sendString(msg)
 
             MapDrawer.setSelectWayPoint()
