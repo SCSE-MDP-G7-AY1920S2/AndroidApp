@@ -37,13 +37,11 @@ import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
 
-    val FROMANDROID = "\"from\":\"Android\","
-
     // Activity Variables
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private var connectionThread: BluetoothService? = null
     private lateinit var connectedDevice: BluetoothDevice
-    private lateinit var listView_devices: ListView
+    private lateinit var listviewDevices: ListView
     private val messageLog = MessageLog()
     private var isServer = false
     private var disconnectState = true
@@ -59,19 +57,19 @@ class MainActivity : AppCompatActivity() {
     /**
      * Controls for Devices configs
      */
-    private lateinit var button_bluetooth_server_listen: Button
-    private lateinit var button_scan: Button
+    private lateinit var buttonBluetoothServerListen: Button
+    private lateinit var buttonScan: Button
 
     // Controls for String configs
-    private lateinit var textbox_string1: EditText
-    private lateinit var textbox_string2: EditText
+    private lateinit var textboxString1: EditText
+    private lateinit var textboxString2: EditText
 
     // Controls for Messaging Sending
-    private lateinit var textbox_send_message: EditText
-    private var label_message_log: TextView? = null
+    private lateinit var textboxSendMessage: EditText
+    private var labelMessageLog: TextView? = null
     private var currentTime = System.currentTimeMillis()
 
-    private lateinit var sensor_orientation: OrientationEventListener
+    private lateinit var sensorOrientation: OrientationEventListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,11 +97,11 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, filter)
 
         // Set up Main Activity Event Listeners
-        button_direction_left.setOnClickListener(direction_left)
-        button_direction_right.setOnClickListener(direction_right)
-        button_direction_up.setOnClickListener(direction_up)
+        button_direction_left.setOnClickListener(directionLeft)
+        button_direction_right.setOnClickListener(directionRight)
+        button_direction_up.setOnClickListener(directionUp)
         button_refresh_phase.setOnClickListener(refreshState)
-        switch_motion_control.setOnCheckedChangeListener(motion_control)
+        switch_motion_control.setOnCheckedChangeListener(motionControl)
         button_set_origin.setOnClickListener(setOrigin)
         button_set_waypoint.setOnClickListener(setWayPoint)
         button_start_phase.setOnClickListener(startMode)
@@ -111,16 +109,16 @@ class MainActivity : AppCompatActivity() {
         toggle_update_auto.setOnCheckedChangeListener(changeAutoMode)
         canvas_gridmap.setOnTouchListener(setMap)
         button_reset_map.setOnClickListener(resetMap)
-        sensor_orientation = object: OrientationEventListener(this) { override fun onOrientationChanged(orientation: Int) { handleRotation(orientation) } }
+        sensorOrientation = object: OrientationEventListener(this) { override fun onOrientationChanged(orientation: Int) { handleRotation(orientation) } }
 
         // Joystick Listener
-        joystickView.setOnMoveListener{ angle, strength ->
+        joystickView.setOnMoveListener{ angle, _ ->
             if (angle in 46..134) {
-                val x_axis = MapDrawer.Robot_X
-                val y_axis = MapDrawer.Robot_Y
+                val xAxis = MapDrawer.Robot_X
+                val yAxis = MapDrawer.Robot_Y
 
                 MapDrawer.moveUp()
-                if (!(x_axis == MapDrawer.Robot_X && y_axis == MapDrawer.Robot_Y)) sendString(commandWrap(Cmd.DIRECTION_UP))
+                if (!(xAxis == MapDrawer.Robot_X && yAxis == MapDrawer.Robot_Y)) sendString(commandWrap(Cmd.DIRECTION_UP))
                 canvas_gridmap.invalidate()
                 updateRobotPositionLabel()
             } else if ((angle in 1..45) || (angle in 316..359)) {
@@ -165,8 +163,8 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
-            var device: BluetoothDevice? = null
-            var getCurrentConnection: String? = null
+            val device: BluetoothDevice?
+            val getCurrentConnection: String?
 
             when (action) {
                 BluetoothDevice.ACTION_FOUND -> {
@@ -182,9 +180,9 @@ class MainActivity : AppCompatActivity() {
                         connectedState(device)
                         disconnectState = false
 
-                        disableElement(button_bluetooth_server_listen)
-                        disableElement(button_scan)
-                        disableElement(listView_devices)
+                        disableElement(buttonBluetoothServerListen)
+                        disableElement(buttonScan)
+                        disableElement(listviewDevices)
 
                         if (isPairedDevicesOnly) {
                             clearDeviceList()
@@ -232,20 +230,20 @@ class MainActivity : AppCompatActivity() {
 
         if (flag) {
             deviceList.add(Device(device, deviceName, deviceHardwareAddress))
-            listView_devices.invalidate()
+            listviewDevices.invalidate()
 
-            val state = listView_devices.onSaveInstanceState()
+            val state = listviewDevices.onSaveInstanceState()
             val adapter = DeviceAdapter(applicationContext, deviceList)
-            listView_devices.adapter = adapter
-            listView_devices.onRestoreInstanceState(state)
+            listviewDevices.adapter = adapter
+            listviewDevices.onRestoreInstanceState(state)
         }
     }
 
     private fun clearDeviceList() {
         deviceList.clear()
-        listView_devices.invalidate()
+        listviewDevices.invalidate()
         val adapter = DeviceAdapter(applicationContext, deviceList)
-        listView_devices.adapter = adapter
+        listviewDevices.adapter = adapter
     }
 
     // Stream for data
@@ -271,18 +269,18 @@ class MainActivity : AppCompatActivity() {
                         activity.handleAction(it.trim()) // Handle Action
                     }
 
-                    activity.label_message_log?.text = activity.messageLog.getLog()
+                    activity.labelMessageLog?.text = activity.messageLog.getLog()
                 }
                 Protocol.CONNECTION_ERROR -> {
-                    Log.d(Companion.TAG, "Connection error with a device")
+                    Log.d(TAG, "Connection error with a device")
                     activity?.connectionThread?.cancel()
-                    activity?.connect_bluetooth_device()
+                    activity?.connectBluetoothDevice()
                 }
                 Protocol.MESSAGE_ERROR -> {
-                    Log.d(Companion.TAG, "Error sending message to device")
+                    Log.d(TAG, "Error sending message to device")
                     activity?.transmissionFail()
                 }
-                else -> Log.d(Companion.TAG, "Just a default case")
+                else -> Log.d(TAG, "Just a default case")
             }
         }
         companion object { private const val TAG = "StreamHandler" }
@@ -304,31 +302,31 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.app_menu_inspector -> {
                 Log.d(TAG, "Clicked on Menu Inspector")
-                dialog_data_inspector()
+                dialogDataInspector()
             }
             R.id.app_menu_chat -> {
                 Log.d(TAG, "Clicked on Message Log")
-                dialog_message_log()
+                dialogMessageLog()
             }
             R.id.app_menu_search_device -> {
                 Log.d(TAG, "Clicked on Search Device")
-                dialog_devices()
+                dialogDevices()
             }
             R.id.app_menu_disconnect_device -> {
                 Log.d(TAG, "Clicked on Disconnect Device")
-                disconnect_bluetooth_device()
+                disconnectBluetoothDevice()
             }
             R.id.app_menu_reconnect_device -> {
                 Log.d("BT-Main", "Clicked on Reconnect Device")
-                dialog_paired_devices()
+                dialogPairedDevices()
             }
             R.id.app_menu_string_config -> {
                 Log.d(TAG, "Clicked on String Configurations")
-                dialog_config_string()
+                dialogConfigString()
             }
             R.id.app_menu_export_mdf -> {
                 Log.d(TAG, "Clicked on Export MDF")
-                dialog_file_manager()
+                dialogFileManager()
             }
             else -> Log.d(TAG, "Clicked on default case")
         }
@@ -352,7 +350,7 @@ class MainActivity : AppCompatActivity() {
 
     // Handle different UI state
     private fun startModeUI() {
-        sensor_orientation.disable()
+        sensorOrientation.disable()
         disableElement(toggle_mode_exploration)
         disableElement(toggle_mode_fastest_path)
         disableElement(button_set_waypoint)
@@ -400,35 +398,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Dialog Builders
-    fun dialog_config_string() {
+    private fun dialogConfigString() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_string_configs, null)
-        val dialog_builder = AlertDialog.Builder(this).setView(dialog)
+        val dialogBuilder = AlertDialog.Builder(this).setView(dialog)
 
         // configure event listeners
-        textbox_string1 = dialog.findViewById(R.id.textbox_string1)
-        textbox_string2 = dialog.findViewById(R.id.textbox_string2)
+        textboxString1 = dialog.findViewById(R.id.textbox_string1)
+        textboxString2 = dialog.findViewById(R.id.textbox_string2)
         dialog.findViewById<Button>(R.id.button_send_string1).setOnClickListener(sendString1)
         dialog.findViewById<Button>(R.id.button_send_string2).setOnClickListener(sendString2)
         dialog.findViewById<Button>(R.id.button_save_string_config).setOnClickListener(saveStringConfig)
 
-        dialog_builder.create()
-        dialog_builder.show()
-        setStringConfig(textbox_string1, textbox_string2)
+        dialogBuilder.create()
+        dialogBuilder.show()
+        setStringConfig(textboxString1, textboxString2)
     }
-    fun dialog_message_log() {
+    private fun dialogMessageLog() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_message, null)
-        val dialog_builder = AlertDialog.Builder(this).setView(dialog)
+        val dialogBuilder = AlertDialog.Builder(this).setView(dialog)
 
         dialog.findViewById<Button>(R.id.button_send_message).setOnClickListener(sendMessage)
-        textbox_send_message = dialog.findViewById(R.id.textbox_send_message)
-        label_message_log = dialog.findViewById(R.id.label_message_log)
-        label_message_log?.movementMethod = ScrollingMovementMethod()
-        label_message_log?.text = messageLog.getLog()
-        label_message_log?.setTextIsSelectable(true)
+        textboxSendMessage = dialog.findViewById(R.id.textbox_send_message)
+        labelMessageLog = dialog.findViewById(R.id.label_message_log)
+        labelMessageLog?.movementMethod = ScrollingMovementMethod()
+        labelMessageLog?.text = messageLog.getLog()
+        labelMessageLog?.setTextIsSelectable(true)
 
-        dialog_builder.show()
+        dialogBuilder.show()
     }
     private lateinit var mdfStringFolderAdapter: StringAdapter
     private fun getMdfFolder(): File {
@@ -448,16 +446,16 @@ class MainActivity : AppCompatActivity() {
         pw.flush()
         pw.close()
     }
-    fun dialog_file_manager() {
+    private fun dialogFileManager() {
         val dir = getMdfFolder()
-        val fileList = dir.list()
+        val fileList = dir.list() ?: arrayOf()
         val dialog = inflater.inflate(R.layout.dialog_mdf_manager, null)
-        val dialog_builder = AlertDialog.Builder(this).setView(dialog)
+        val dialogBuilder = AlertDialog.Builder(this).setView(dialog)
 
         val lv = dialog.findViewById<ListView>(R.id.mdf_list)
         mdfStringFolderAdapter = StringAdapter(applicationContext, fileList)
         lv.adapter = mdfStringFolderAdapter
-        lv.setOnItemClickListener { parent, view, position, id ->
+        lv.setOnItemClickListener { _, _, position, _ ->
             val fileName = mdfStringFolderAdapter.getItem(position)
             mdfFileToExport = File(getMdfFolder(), fileName)
             val exportIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
@@ -467,100 +465,100 @@ class MainActivity : AppCompatActivity() {
             }
             startActivityForResult(exportIntent, INTENT_EXPORT)
         }
-        dialog_builder.show()
+        dialogBuilder.show()
     }
-    fun dialog_data_inspector() {
+    private fun dialogDataInspector() {
         // Save to file
         try { saveMdfToFile() } catch (e: FileNotFoundException) { Log.e(TAG, "Cannot save file, lets just move on :shifty_looking_eyes:") }
 
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_data_inspector, null)
-        val dialog_builder = AlertDialog.Builder(this).setView(dialog)
+        val dialogBuilder = AlertDialog.Builder(this).setView(dialog)
 
-        val label_mdf1_content = dialog.findViewById<TextView>(R.id.label_mdf1_content)
-        val label_mdf2_content = dialog.findViewById<TextView>(R.id.label_mdf2_content)
-        val label_image_content = dialog.findViewById<TextView>(R.id.label_image_content)
-        label_mdf1_content.text = "0x${Parser.hexMDF}"
-        label_mdf1_content.setTextIsSelectable(true)
-        label_mdf2_content.text = "0x${Parser.hexExplored}"
-        label_mdf2_content.setTextIsSelectable(true)
-        label_image_content.text = "{${Parser.hexImage}}"
-        label_image_content.setTextIsSelectable(true)
+        val labelMdf1Content = dialog.findViewById<TextView>(R.id.label_mdf1_content)
+        val labelMdf2Content = dialog.findViewById<TextView>(R.id.label_mdf2_content)
+        val labelImageContent = dialog.findViewById<TextView>(R.id.label_image_content)
+        labelMdf1Content.text = "0x${Parser.hexMDF}"
+        labelMdf1Content.setTextIsSelectable(true)
+        labelMdf2Content.text = "0x${Parser.hexExplored}"
+        labelMdf2Content.setTextIsSelectable(true)
+        labelImageContent.text = "{${Parser.hexImage}}"
+        labelImageContent.setTextIsSelectable(true)
 
-        dialog_builder.show()
+        dialogBuilder.show()
     }
-    fun dialog_devices() {
+    private fun dialogDevices() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_devices, null)
-        val dialog_builder = AlertDialog.Builder(this).setView(dialog)
-        listView_devices = dialog.findViewById<View>(R.id.listView_devices) as ListView
+        val dialogBuilder = AlertDialog.Builder(this).setView(dialog)
+        listviewDevices = dialog.findViewById<View>(R.id.listView_devices) as ListView
         val adapter = DeviceAdapter(applicationContext, deviceList)
-        listView_devices.adapter = adapter
-        button_bluetooth_server_listen = dialog.findViewById(R.id.button_bluetooth_server_listen)
-        button_scan = dialog.findViewById(R.id.button_scan)
+        listviewDevices.adapter = adapter
+        buttonBluetoothServerListen = dialog.findViewById(R.id.button_bluetooth_server_listen)
+        buttonScan = dialog.findViewById(R.id.button_scan)
 
         if (connectionThread != null) {
-            disableElement(listView_devices)
-            disableElement(button_bluetooth_server_listen)
-            disableElement(button_scan)
+            disableElement(listviewDevices)
+            disableElement(buttonBluetoothServerListen)
+            disableElement(buttonScan)
         }
 
         // Configure event listener
         dialog.findViewById<Button>(R.id.button_scan).setOnClickListener(scanDevice)
         dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
-        listView_devices.onItemClickListener = connectDevice
+        listviewDevices.onItemClickListener = connectDevice
 
         isPairedDevicesOnly = false
-        dialog_builder.show()
+        dialogBuilder.show()
     }
     private var isPairedDevicesOnly = false
-    fun dialog_paired_devices() {
+    private fun dialogPairedDevices() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_devices, null)
-        val dialog_builder = AlertDialog.Builder(this).setView(dialog)
-        listView_devices = dialog.findViewById(R.id.listView_devices)
+        val dialogBuilder = AlertDialog.Builder(this).setView(dialog)
+        listviewDevices = dialog.findViewById(R.id.listView_devices)
         val pairedDevices = bluetoothAdapter.bondedDevices
         pairedDevices.forEach { addDevice(it, it.name, it.address) }
 
         val adapter = DeviceAdapter(applicationContext, deviceList)
-        listView_devices.adapter = adapter
-        button_bluetooth_server_listen = dialog.findViewById(R.id.button_bluetooth_server_listen)
+        listviewDevices.adapter = adapter
+        buttonBluetoothServerListen = dialog.findViewById(R.id.button_bluetooth_server_listen)
         dialog.findViewById<TextView>(R.id.btconn_instructions).text = "Make sure device is nearby before using this feature. Also disconnect current connections"
         dialog.findViewById<TextView>(R.id.label_dialog_bluetooth_title).text = "Reconnect Bluetooth Connection"
         dialog.findViewById<Button>(R.id.button_scan).visibility = View.GONE
 
         if (connectionThread != null) {
-            disableElement(listView_devices)
-            disableElement(button_bluetooth_server_listen)
+            disableElement(listviewDevices)
+            disableElement(buttonBluetoothServerListen)
         }
 
         // Configure event listeners
         dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
-        listView_devices.onItemClickListener = connectDevice
+        listviewDevices.onItemClickListener = connectDevice
 
         isPairedDevicesOnly = true
-        dialog_builder.show()
+        dialogBuilder.show()
     }
 
     // Event Listeners
-    private val direction_left = View.OnClickListener {
+    private val directionLeft = View.OnClickListener {
         sendString(commandWrap(Cmd.DIRECTION_LEFT))
         MapDrawer.moveLeft()
         canvas_gridmap.invalidate()
         updateRobotPositionLabel()
     }
-    private val direction_right = View.OnClickListener {
+    private val directionRight = View.OnClickListener {
         sendString(commandWrap(Cmd.DIRECTION_RIGHT))
         MapDrawer.moveRight()
         canvas_gridmap.invalidate()
         updateRobotPositionLabel()
     }
-    private val direction_up = View.OnClickListener {
-        val x_axis = MapDrawer.Robot_X
-        val y_axis = MapDrawer.Robot_Y
+    private val directionUp = View.OnClickListener {
+        val xAxis = MapDrawer.Robot_X
+        val yAxis = MapDrawer.Robot_Y
 
         MapDrawer.moveUp()
-        if (!(x_axis == MapDrawer.Robot_X && y_axis == MapDrawer.Robot_Y)) sendString(commandWrap(Cmd.DIRECTION_UP))
+        if (!(xAxis == MapDrawer.Robot_X && yAxis == MapDrawer.Robot_Y)) sendString(commandWrap(Cmd.DIRECTION_UP))
         canvas_gridmap.invalidate()
         updateRobotPositionLabel()
     }
@@ -599,7 +597,7 @@ class MainActivity : AppCompatActivity() {
             disableElement(button_direction_left)
             disableElement(button_direction_right)
             disableElement(button_direction_up)
-            sensor_orientation.disable()
+            sensorOrientation.disable()
             switch_motion_control.isChecked = false
             disableElement(switch_motion_control)
             disableElement(button_start_phase)
@@ -630,7 +628,7 @@ class MainActivity : AppCompatActivity() {
             disableElement(button_direction_left)
             disableElement(button_direction_right)
             disableElement(button_direction_up)
-            sensor_orientation.disable()
+            sensorOrientation.disable()
             switch_motion_control.isChecked = false
             disableElement(switch_motion_control)
             disableElement(button_start_phase)
@@ -653,30 +651,29 @@ class MainActivity : AppCompatActivity() {
             canvas_gridmap.invalidate()
         }
     }
-    private val motion_control = CompoundButton.OnCheckedChangeListener { compoundButton: CompoundButton?, b: Boolean ->
+    private val motionControl = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
         if (b) {
-            sensor_orientation.enable()
+            sensorOrientation.enable()
             disableElement(button_direction_left)
             disableElement(button_direction_right)
             disableElement(button_direction_up)
             disableElement(joystickView)
         } else {
-            sensor_orientation.disable()
+            sensorOrientation.disable()
             enableElement(button_direction_left)
             enableElement(button_direction_right)
             enableElement(button_direction_up)
             enableElement(joystickView)
         }
     }
-    private val setMap = View.OnTouchListener { view, motionEvent ->
+    private val setMap = View.OnTouchListener { _, motionEvent ->
         if (motionEvent != null) {
             if (motionEvent.action == MotionEvent.ACTION_DOWN && (MapDrawer.selectStartPoint || MapDrawer.selectWayPoint)) {
-                val x_axis = (motionEvent.x / MapDrawer.gridDimensions).toInt()
-                val y_axis = (motionEvent.y / MapDrawer.gridDimensions).toInt()
-                val invert_y_axis = MapDrawer.invertYAxis(y_axis)
+                val xAxis = (motionEvent.x / MapDrawer.gridDimensions).toInt()
+                val yAxis = (motionEvent.y / MapDrawer.gridDimensions).toInt()
 
-                if (MapDrawer.validMidpoint(x_axis, y_axis)) {
-                    MapDrawer.updateSelection(x_axis, y_axis)
+                if (MapDrawer.validMidpoint(xAxis, yAxis)) {
+                    MapDrawer.updateSelection(xAxis, yAxis)
                     canvas_gridmap.invalidate()
                 }
                 updateRobotPositionLabel()
@@ -716,56 +713,56 @@ class MainActivity : AppCompatActivity() {
 
     // Event Listeners for Dialog Builders
     private val sendString1 = View.OnClickListener {
-        val data = textbox_string1.text.toString()
+        val data = textboxString1.text.toString()
         Log.d(TAG, "Data Sent (String 1) : $data")
         sendString(data)
     }
     private val sendString2 = View.OnClickListener {
-        val data = textbox_string2.text.toString()
+        val data = textboxString2.text.toString()
         Log.d(TAG, "Data Sent (String 2) : $data")
         sendString(data)
     }
-    private val saveStringConfig = View.OnClickListener { saveStringConfig(textbox_string1, textbox_string2) }
+    private val saveStringConfig = View.OnClickListener { saveStringConfig(textboxString1, textboxString2) }
     private val sendMessage = View.OnClickListener {
-        val data = textbox_send_message.text.toString()
+        val data = textboxSendMessage.text.toString()
         Log.d(TAG, "Message Sent : $data")
         messageLog.addMessage(sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Message.MESSAGE_SENDER, data)
-        label_message_log?.text = messageLog.getLog()
+        labelMessageLog?.text = messageLog.getLog()
         sendString(data)
-        textbox_send_message.setText("")
+        textboxSendMessage.setText("")
     }
     private val scanDevice = View.OnClickListener {
-        if (button_scan.text == "Scan Devices") {
-            disableElement(button_bluetooth_server_listen)
-            button_scan.text = "Stop Scan"
+        if (buttonScan.text == "Scan Devices") {
+            disableElement(buttonBluetoothServerListen)
+            buttonScan.text = "Stop Scan"
             bluetoothAdapter.startDiscovery()
             clearDeviceList()
-        } else if (button_scan.text == "Stop Scan") {
-            enableElement(button_bluetooth_server_listen)
-            button_scan.text = "Scan Devices"
+        } else if (buttonScan.text == "Stop Scan") {
+            enableElement(buttonBluetoothServerListen)
+            buttonScan.text = "Scan Devices"
             bluetoothAdapter.cancelDiscovery()
         }
     }
-    private val connectDevice = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-        val item = deviceList.get(i)
+    private val connectDevice = AdapterView.OnItemClickListener { _, _, i, _ ->
+        val item = deviceList[i]
         val device = item.device
 
         Log.d(TAG, "Connect")
         if (bluetoothAdapter.isDiscovering) bluetoothAdapter.cancelDiscovery()
 
         connectedDevice = device
-        connect_bluetooth_device()
+        connectBluetoothDevice()
         isServer = false
     }
     private val startBluetoothServer = View.OnClickListener {
-        if (button_bluetooth_server_listen.text == "Stop Bluetooth Server") {
-            button_bluetooth_server_listen.text = "Start Bluetooth Server"
-            enableElement(listView_devices)
-            enableElement(button_scan)
-        } else if (button_bluetooth_server_listen.text == "Start Bluetooth Server") {
-            button_bluetooth_server_listen.text = "Stop Bluetooth Server"
-            disableElement(listView_devices)
-            disableElement(button_scan)
+        if (buttonBluetoothServerListen.text == "Stop Bluetooth Server") {
+            buttonBluetoothServerListen.text = "Start Bluetooth Server"
+            enableElement(listviewDevices)
+            enableElement(buttonScan)
+        } else if (buttonBluetoothServerListen.text == "Start Bluetooth Server") {
+            buttonBluetoothServerListen.text = "Stop Bluetooth Server"
+            disableElement(listviewDevices)
+            disableElement(buttonScan)
 
             connectionThread = BluetoothService(streamHandler)
             connectionThread?.startServer(bluetoothAdapter)
@@ -774,14 +771,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Helper functions for Bluetooth
-    private fun disconnect_bluetooth_device() {
+    private fun disconnectBluetoothDevice() {
         connectionThread?.cancel()
         connectionThread = null
         disconnectedState()
         disconnectState = true
     }
 
-    private fun connect_bluetooth_device() {
+    private fun connectBluetoothDevice() {
         connectionThread = BluetoothService(streamHandler)
         connectionThread?.connectDevice(connectedDevice)
     }
@@ -797,14 +794,14 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = applicationContext.getSharedPreferences(Store.SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
 
         sharedPref?.let {
-            val string_1 = it.getString(Store.STRING_1, "") ?: ""
-            val string_2 = it.getString(Store.STRING_2, "") ?: ""
+            val string1 = it.getString(Store.STRING_1, "") ?: ""
+            val string2 = it.getString(Store.STRING_2, "") ?: ""
 
-            if (string_1.isNotEmpty() && string_2.isNotEmpty()) {
-                Log.d(TAG, "Store : $string_1")
-                Log.d(TAG, "Store : $string_2")
-                field_1.setText(string_1)
-                field_2.setText(string_2)
+            if (string1.isNotEmpty() && string2.isNotEmpty()) {
+                Log.d(TAG, "Store : $string1")
+                Log.d(TAG, "Store : $string2")
+                field_1.setText(string1)
+                field_2.setText(string2)
             }
         }
     }
@@ -901,12 +898,13 @@ class MainActivity : AppCompatActivity() {
         label_status_details.text = data
     }
 
-    fun commandWrap(cmd: String): String {
+    private fun commandWrap(cmd: String): String {
         return ";{$FROMANDROID\"com\":\"${cmd}\"}"
     }
 
     companion object {
         private const val TAG = "Main"
+        const val FROMANDROID = "\"from\":\"Android\","
 
         // File Management
         private var mdfFileToExport: File? = null
