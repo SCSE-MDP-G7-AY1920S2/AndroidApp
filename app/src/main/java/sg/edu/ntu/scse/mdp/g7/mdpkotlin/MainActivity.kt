@@ -57,15 +57,15 @@ class MainActivity : AppCompatActivity() {
     /**
      * Controls for Devices configs
      */
-    private lateinit var buttonBluetoothServerListen: Button
-    private lateinit var buttonScan: Button
+    private var buttonBluetoothServerListen: Button? = null
+    private var buttonScan: Button? = null
 
     // Controls for String configs
-    private lateinit var textboxString1: EditText
-    private lateinit var textboxString2: EditText
+    private var textboxString1: EditText? = null
+    private var textboxString2: EditText? = null
 
     // Controls for Messaging Sending
-    private lateinit var textboxSendMessage: EditText
+    private var textboxSendMessage: EditText? = null
     private var labelMessageLog: TextView? = null
     private var currentTime = System.currentTimeMillis()
 
@@ -713,33 +713,33 @@ class MainActivity : AppCompatActivity() {
 
     // Event Listeners for Dialog Builders
     private val sendString1 = View.OnClickListener {
-        val data = textboxString1.text.toString()
+        val data = textboxString1?.text.toString()
         Log.d(TAG, "Data Sent (String 1) : $data")
         sendString(data)
     }
     private val sendString2 = View.OnClickListener {
-        val data = textboxString2.text.toString()
+        val data = textboxString2?.text.toString()
         Log.d(TAG, "Data Sent (String 2) : $data")
         sendString(data)
     }
     private val saveStringConfig = View.OnClickListener { saveStringConfig(textboxString1, textboxString2) }
     private val sendMessage = View.OnClickListener {
-        val data = textboxSendMessage.text.toString()
+        val data = textboxSendMessage?.text.toString()
         Log.d(TAG, "Message Sent : $data")
         messageLog.addMessage(sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Message.MESSAGE_SENDER, data)
         labelMessageLog?.text = messageLog.getLog()
         sendString(data)
-        textboxSendMessage.setText("")
+        textboxSendMessage?.setText("")
     }
     private val scanDevice = View.OnClickListener {
-        if (buttonScan.text == "Scan Devices") {
+        if (buttonScan?.text == "Scan Devices") {
             disableElement(buttonBluetoothServerListen)
-            buttonScan.text = "Stop Scan"
+            buttonScan?.text = "Stop Scan"
             bluetoothAdapter.startDiscovery()
             clearDeviceList()
-        } else if (buttonScan.text == "Stop Scan") {
+        } else if (buttonScan?.text == "Stop Scan") {
             enableElement(buttonBluetoothServerListen)
-            buttonScan.text = "Scan Devices"
+            buttonScan?.text = "Scan Devices"
             bluetoothAdapter.cancelDiscovery()
         }
     }
@@ -755,12 +755,12 @@ class MainActivity : AppCompatActivity() {
         isServer = false
     }
     private val startBluetoothServer = View.OnClickListener {
-        if (buttonBluetoothServerListen.text == "Stop Bluetooth Server") {
-            buttonBluetoothServerListen.text = "Start Bluetooth Server"
+        if (buttonBluetoothServerListen?.text == "Stop Bluetooth Server") {
+            buttonBluetoothServerListen?.text = "Start Bluetooth Server"
             enableElement(listviewDevices)
             enableElement(buttonScan)
-        } else if (buttonBluetoothServerListen.text == "Start Bluetooth Server") {
-            buttonBluetoothServerListen.text = "Stop Bluetooth Server"
+        } else if (buttonBluetoothServerListen?.text == "Start Bluetooth Server") {
+            buttonBluetoothServerListen?.text = "Stop Bluetooth Server"
             disableElement(listviewDevices)
             disableElement(buttonScan)
 
@@ -790,7 +790,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Help functions for storing data in Shared Preferences
-    private fun setStringConfig(field_1: EditText, field_2: EditText) {
+    private fun setStringConfig(field_1: EditText?, field_2: EditText?) {
+        if (field_1 == null || field_2 == null) {
+            Log.e(TAG, "Uninitialized field, exiting")
+            return
+        }
         val sharedPref = applicationContext.getSharedPreferences(Store.SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
 
         sharedPref?.let {
@@ -805,7 +809,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun saveStringConfig(field_1: EditText, field_2: EditText) {
+    private fun saveStringConfig(field_1: EditText?, field_2: EditText?) {
+        if (field_1 == null || field_2 == null) {
+            Log.e(TAG, "Field not initialized, exiting")
+            return
+        }
         val sharedPref = applicationContext.getSharedPreferences(Store.SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
