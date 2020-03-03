@@ -7,8 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="Bluetooth Connection"
-        android:textSize="20dp"
+        android:text="@string/bluetooth_connection"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/btconn_instructions"
             android:layout_marginTop="15dp"
-            android:text="Before using this feature, please disconnect current connections"
-            android:textSize="18dp"
+            android:text="@string/bluetooth_disconnect_prompt"
+            android:textSize="16sp"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -68,7 +68,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/colorAppTheme"
             android:textColor="@color/colorButtonTextTheme"
-            android:text="Start Bluetooth Server"
+            android:text="@string/start_bt_server"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 </LinearLayout>

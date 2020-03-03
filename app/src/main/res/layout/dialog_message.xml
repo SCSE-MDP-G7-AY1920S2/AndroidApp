@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="Message Log"
-        android:textSize="20dp"
+        android:text="@string/message_log"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
@@ -49,8 +49,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
-                android:layout_marginRight="5dp"
-                android:paddingLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:inputType="text"
+                android:textSize="16sp"
+                android:autofillHints="@string/hint_send_message"
+                android:hint="@string/hint_send_message"
                 android:ems="10"
                 android:singleLine="true"
                 android:text=""
@@ -62,10 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="Send" />
+                android:text="@string/btn_send" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

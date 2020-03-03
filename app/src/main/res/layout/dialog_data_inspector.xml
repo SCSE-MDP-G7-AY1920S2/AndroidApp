@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="MDF String 1"
-        android:textSize="20dp"
+        android:text="@string/mdf_string_1"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
@@ -21,9 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textColor="@color/colorSecondaryTheme"
-        android:text="0x0000000000000000"
+        android:text="@string/mdf_placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,11 +32,11 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
-        android:text="MDF String 2"
+        android:text="@string/mdf_string_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,9 +45,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textColor="@color/colorSecondaryTheme"
-        android:text="0x0000000000000000"
+        android:text="@string/mdf_placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,11 +56,11 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
-        android:text="Image String"
+        android:text="@string/image_string"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,9 +69,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="16sp"
         android:textColor="@color/colorSecondaryTheme"
-        android:text="0x0000000000000000"
+        android:text="@string/mdf_placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </LinearLayout>
