@@ -63,4 +63,5 @@
     <string name="string_2_hint">String 2 Text Here</string>
     <string name="string_1_hint">String 1 Text Here</string>
     <string name="tv_placeholder">TextView</string>
+    <string name="btn_clear_all">Clear All</string>
 </resources>

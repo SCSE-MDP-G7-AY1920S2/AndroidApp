@@ -465,6 +465,13 @@ class MainActivity : AppCompatActivity() {
             }
             startActivityForResult(exportIntent, INTENT_EXPORT)
         }
+        dialog.findViewById<Button>(R.id.button_clear_all).setOnClickListener {
+            // Delete everything from list
+            dir.deleteRecursively()
+            mdfStringFolderAdapter = StringAdapter(applicationContext, arrayOf())
+            lv.adapter = mdfStringFolderAdapter
+            Toast.makeText(it.context, "Cleared all MDF Strings", Toast.LENGTH_SHORT).show()
+        }
         dialogBuilder.show()
     }
     private fun dialogDataInspector() {
