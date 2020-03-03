@@ -15,13 +15,23 @@ class DeviceAdapter(context: Context, private val deviceList: ArrayList<Device>)
     override fun getItem(i: Int): Any? { return null }
     override fun getItemId(i: Int): Long { return 0 }
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View {
-        val viewObj = inflater.inflate(R.layout.listview_device, null)
-        val device = viewObj.findViewById<TextView>(R.id.textView)
-        val macAddr = viewObj.findViewById<TextView>(R.id.textView2)
+        var viewObj: View? = view
+        val holder = if (viewObj == null) DeviceViewHolder() else viewObj.tag as DeviceViewHolder
+        if (viewObj == null) {
+            viewObj = inflater.inflate(R.layout.listview_device, null)
+            holder.device = viewObj.findViewById(R.id.textView)
+            holder.macAddr = viewObj.findViewById(R.id.textView2)
+            viewObj.tag = holder
+        }
 
-        device.text = deviceList[i].deviceName
-        macAddr.text = deviceList[i].macAddr
+        holder.device?.text = deviceList[i].deviceName
+        holder.macAddr?.text = deviceList[i].macAddr
 
-        return viewObj
+        return viewObj!!
+    }
+
+    class DeviceViewHolder {
+        var device: TextView? = null
+        var macAddr: TextView? = null
     }
 }

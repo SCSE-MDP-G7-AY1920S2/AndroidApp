@@ -15,9 +15,19 @@ class StringAdapter(context: Context, private val stringList: Array<String>) : B
     override fun getItem(i: Int): String { return stringList[i] }
     override fun getItemId(i: Int): Long { return 0 }
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View {
-        val viewObj = inflater.inflate(android.R.layout.simple_list_item_1, null)
-        val main = viewObj.findViewById<TextView>(android.R.id.text1)
-        main.text = stringList[i]
-        return viewObj
+        var viewObj = view
+        val holder = if (viewObj == null) StringViewHolder() else viewObj.tag as StringViewHolder
+        if (viewObj == null) {
+            viewObj = inflater.inflate(android.R.layout.simple_list_item_1, null)
+            holder.main = viewObj.findViewById(android.R.id.text1)
+            viewObj.tag = holder
+        }
+
+        holder.main?.text = stringList[i]
+        return viewObj!!
+    }
+
+    class StringViewHolder {
+        var main: TextView? = null
     }
 }
