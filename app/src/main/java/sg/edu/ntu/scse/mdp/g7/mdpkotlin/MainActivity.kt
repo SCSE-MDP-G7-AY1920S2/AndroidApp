@@ -32,6 +32,7 @@ import sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.Cmd
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.MapDrawer
 import sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.Parser
 import java.io.*
+import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
@@ -248,36 +249,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Stream for data
-    private val streamHandler = object: Handler() {
+    private val streamHandler = StreamHandler(this)
+
+    class StreamHandler(activity: MainActivity) : Handler() {
+        private val ref = WeakReference(activity)
+
         override fun handleMessage(message: Message) {
+            val activity = ref.get()
             when (message.what) {
                 Protocol.MESSAGE_RECEIVE -> {
                     // Factor into various scenarios
                     val buffer = message.obj as ByteArray
                     val data = String(buffer, 0, message.arg1)
                     Log.d(TAG, "Received data : $data")
-                    messageLog.addMessage(sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Message.MESSAGE_RECEIVER, data.trim())
+                    if (activity == null) { Log.e(TAG, "No activity object, Not continuing..."); return }
+                    activity.messageLog.addMessage(sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Message.MESSAGE_RECEIVER, data.trim())
                     // Split data by ;
                     val textArr = data.split(";")
                     textArr.forEach {
-                        if (it.isNullOrEmpty()) return@forEach
-                        handleAction(it.trim()) // Handle Action
+                        if (it.isEmpty()) return@forEach
+                        activity.handleAction(it.trim()) // Handle Action
                     }
 
-                    label_message_log?.text = messageLog.getLog()
+                    activity.label_message_log?.text = activity.messageLog.getLog()
                 }
                 Protocol.CONNECTION_ERROR -> {
-                    Log.d(TAG, "Connection error with a device")
-                    connectionThread?.cancel()
-                    connect_bluetooth_device()
+                    Log.d(Companion.TAG, "Connection error with a device")
+                    activity?.connectionThread?.cancel()
+                    activity?.connect_bluetooth_device()
                 }
                 Protocol.MESSAGE_ERROR -> {
-                    Log.d(TAG, "Error sending message to device")
-                    transmissionFail()
+                    Log.d(Companion.TAG, "Error sending message to device")
+                    activity?.transmissionFail()
                 }
-                else -> Log.d(TAG, "Just a default case")
+                else -> Log.d(Companion.TAG, "Just a default case")
             }
         }
+        companion object { private const val TAG = "StreamHandler" }
     }
 
     override fun onDestroy() {
