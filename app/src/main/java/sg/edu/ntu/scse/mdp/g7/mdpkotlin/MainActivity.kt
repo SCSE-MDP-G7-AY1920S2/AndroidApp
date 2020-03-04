@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
 
     // Controls for Messaging Sending
     private var textboxSendMessage: EditText? = null
-    private var labelMessageLog: TextView? = null
+    private var scrollView: ScrollView? = null
+    private var messageLogView: TextView? = null
     private var currentTime = System.currentTimeMillis()
 
     private lateinit var sensorOrientation: OrientationEventListener
@@ -269,7 +270,7 @@ class MainActivity : AppCompatActivity() {
                         activity.handleAction(it.trim()) // Handle Action
                     }
 
-                    activity.labelMessageLog?.text = activity.messageLog.getLog()
+                    activity.messageLogView?.text = activity.messageLog.getLog()
                 }
                 Protocol.CONNECTION_ERROR -> {
                     Log.d(TAG, "Connection error with a device")
@@ -421,11 +422,12 @@ class MainActivity : AppCompatActivity() {
 
         dialog.findViewById<Button>(R.id.button_send_message).setOnClickListener(sendMessage)
         textboxSendMessage = dialog.findViewById(R.id.textbox_send_message)
-        labelMessageLog = dialog.findViewById(R.id.label_message_log)
-        labelMessageLog?.movementMethod = ScrollingMovementMethod()
-        labelMessageLog?.text = messageLog.getLog()
-        labelMessageLog?.setTextIsSelectable(true)
-
+        scrollView = dialog.findViewById(R.id.msg_scroll_view)
+        messageLogView = dialog.findViewById(R.id.message_log)
+        messageLogView?.movementMethod = ScrollingMovementMethod()
+        messageLogView?.text = messageLog.getLog()
+        messageLogView?.setTextIsSelectable(true)
+        scrollView?.post { Log.d(TAG, "Attempting to full scroll down"); scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
         dialogBuilder.show()
     }
     private lateinit var mdfStringFolderAdapter: StringAdapter
@@ -734,7 +736,8 @@ class MainActivity : AppCompatActivity() {
         val data = textboxSendMessage?.text.toString()
         Log.d(TAG, "Message Sent : $data")
         messageLog.addMessage(sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Message.MESSAGE_SENDER, data)
-        labelMessageLog?.text = messageLog.getLog()
+        messageLogView?.text = messageLog.getLog()
+        scrollView?.post { Log.d(TAG, "Attempting to full scroll down"); scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
         sendString(data)
         textboxSendMessage?.setText("")
     }

@@ -23,21 +23,28 @@
         android:layout_marginRight="10dp"
         android:paddingBottom="5dp"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/label_message_log"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="10dp"
-            android:overScrollMode="always"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:gravity="bottom"
+            android:scrollbars="vertical"
+            android:id="@+id/msg_scroll_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:overScrollMode="always"
             android:background="@drawable/listview_border"
-            android:scrollbars="vertical"/>
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/message_log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="bottom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
