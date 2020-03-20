@@ -6,8 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="MDF Manager"
-        android:textSize="20dp"
+        android:text="@string/mdf_manager"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Click Item to Export"
-            android:textSize="18dp"
+            android:text="@string/mdf_export_prompt"
+            android:textSize="16sp"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             <ListView
                 android:id="@+id/mdf_list"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:layout_marginBottom="8dp"
                 android:divider="#e0e0e0"
                 android:dividerHeight="1dp"
@@ -49,5 +49,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </LinearLayout>
+        <Button
+            android:id="@+id/button_clear_all"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:background="@color/colorAppTheme"
+            android:textColor="@color/colorButtonTextTheme"
+            android:text="@string/btn_clear_all" />
     </LinearLayout>
 </LinearLayout>

@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="Strings Configuration"
-        android:textSize="20dp"
+        android:text="@string/strings_configuration"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/colorLabelDialogTitle"
         android:background="@color/colorAppTheme"
@@ -27,9 +27,9 @@
             android:id="@+id/label_string1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:layout_marginTop="15dp"
-            android:text="String 1"
+            android:text="@string/string_1_config"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,6 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:hint="@string/string_1_hint"
+            android:autofillHints="@string/string_1_hint"
+            android:inputType="text"
             android:ems="10"
             android:text=""
             android:singleLine="true"
@@ -48,9 +51,9 @@
             android:id="@+id/label_string2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="16sp"
             android:layout_marginTop="15dp"
-            android:text="String 2"
+            android:text="@string/string_2_config"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,6 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:hint="@string/string_2_hint"
+            android:autofillHints="@string/string_2_hint"
+            android:inputType="text"
             android:ems="10"
             android:text=""
             android:singleLine="true"
@@ -73,23 +79,25 @@
 
             <Button
                 android:id="@+id/button_send_string1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="Send String 1" />
+                android:text="@string/btn_send_string_1" />
 
             <Button
                 android:id="@+id/button_send_string2"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:background="@color/colorAppTheme"
                 android:textColor="@color/colorButtonTextTheme"
-                android:text="Send String 2" />
+                android:text="@string/btn_send_string_2" />
         </LinearLayout>
 
         <Button
@@ -99,6 +107,6 @@
             android:layout_marginTop="7dp"
             android:background="@color/colorAppTheme"
             android:textColor="@color/colorButtonTextTheme"
-            android:text="Save Strings" />
+            android:text="@string/btn_save_strings" />
     </LinearLayout>
 </LinearLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MDP Android</string>
+    <string name="app_name">MDP Android KTX</string>
 
     <string name="button_scan_devices">Scan Devices</string>
     <string name="button_send_data">Send Data</string>
@@ -36,4 +36,32 @@
     <string name="option_manual">Manual</string>
 
     <string name="switch_motion">Motion Control</string>
+    <string name="recognized_image">Recognized Image</string>
+    <string name="y_coords">Y</string>
+    <string name="x_coords">X</string>
+    <string name="wp_x_placeholder">13</string>
+    <string name="wp_y_placeholder">18</string>
+    <string name="rp_placeholder">1</string>
+    <string name="mdf_string_1">MDF String 1</string>
+    <string name="mdf_placeholder">0x0000000000000000</string>
+    <string name="mdf_string_2">MDF String 2</string>
+    <string name="image_string">Image String</string>
+    <string name="bluetooth_connection">Bluetooth Connection</string>
+    <string name="bluetooth_disconnect_prompt">Before using this feature, please disconnect current connections</string>
+    <string name="start_bt_server">Start Bluetooth Server</string>
+    <string name="mdf_manager">MDF Manager</string>
+    <string name="mdf_export_prompt">Click Item to Export</string>
+    <string name="message_log">Message Log</string>
+    <string name="btn_send">Send</string>
+    <string name="hint_send_message">Write message to send here</string>
+    <string name="strings_configuration">Strings Configuration</string>
+    <string name="string_1_config">String 1</string>
+    <string name="string_2_config">String 2</string>
+    <string name="btn_send_string_1">Send String 1</string>
+    <string name="btn_send_string_2">Send String 2</string>
+    <string name="btn_save_strings">Save Strings</string>
+    <string name="string_2_hint">String 2 Text Here</string>
+    <string name="string_1_hint">String 1 Text Here</string>
+    <string name="tv_placeholder">TextView</string>
+    <string name="btn_clear_all">Clear All</string>
 </resources>

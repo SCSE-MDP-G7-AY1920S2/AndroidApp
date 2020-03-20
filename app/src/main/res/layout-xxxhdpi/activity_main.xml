@@ -11,8 +11,8 @@
         android:layout_height="550dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="230dp"
@@ -20,11 +20,12 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="264dp"
             android:orientation="vertical">
-            <com.example.mdpandroid.MapDrawer
+
+            <sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.MapDrawer
                 android:id="@+id/canvas_gridmap"
-                android:tag="phone"
                 android:layout_width="match_parent"
-                android:layout_height="308dp" />
+                android:layout_height="308dp"
+                android:tag="phone" />
 
             <Button
                 android:id="@+id/button_refresh_phase"
@@ -32,33 +33,34 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="@dimen/default_gap"
                 android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_refresh" />
+                android:text="@string/button_refresh"
+                android:textColor="@color/colorButtonTextTheme" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:orientation="horizontal"
                 android:background="@drawable/customborder"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:gravity="center"
                     android:background="@color/colorSecondaryTheme"
+                    android:gravity="center"
                     android:text="@string/label_image_vert"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light" />
 
                 <ImageView
                     android:id="@+id/image_content"
-                    android:layout_marginStart="4dp"
                     android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/img_0"
-                    android:layout_height="100dp">
+                    android:layout_marginStart="4dp"
+                    android:contentDescription="@string/recognized_image"
+                    android:src="@drawable/img_0">
 
                 </ImageView>
 
@@ -70,121 +72,128 @@
             android:layout_height="550dp"
             android:layout_marginStart="10dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/label_bluetooth_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:gravity="center"
                 android:background="@color/colorSecondaryTheme"
+                android:gravity="center"
                 android:text="@string/label_bluetooth"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
+
             <TextView
                 android:id="@+id/label_bluetooth_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/colorLabelNotConnected"
-                android:text="@string/not_connected" />
+                android:text="@string/not_connected"
+                android:textColor="@color/colorLabelNotConnected" />
+
             <TextView
                 android:id="@+id/label_bluetooth_connected_device"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="" />
+
             <TextView
                 android:id="@+id/label_time_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@color/colorSecondaryTheme"
+                android:gravity="center"
                 android:text="@string/label_time"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
+
             <TextView
                 android:id="@+id/label_time_elapsed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:text="@string/time_placeholder"
                 android:textAlignment="center"
-                android:textSize="20sp"
-                android:text="@string/time_placeholder" />
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/label_status_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="@color/colorSecondaryTheme"
+                android:gravity="center"
                 android:text="@string/label_status"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
+
             <TextView
                 android:id="@+id/label_status_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:layout_marginTop="5dp"
+                android:maxLines="1"
                 android:text="@string/idle_robot_state" />
 
             <TextView
                 android:id="@+id/label_position_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="@color/colorSecondaryTheme"
+                android:gravity="center"
                 android:text="@string/label_position"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
+
             <TextView
                 android:id="@+id/label_origin_coordinates_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:text="@string/label_robot_position" />
+                android:text="@string/label_robot_position"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:background="@color/colorYellow"
                     android:gravity="center"
-                    android:text="X"
-                    android:textStyle="bold"
-                    android:background="@color/colorYellow">
-                </TextView>
+                    android:text="@string/x_coords"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/label_origin_coordinateX"
                     android:layout_width="30dp"
                     android:layout_height="20dp"
-                    android:gravity="center"
                     android:background="@drawable/listview_border"
-                    android:text="1" />
+                    android:gravity="center"
+                    android:text="@string/rp_placeholder" />
 
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/colorYellow"
                     android:gravity="center"
-                    android:text="Y"
-                    android:textStyle="bold"
-                    android:background="@color/colorYellow">
-                </TextView>
+                    android:text="@string/y_coords"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/label_origin_coordinateY"
                     android:layout_width="30dp"
                     android:layout_height="20dp"
-                    android:gravity="center"
                     android:background="@drawable/listview_border"
-                    android:text="1" />
+                    android:gravity="center"
+                    android:text="@string/rp_placeholder" />
 
             </LinearLayout>
 
@@ -193,48 +202,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:text="@string/label_waypoint" />
+                android:text="@string/label_waypoint"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:background="@color/colorYellow"
                     android:gravity="center"
-                    android:text="X"
-                    android:textStyle="bold"
-                    android:background="@color/colorYellow">
-                </TextView>
+                    android:text="@string/x_coords"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/label_waypoint_coordinateX"
                     android:layout_width="30dp"
                     android:layout_height="20dp"
-                    android:gravity="center"
                     android:background="@drawable/listview_border"
-                    android:text="13" />
+                    android:gravity="center"
+                    android:text="@string/wp_x_placeholder" />
 
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/colorYellow"
                     android:gravity="center"
-                    android:text="Y"
-                    android:textStyle="bold"
-                    android:background="@color/colorYellow">
-                </TextView>
+                    android:text="@string/y_coords"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/label_waypoint_coordinateY"
                     android:layout_width="30dp"
                     android:layout_height="20dp"
-                    android:gravity="center"
                     android:background="@drawable/listview_border"
-                    android:text="18" />
+                    android:gravity="center"
+                    android:text="@string/wp_y_placeholder" />
 
             </LinearLayout>
 
@@ -245,17 +253,16 @@
                 android:layout_marginTop="@dimen/default_gap"
                 android:layout_marginBottom="@dimen/default_gap"
                 android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_reset_map" />
+                android:text="@string/button_reset_map"
+                android:textColor="@color/colorButtonTextTheme" />
 
             <Button
                 android:id="@+id/button_start_phase"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
                 android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_start" />
+                android:text="@string/button_start"
+                android:textColor="@color/colorButtonTextTheme" />
         </LinearLayout>
 
 
@@ -279,8 +286,8 @@
                 android:id="@+id/label_configurations_section"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:gravity="center"
                 android:background="@color/colorSecondaryTheme"
+                android:gravity="center"
                 android:text="@string/label_configurations"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light" />
@@ -291,16 +298,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                app:sc_tint_color="@color/colorAppTheme"
                 app:sc_border_width="1dp"
-                app:sc_corner_radius="1dp">
+                app:sc_corner_radius="1dp"
+                app:sc_tint_color="@color/colorAppTheme">
 
                 <RadioButton
                     android:id="@+id/toggle_mode_exploration"
                     style="@style/RadioButton"
-                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/option_exploration" />
 
                 <RadioButton
@@ -317,16 +324,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                app:sc_tint_color="@color/colorAppTheme"
                 app:sc_border_width="1dp"
-                app:sc_corner_radius="1dp">
+                app:sc_corner_radius="1dp"
+                app:sc_tint_color="@color/colorAppTheme">
 
                 <RadioButton
                     android:id="@+id/toggle_update_auto"
                     style="@style/RadioButton"
-                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/option_auto" />
 
                 <RadioButton
@@ -343,8 +350,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_set_origin" />
+                android:text="@string/button_set_origin"
+                android:textColor="@color/colorButtonTextTheme" />
 
             <Button
                 android:id="@+id/button_set_waypoint"
@@ -352,8 +359,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/button_set_waypoint" />
+                android:text="@string/button_set_waypoint"
+                android:textColor="@color/colorButtonTextTheme" />
 
         </LinearLayout>
 
@@ -361,97 +368,84 @@
             android:layout_width="218dp"
             android:layout_height="250dp"
             android:layout_marginStart="10dp"
+            android:background="@drawable/customborder"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/customborder"
-                android:layout_height="wrap_content">
+                android:layout_height="30dp"
+                android:layout_marginBottom="25dp"
+                android:background="@color/colorYellow"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/switch_motion_control"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:switchPadding="10dp"
+                    android:text="@string/switch_motion"
+                    android:textColor="#616161" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/button_direction_up"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="85dp"
+                    android:background="@color/colorAppTheme"
+                    android:contentDescription="@string/label_arrow"
+                    android:src="@drawable/ic_arrow_up" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:background="@color/colorYellow"
-                    android:layout_marginBottom="25dp"
-                    android:layout_height="30dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_centerInParent="true"
-                        android:layout_height="match_parent">
-
-                        <Switch
-                            android:id="@+id/switch_motion_control"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:switchPadding="10dp"
-                            android:textColor="#616161"
-                            android:text="@string/switch_motion" />
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginStart="5dp"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <ImageButton
-                        android:id="@+id/button_direction_up"
+                        android:id="@+id/button_direction_left"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="50dp"
+                        android:background="@color/colorAppTheme"
+                        android:contentDescription="@string/label_arrow"
+                        android:src="@drawable/ic_arrow_left" />
+
+                    <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/joystickView"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="85dp"
+                        android:layout_marginTop="60dp"
+                        custom:JV_backgroundColor="@color/colorYellow"
+                        custom:JV_borderColor="@color/colorAccent"
+                        custom:JV_borderWidth="4dp"
+                        custom:JV_buttonColor="@color/colorAppTheme"
+                        custom:JV_buttonSizeRatio="50%"
+                        custom:JV_fixedCenter="false" />
+
+                    <ImageButton
+                        android:id="@+id/button_direction_right"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginEnd="25dp"
                         android:background="@color/colorAppTheme"
                         android:contentDescription="@string/label_arrow"
-                        android:src="@drawable/ic_arrow_up" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/button_direction_left"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_alignParentStart="true"
-                            android:contentDescription="@string/label_arrow"
-                            android:background="@color/colorAppTheme"
-                            android:src="@drawable/ic_arrow_left" />
-
-                        <io.github.controlwear.virtual.joystick.android.JoystickView
-                            android:id="@+id/joystickView"
-                            android:layout_marginTop="60dp"
-                            android:layout_marginStart="85dp"
-                            xmlns:custom="http://schemas.android.com/apk/res-auto"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            custom:JV_backgroundColor="@color/colorYellow"
-                            custom:JV_borderColor="@color/colorAccent"
-                            custom:JV_borderWidth="4dp"
-                            custom:JV_buttonColor="@color/colorAppTheme"
-                            custom:JV_buttonSizeRatio="50%"
-                            custom:JV_fixedCenter="false"/>
-
-                        <ImageButton
-                            android:id="@+id/button_direction_right"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_alignParentEnd="true"
-                            android:contentDescription="@string/label_arrow"
-                            android:background="@color/colorAppTheme"
-                            android:src="@drawable/ic_arrow_right" />
-                    </RelativeLayout>
+                        android:src="@drawable/ic_arrow_right" />
                 </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
