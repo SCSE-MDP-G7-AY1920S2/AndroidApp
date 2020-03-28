@@ -1,5 +1,11 @@
 # CZ3004 Grp 7 MDP Android Component (AY1920 S2)
-![Android CI](https://github.com/SCSE-MDP-G7-AY1920S2/AndroidApp/workflows/Android%20CI/badge.svg)
+[![Android CI](https://github.com/SCSE-MDP-G7-AY1920S2/AndroidApp/workflows/Android%20CI/badge.svg)](https://github.com/SCSE-MDP-G7-AY1920S2/AndroidApp/actions)
+[![GitHub](https://img.shields.io/github/license/SCSE-MDP-G7-AY1920S2/AndroidApp)](https://github.com/SCSE-MDP-G7-AY1920S2/AndroidApp/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/SCSE-MDP-G7-AY1920S2/AndroidApp)](https://github.com/SCSE-MDP-G7-AY1920S2/AndroidApp/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/SCSE-MDP-G7-AY1920S2/AndroidApp)](https://github.com/SCSE-MDP-G7-AY1920S2/AndroidApp/pulls)
+![GitHub repo size](https://img.shields.io/github/repo-size/SCSE-MDP-G7-AY1920S2/AndroidApp)
+![GitHub last commit](https://img.shields.io/github/last-commit/SCSE-MDP-G7-AY1920S2/AndroidApp)
+![Maintenance](https://img.shields.io/maintenance/no/2020)
 
 This repository contains the source code for the Android Component of NTU SCSE CZ3004 Multidisciplinary Project in AY 2019-2020 Semester 2 for Group 7
 
