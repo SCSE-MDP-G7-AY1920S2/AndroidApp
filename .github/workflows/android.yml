@@ -32,10 +32,31 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
       - name: Save debug keystore
-        run: echo $DEBUG_KEYSTORE | base64 -d > app/debug.keystore
+        run: echo $DEBUG_KEYSTORE | base64 -d > debug.keystore
         env:
           DEBUG_KEYSTORE: ${{ secrets.DEBUG_KEYSTORE }}
-          DEBUG_KEY: ${{ secrets.DEBUG_KEY }}
+      - name: Generate Debug APK File
+        run: ./gradlew assembleDebug -Pandroid.injected.signing.store.file=$(pwd)/debug.keystore -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      - name: Generate Release APK File
+        run: ./gradlew assembleRelease -Pandroid.injected.signing.store.file=$(pwd)/debug.keystore -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      - name: Uploading Debug APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug
+      - name: Uploading Release APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release
+          path: app/build/outputs/apk/release
   device-test:
     runs-on: macos-latest
     name: Android Device Test Runner
