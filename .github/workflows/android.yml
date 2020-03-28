@@ -17,5 +17,27 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Make Gradle executable
+      run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+  device-test:
+    runs-on: macos-latest
+    name: Android Device Test Runner
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+    - name: Checkout all submodules
+      run: git submodule update --init --recursive
+    - name: Make Gradle executable
+      run: chmod +x gradlew
+    - name: List Available Android Devices
+      run: $ANDROID_HOME/tools/bin/avdmanager list
+    - name: run tests
+      uses: reactivecircus/android-emulator-runner@v1
+      with:
+        api-level: 28
+        target: google_apis
+        profile: 'pixel_xl'
+        arch: x86_64
+        script: ./gradlew connectedAndroidTest
